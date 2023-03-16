@@ -104,6 +104,10 @@ body {
     display: grid;
 }
 
+.examdiv {
+    padding-bottom: 40px;
+}
+
 .exam {
     font-size: 40px;
 }
@@ -175,6 +179,20 @@ body {
     background-color: rgb(59, 104, 250);
     border-radius: 5px;
     padding: 8px 35px;
+}
+
+.startexam:hover {
+    background-color: rgb(203, 210, 210);
+}
+
+.attemptedexam {
+    background-color: rgba(59, 104, 250, 0.658);
+    border-radius: 5px;
+    padding: 8px 35px;
+}
+
+.attemptedexam:hover {
+    background-color: rgba(59, 104, 250, 0.658);
 }
 
 .startanchor {
