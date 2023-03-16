@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home..!</title>
+    <link rel="stylesheet" href="CSS/style.css">
+    <!-- <script>
+        let flag = 0;
+        function showeditdialog() {
+            if (flag == 0) {
+                var text = '';
+
+                text += `<div class='mainprofdialog'>
+            <div class='dialogcontent'>
+                <div class='profdialog'>
+                    <a href='/edit'>
+                        <div class="profimgdiv">
+                            <img class="profimg" src="images/noprof2.png" />
+                        </div>
+                    </a>
+                </div>
+                <div class="links">
+
+                    <a href="/edit" >
+                        Edit Profile
+                    </a>
+                      <a href="/logout" >
+                        Log-out
+                    </a>
+                </div>
+            </div>   
+            </div>`;
+
+                document.getElementById('editdialog').innerHTML = text;
+                flag = 1;
+            }
+            else {
+                document.getElementById('editdialog').innerHTML = null;
+                flag = 0;
+            }
+
+            return false;
+        }
+    </script> -->
+</head>
+
+<body>
+    <div class="site-wrapper">
+
+        <header class="header">
+            <div class="container">
+                <div class="head">
+                    <div class="logo">
+                        <a href="#">
+                            <img src="Images/book.svg" />
+                        </a>
+                    </div>
+                    <div class="title">
+                        <p>Student Exam System</p>
+                    </div>
+                    <div class="user_name">
+                        <p>Welcome User</p>
+                    </div>
+                    <div class="user_logout">
+                        <a href="#">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+
+        <div class="sections">
+
+            <!-- Section 1 :- -->
+            <section class="homesection1">
+                <div class="container">
+
+                    <div class="homedata">
+
+                        <div class="examdiv">
+                            <h1 class="exam">Exams :-</h1>
+                        </div>
+                        <div class="hometable">
+                            <div class="headerrow">
+                                <div class="hrow">
+                                    <div class="headtabcolumn">Exam list</div>
+                                    <div class="headtabcolumn middletab">Status</div>
+                                    <div class="headtabcolumn">Action</div>
+                                </div>
+                            </div>
+
+                            <div class="datarow">
+                                <div class="drow">
+                                    <div class="tabcolumn">Aptitude</div>
+                                    <div class="tabcolumn greenattempt middletab">Unattempted</div>
+                                    <div class="tabcolumn">
+                                        <div class="startexam">
+                                            <a class="startanchor" href="#">START</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="drow">
+                                    <div class="tabcolumn">Mid1</div>
+                                    <div class="tabcolumn redattempt middletab">Attempted</div>
+                                    <div class="tabcolumn">
+                                        <div class="startexam">
+                                            <a class="startanchor" href="#">START</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="drow">
+                                    <div class="tabcolumn">Coding</div>
+                                    <div class="tabcolumn greenattempt middletab">Unattempted</div>
+                                    <div class="tabcolumn">
+                                        <div class="startexam">
+                                            <a class="startanchor" href="#">START</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+
+    </div>
+</body>
+
+</html>
