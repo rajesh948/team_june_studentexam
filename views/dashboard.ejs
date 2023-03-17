@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home..!</title>
+    <link rel="stylesheet" href="CSS/dashboard.css">
+</head>
+
+<body>
+    <div class="site-wrapper">
+
+        <header class="header">
+            <div class="container">
+                <div class="head">
+                    <div class="logo">
+                        <a href="#">
+                            <img src="Images/book.svg" />
+                        </a>
+                    </div>
+                    <div class="title">
+                        <p>Student Exam System</p>
+                    </div>
+                    <div class="user_name">
+                        <p>Welcome User</p>
+                    </div>
+                    <div class="user_logout">
+                        <a href="/logout">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="sections">
+
+            <!-- Section 1 :- -->
+            <section class="homesection1">
+                <div class="container">
+
+                    <div class="homedata">
+
+                        <div class="examdiv">
+                            <h1 class="exam">Dashboard</h1>
+                        </div>
+                        <div class="hometable">
+                            <div class="headerrow">
+                                <div class="hrow">
+                                    <div class="headtabcolumn">Exam list</div>
+                                    <div class="headtabcolumn middletab">Status</div>
+                                    <div class="headtabcolumn">Action</div>
+                                </div>
+                            </div>
+
+                            <div class="datarow">
+                                <%//for(let i=0;i<data.length;i++){%>
+                                    <div class="drow">
+                                        <div class="tabcolumn">
+                                            <%=//data[i].exam_name%>
+                                        </div>
+                                        <%//if(data[i].attempted==false){%>
+                                            <div class="tabcolumn greenattempt middletab">Unattempted</div>
+                                            <div class="tabcolumn">
+                                                <div class="startexam">
+                                                    <a class="startanchor" href="#">START</a>
+                                                </div>
+                                            </div>
+                                        <%//}%>
+                                        <%//if(data[i].attempted==true){%>
+                                            <div class="tabcolumn redattempt middletab">Attempted</div>
+                                            <div class="tabcolumn">
+                                                <div class="attemptedexam">
+                                                    <a class="startanchor">START</a>
+                                                </div>
+                                            </div>
+                                        <%//}%>
+                                    </div>
+                                <%//}%>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+
+    </div>
+</body>
+
+</html>

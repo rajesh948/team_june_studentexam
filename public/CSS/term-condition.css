@@ -107,7 +107,7 @@
 #startbtn{
     margin-top: 40px;
 }
-#startbtn a{
+#startbtn input{
     padding: 10px;
     background-color: #0D6EFD;
     width: 20%;
@@ -118,13 +118,14 @@
     font-weight: bold;
 }
 
-#startbtn a:hover{
+#startbtn input:hover{
     background-color: white;
     color: #0D6EFD;
     border: 1px solid #0D6EFD;
 }
 
-#startbtn a{
+
+#startbtn input{
     color: white;
     text-decoration: none;
 }

@@ -14,7 +14,7 @@
     />
 
     <!-- External Css -->
-    <link rel="stylesheet" href="/CSS/style.css" />
+    <link rel="stylesheet" href="/CSS/term-condition.css" />
     
   </head>
   <body>
@@ -43,45 +43,50 @@
         <div class="container">
           <div>
             <h2 class="exam_name">Mid Exam</h2>
-            <form action="">
+            <form action="/term-validation-api" method="post" onsubmit="return validateForm()">
               <div class="row">
                 <div class="col">
                   <input
                     type="text"
                     name="fname"
                     id="fname"
+                    value="<%= fname %>"
                     placeholder="Enter Firstname"
                   />
-                  <p id="fname_err"></p>
+                  <p id="fname_err"><%= a_fname %></p>
                   <input
                     type="text"
                     name="email"
                     id="email"
+                    value="<%= email %>"
                     placeholder="Enter Email Address"
                   />
-                  <p id="email_err"></p>
+                  <p id="email_err"><%= a_email  %></p>
                   <input
                     type="text"
                     onfocus="(this.type='date')"
                     name="dob"
                     id="dob"
+                    value="<%= dob %>"
                     placeholder="Enter your date of birth"
                   />
-                  <p id="date_err"></p>
+                  <p id="date_err"> <%= a_dob  %> </p>
                   <input
                     type="text"
                     name="qualification"
                     id="qualification"
+                    value="<%= qualification %>"
                     placeholder="Enter Qualification"
                   />
-                  <p id="qualification_err"> </p>
+                  <p id="qualification_err"> <%= a_qualification %></p>
                   <input
                     type="text"
-                    name="Accesscode"
+                    name="accesscode"
                     id="Accesscode"
+                    value="<%= accesscode %>"
                     placeholder="Enter Access Code"
                   />
-                  <p id="accesscode_err"></p>
+                  <p id="accesscode_err"><%= a_accesscode  %></p>
                 </div>
 
                 <div class="col">
@@ -89,37 +94,42 @@
                     type="text"
                     name="lname"
                     id="lname"
+                    value="<%= lname %>"
                     placeholder="Enter Lastname"
                   />
-                  <p id="lname_err"></p>
+                  <p id="lname_err"><%= a_lname  %></p>
                   <input
                     type="text"
                     name="mobilenumber"
                     id="number"
+                    value="<%= mobilenumber %>"
                     placeholder="Enter Mobile Number"
                   />
-                  <p id="number_err"></p>
+                  <p id="number_err"><%= a_mobilenumber  %></p>
                   <input
                     type="text"
                     name="city"
                     id="city"
+                    value="<%= city %>"
                     placeholder="Enter City"
                   />
-                  <p id="city_err"></p>
+                  <p id="city_err"><%= a_city  %></p>
                   <input
                     type="text"
                     name="college"
                     id="college"
+                    value="<%= college %>"
                     placeholder="Enter College"
                   />
-                  <p id="college_err"></p>
+                  <p id="college_err"><%= a_college  %></p>
                   <input
                     type="text"
                     name="enrollment"
                     id="enrollment"
+                    value="<%= enrollment %>"
                     placeholder="Enter Enrollment Number"
                   />
-                  <p id="enrollment_err"></p>
+                  <p id="enrollment_err"><%= a_enrollment  %></p>
                 </div>
 
                 <div class="col">
@@ -133,16 +143,17 @@
                   </ul>
                 </div>
               </div>
-
-              <p id="startbtn" onclick="return validateForm()">
+              <div id="startbtn">
+                <input type="submit" value="Start Exam">
+              </div>
+              <!-- <p id="startbtn" onclick="return validateForm()">
                 <a href="">Start Exam</a>
-              </p>
+              </p> -->
             </form>
           </div>
         </div>
       </section>
     </div>
+    <script src="./script/validate.js"></script>
   </body>
-
-  <script src="/JS/validate.js"></script>
 </html>
