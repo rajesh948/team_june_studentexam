@@ -1,0 +1,153 @@
+*{
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+}
+
+.container{
+    width: 1170px;
+    margin: 0px auto;
+    padding: 0px 16px;
+}
+
+.row{
+    margin: 0px -16px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.head {
+    margin-bottom: 20px;
+    padding: 15px 0;
+    background-color: #0D6EFD;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+}
+
+.logo {
+    width: 10%;
+}
+
+.title {
+    width: 50%;
+}
+
+.user_logout {
+    width: 15%;
+}
+
+.user_name {
+    width: 25%;
+}
+
+.user {
+    padding-left: 20px;
+    width: 10%;
+}
+
+
+.logo img {
+    -webkit-filter: invert();
+    filter: invert(1);
+    width: 50px;
+    margin: 0 70px;
+}
+
+.title p {
+    color: white;
+    font-size: 2.5rem;
+    font-weight: bolder;
+}
+
+.user_name p {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 600;
+    display: flex;
+    justify-content: end;
+}
+
+.user_logout a {
+    float: right;
+    margin-right: 50px;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    border: 1px solid white;
+    border-radius: 4px;
+    padding: 5px 10px;
+    background-color: white;
+    text-decoration: none;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #0D6EFD;
+}
+
+.user_logout a:hover {
+    background-color: rgb(203, 210, 210);
+}
+.col{
+    /* display: flex;
+    flex-wrap: wrap; */
+    width: 33%;
+    padding: 0px 16px;
+    /* / border: 1px solid black; / */
+    
+}
+.exam_name {
+    width: 60%;
+    font-size: 2.5rem;
+    color: #000075;
+}
+#validate input{
+    margin-top: 30px;
+    padding: 5px;
+    width: 60%;
+}
+#startbtn{
+    margin-top: 40px;
+}
+#startbtn input{
+    padding: 10px;
+    background-color: #0D6EFD;
+    width: 20%;
+    font-size: 20px;
+    text-align: center;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+}
+
+#startbtn input:hover{
+    background-color: white;
+    color: #0D6EFD;
+    border: 1px solid #0D6EFD;
+}
+
+
+#startbtn input{
+    color: white;
+    text-decoration: none;
+}
+
+.col ul li{
+    line-height: 30px;
+    /* / padding: 0px 16px; / */
+    margin-left: 32px;
+}
+
+.col h4{
+    
+    margin: 30px 0px;
+}
+
+#thankyou{
+    text-align: center;
+    font-size: 30px;
+    margin-top: 100px;
+    color: #0963ca;
+}
+
+#thankyou h4{
+    margin-top: 50px;
+}

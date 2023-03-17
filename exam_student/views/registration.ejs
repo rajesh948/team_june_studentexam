@@ -58,33 +58,28 @@
                 </div>
                  -->
                 <!--column 2 and row 4 -->
-                <form action="#" class="row">
+                <form action="/exam_start" method="POST" class="row">
 
 
                     <div class=" col-12 col-lg-10 d-flex justify-content-between input-container mb-24">
                         <input type="text" class="form-control form-control-lg w-45 login-input"
-                            placeholder="First Name">
+                           name="fname" placeholder="First Name">
                         <input type="text" class="form-control form-control-lg w-45 login-input"
-                            placeholder="Last Name">
+                        name="lname" placeholder="Last Name">
                     </div>
 
                     <div class="col-12 col-lg-10  d-flex justify-content-between input-container mb-24">
                         <input type="text" class="form-control form-control-lg w-45 login-input"
-                            placeholder="Email address">
+                        name="email"  placeholder="Email address">
                         <input type="text" class="form-control form-control-lg w-45 login-input"
-                            placeholder="Mobile no.">
+                        name="mobile"   placeholder="Mobile no.">
                     </div>
 
                     <div class="col-12 col-lg-10  d-flex  justify-content-between input-container mb-24">
 
-                        <div class="w-45">
-                            <select class=" form-select" aria-label="">
-                                <option selected>College</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
-                        </div>
+                        <input type="text" class="form-control form-control-lg w-45 login-input"
+                        name="college"    placeholder="college">
+                        
                         <div class="w-45">
                             <label class="form-check  form-check-inline">Gender:-</label>
                             <div class="form-check form-check-inline">
@@ -101,20 +96,20 @@
                     </div>
 
                     <div class="col-12 col-lg-10 justify-content-between  d-flex input-container mb-24">
-                        <input type="date" class="form-control w-45 form-control-lg login-input">
-                        <input type="text" class="form-control w-45 form-control-lg login-input"
+                        <input type="text" name="date" placeholder="birth date" class="form-control w-45 form-control-lg login-input" >
+                        <input type="text" name="enroll" class="form-control w-45 form-control-lg login-input"
                             placeholder="Enrollment no.">
                     </div>
 
                     <div class="col-12 col-lg-10 justify-content-between d-flex input-container mb-24">
-                        <input type="text" class="form-control w-45 form-control-lg login-input"
+                        <input type="text" name="Qualifaction" class="form-control w-45 form-control-lg login-input"
                             placeholder="Qualifaction">
-                        <input type="text" class="form-control w-45 form-control-lg login-input" placeholder="City">
+                        <input type="text" name="city" class="form-control w-45 form-control-lg login-input" placeholder="City">
                     </div>
 
                     <div class="col-12 col-lg-10 justify-content-between d-flex input-container mb-24">
                         <input type="password" class="form-control w-45 form-control-lg login-input"
-                            placeholder="Password">
+                          name="password"  placeholder="Password">
                         <input type="password" class="form-control w-45 form-control-lg login-input"
                             placeholder=" Confirm Password">
                     </div>
