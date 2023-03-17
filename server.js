@@ -39,6 +39,6 @@ app.get('/college-api', (req,res) => {
     })
 })
 
-app.listen(8080, () => {
+app.listen(7070, () => {
     console.log('Example app listening on port 3000!');
 });
