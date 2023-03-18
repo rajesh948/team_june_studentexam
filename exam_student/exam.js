@@ -51,6 +51,10 @@ app.get('/registration', function (req, res) {
 
 
 
+
+
+
+
 app.get('/page5', function (req, res) {
   
     res.render('page5.ejs',{a_fname:'',a_lname:'',a_email:'',a_mobilenumber:'',a_dob:'',a_city:'',a_qualification:'',a_college:'',a_accesscode:'',a_enrollment:'',fname:'',lname:'',email:'',mobilenumber:'',dob:'',city:'',qualification:'',college:'',accesscode:'',enrollment:''});
@@ -167,5 +171,47 @@ app.post('/term-validation-api',async (req,res)=>{
         }
 })
 
+
+app.post('/savedata',async(req,res)=>{
+    console.log(req.body);
+    var password = req.body.password;
+    const pass = await bcrypt.hash(password, 10);
+    console.log(pass);
+    var confirmpass = await bcrypt.compare(req.body.confirmPassword, pass);
+    console.log(confirmpass);
+
+    const email_arr = [];
+    var sql = `select email from student_master;`;
+    var data = await queryDb(sql);
+  
+    console.log(data);
+    for (i = 0; i < data.length; i++) {
+      email_arr.push(data[i].email);
+    }
+  
+    console.log(email_arr);
+
+    if (
+        confirmpass == true &&
+        !email_arr.includes(req.body.email)
+      ) 
+      
+      {
+        console.log("Registered!!");
+        var sql = ` insert into student_master (fname,lname,gender,email,mobile,enrollment,qualification,city,college,birthdate,pass) VALUES('${req.body.fname}','${req.body.lname}','${req.body.gender}','${req.body.email}','${req.body.number}','${req.body.enrollment}','${req.body.qualification}','${req.body.city}','${req.body.college}','${req.body.dob}','${pass}');`
+        console.log(sql);
+        var data = await queryDb(sql);
+      }
+      
+      else {
+        console.log("failed");
+        res.redirect("http://localhost:8081/registration");
+      }
+
+
+    
+    res.redirect('/login');
+ 
+})
 
 app.listen(8081);
