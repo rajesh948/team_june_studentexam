@@ -8,14 +8,14 @@ var bodyParser = require('body-parser');
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 //Database Connection
 
 const con = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'root',
-    database: 'job_application_db'
+    database: 'Exam'
 });
 
 con.connect((err) => {
@@ -28,8 +28,161 @@ con.connect((err) => {
 const sendquery = util.promisify(con.query.bind(con));
 
 
-app.get("/questionpage",(req,res)=>{
-    res.render("examQuestion");
+app.get("/questionpage", async (req, res) => {
+        
+    let exam_id = req.query.exam_id;
+     exam_id = 1;
+     let category = [];
+     let totalQue=[];
+    let get_question = await sendquery(`SELECT question_id,category_id FROM exam_category where exam_id = "${exam_id}";`);
+
+    for (let i = 0; i < get_question.length; i++) {
+    var get_cate = await sendquery(`SELECT * FROM question_category where category_id = "${get_question[i].category_id}";`);
+      totalQue = totalQue.concat(get_question[i].question_id.split(","));
+      
+      category.push(get_cate[0]);
+    }
+
+    res.render("examQuestion.ejs",{category,totalQue});
+});
+
+app.get("/getQuestion",async(req,res)=>{
+    
+    let exam_id = req.query.exam_id;
+     exam_id = 1;
+     let totalQue=[];
+    try {
+
+        let get_question = await sendquery(`SELECT question_id,category_id FROM exam_category where exam_id = "${exam_id}";`);
+
+        for (let i = 0; i < get_question.length; i++) {
+            var get_cate = await sendquery(`SELECT * FROM question_category where category_id = "${get_question[i].category_id}";`);
+              totalQue = totalQue.concat(get_question[i].question_id.split(","));
+
+            }
+
+        var question_paper = [];
+        var question_item;
+
+
+
+
+        for (let i = 0; i < get_question.length; i++) {
+            var get_cate = await sendquery(`SELECT * FROM question_category where category_id = "${get_question[i].category_id}";`);
+            var get_que = await sendquery(`SELECT question_id,question,question_answer FROM Exam.question_master  where category_id = "${get_question[i].category_id}";`);
+            var questions = [];
+
+            // console.log(i + "get_que ::::", get_que);
+
+            for (let j = 0; j < get_que.length; j++) {
+                // console.log("totalQue::::::::::::::::",totalQue);
+                // console.log("get_que[j].question_id)::::::::",get_que[j].question_id)
+                // console.log(totalQue.includes(`${get_que[j].question_id}`));
+                if(totalQue.includes(`${get_que[j].question_id}`)){
+                var get_option = await sendquery(`SELECT option_value FROM Exam.option_master where question_id="${get_que[j].question_id}";`)
+
+                // console.log('get_option :::::::::', get_option)
+
+
+                var option = [];
+                for (let n = 0; n < get_option.length; n++) {
+                    option.push(get_option[n].option_value);
+                }
+
+                questions.push({
+                    question_id: `${get_que[j].question_id}`,
+                    question: `${get_que[j].question}`,
+                    option: option,
+                    answer: `${get_que[j].question_answer}`
+                });
+
+
+                question_item = {
+                    category_id: `${get_cate[0].category_id}`,
+                    category_name: `${get_cate[0].category_name}`,
+                    allquestion: questions
+                };
+            }
+
+            }
+
+            question_paper.push(question_item);
+        }
+
+        // console.log("question_paper :::::::::", question_paper);
+        // console.log("question_paper[0].allquestion :::::::::", question_paper[0].allquestion);
+
+ 
+res.send(question_paper);
+    } catch (err) {
+        console.log(err);
+    }
 })
 
-app.listen(3434);
+app.get("/getCategory", async (req, res) => {
+        
+    let exam_id = req.query.exam_id || 1;
+    let cat_id = req.query.cat_id || 2;
+    console.log("exam_id ::::::::",exam_id);
+    console.log("cat_id :::::::::::::",cat_id);
+   let category_no=1;
+    let get_question = await sendquery(`SELECT category_count,category_id  FROM exam_category where exam_id=${exam_id};`);
+console.log(get_question);
+    for (let i = 0; i < get_question.length; i++) {
+    if(cat_id ==  get_question[i].category_id){
+        break;
+    }
+        category_no += get_question[i].category_count;
+    }
+
+
+
+    res.send({category_no});
+
+
+});
+
+
+app.post("/saveUserResult",async (req,res)=>{
+    // console.log("wrdweg",req.body);
+    let question=[];
+    let answer =[];
+    let marks = 0;
+    let total ;
+    console.log(req.body.user_que.length);
+for(let i=0;i<req.body.user_que.length;i++){
+    if(req.body.user_que[i]){
+     question.push(req.body.user_que[i]);
+     answer.push(req.body.user_ans[i]);
+    }
+}
+
+console.log("cdqdfwe",question);
+console.log("efswert",answer);
+if(req.body.user_que.length){
+
+    let get_result = await sendquery(`SELECT count(question_answer) as count FROM question_master where question_id in (${question}) and question_answer in (${answer});`);
+    marks= get_result[0].count;
+}
+
+    let total_que = await sendquery(`SELECT exam_total_question as total FROM Exam.exam_master where exam_id = "${req.body.exam_id}";`);
+
+     total =total_que[0].total;
+
+console.log(marks);
+console.log(total);
+// await sendquery(`insert into Exam.result_master (exam_id,user_id,obtain_mark,total_mark) values("${req.body.exam_id}","${req.body.user_id}","${marks}","${total}");`);
+
+    res.send({message:"inserted"});
+
+
+})
+
+
+
+
+app.get("/result",(req,res)=>{
+    res.render("result");
+})
+
+app.listen(3435);

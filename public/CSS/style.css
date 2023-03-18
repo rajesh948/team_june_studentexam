@@ -206,6 +206,20 @@
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
+.btn2 {
+    display:inline;
+    cursor: pointer;
+    border: 1px solid #0D6EFD;
+    padding: 5px 30px;
+    border-radius: 5px;
+    color: white;
+    margin: 0 15px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    background-color: #000075;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
 .btn:hover {
     box-shadow: none;
     background-color: #555579;
@@ -233,6 +247,7 @@
 }
 
 .grid-item {
+    cursor: pointer;
     background-color: white;
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
     border-radius: 3px;
