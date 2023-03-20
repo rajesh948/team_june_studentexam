@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exam Question</title>
-    <link rel="stylesheet" href="/CSS/style.css">
+    <link rel="stylesheet" href="/CSS/examQuestion.css">
 
 </head>
 
@@ -19,11 +19,11 @@
                     <p>Student Exam System</p>
                 </div>
                 <div class="user_name">
-                    <p>Welcome User</p>
+                    <p >welcome' <%=username%></p>
                 </div>
 
                 <div class="user_logout">
-                    <a href="#">Logout</a>
+                    <a href="/logout">Logout</a>
                 </div>
 
             </div>
@@ -34,7 +34,7 @@
         <div class="box_left">
             <div class="left_side">
                 <div class="first_row">
-                    <h2 class="exam_name">Mid Exam</h2>
+                    <h2 class="exam_name"><%=examname%></h2>
                     <p id="timerCount" class="timer"><%=totalQue.length%></p>
                 </div>
                 <div class="second_row">
@@ -92,7 +92,7 @@
         </div>
     </div>
     </div>
-    <script src="/JS/script.js" defer></script>
+    <script src="/js/examQuestion.js" defer></script>
 </body>
 
 </html>
