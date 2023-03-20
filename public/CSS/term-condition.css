@@ -66,6 +66,7 @@
     font-size: 1.5rem;
     font-weight: 600;
     display: flex;
+    text-transform: capitalize;
     justify-content: end;
 }
 
@@ -86,12 +87,15 @@
 .user_logout a:hover {
     background-color: rgb(203, 210, 210);
 }
+.col p{
+    color: red;
+}
 .col{
     /* display: flex;
     flex-wrap: wrap; */
     width: 33%;
     padding: 0px 16px;
-    /* / border: 1px solid black; / */
+    /* border: 1px solid black; */
     
 }
 .exam_name {
@@ -108,14 +112,16 @@
     margin-top: 40px;
 }
 #startbtn input{
-    padding: 10px;
-    background-color: #0D6EFD;
-    width: 20%;
+   border: none;
+    width: 15%;
     font-size: 20px;
     text-align: center;
-    border-radius: 10px;
-    color: white;
     font-weight: bold;
+  background-color: rgb(59, 104, 250);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+ border-radius: 5px;
+        padding: 8px 35px;
+ 
 }
 
 #startbtn input:hover{
@@ -132,7 +138,7 @@
 
 .col ul li{
     line-height: 30px;
-    /* / padding: 0px 16px; / */
+    /* padding: 0px 16px; */
     margin-left: 32px;
 }
 

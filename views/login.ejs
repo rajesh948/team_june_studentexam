@@ -27,53 +27,46 @@
                 <!--column 2 and row 1 -->
                 <div class="row company-row">
 
-                    <!--row 1 and column 1 -->
-                    <!-- <div class="col company">
-                        <img src="./images/esparkbiz-logo.png" class="company-logo">
-                        <div class="company-name">
-                            esparkbiz
-                        </div>
-                    </div> -->
+        
                 </div>
 
-                <!--column 2 and row 2 -->
-                <!-- <div class="row company-headline-row">
-                    <div class="col-12 col-lg-9 company-headline">
-                        Welcome to Exam Admin
-                    </div>
-                </div> -->
 
                 <div class="row company-headline-row">
                     <div class="login col-12 col-lg-9 company-headline text-primary fs-1 ">
                     <p class="log">LOGIN</p>
                     </div>
                 </div>
-
+                <div class="font-weight-bold row content-title-row mb-24">
+                    <div class="error title"><%=error%></div>
+                </div>
                 <!--column 2 and row 3 -->
                 <div class="font-weight-bold row content-title-row mb-24">
                     <div class="title">Login into your account</div>
                 </div>
                 
                 <!--column 2 and row 4 -->
-                <form action="/login_chk" class="row">
+                <form action="/login" method="post" class="row">
 
 
                     <div class="col-12 col-lg-8 input-container mb-24">
-                        <input type="email" class="form-control form-control-lg login-input" name="email" placeholder="Enter your email">
+                        <input type="email" class="form-control form-control-lg login-input" placeholder="Enter Email" name="email" id="email" onfocus="validateLoginEmail()">
                     </div>
+                    <p class="w-45" id="email_err"></p>
                     <div class="col-12 col-lg-8 input-container mb-24">
-                        <input type="password" class="form-control form-control-lg login-input" name="password" placeholder="Password">
+                        <input type="password" class="form-control form-control-lg login-input" placeholder="Enter Password" name="Password">
                     </div>
                     <div class="col-12 col-lg-8 submit-forgotPass-container mb-24">
-                        <button type="submit" class="submit-btn">Login</button>
-                        <a href="#" class="forgotPass-link dark-font">Forgot Password?</a>
+                        <input type="submit" value="Login" class="btn btn-primary">
+                      
                     </div>
                 </form>
+                <div class="font-weight-bold row content-title-row mb-24">
+                    <div class="title">Need Account ? <a href="/registration"> Registration</a></div>
+                </div>
             </section>
         </div>
     </div>
 </body>
-<script src="js/bootstrap.bundle.min.js"></script>
-<script src="js/custom.js"></script>
+<script src="js/register_val.js"></script>
 
 </html>

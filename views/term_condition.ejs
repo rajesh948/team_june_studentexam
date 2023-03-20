@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Verification</title>
+
+  <!-- Font Awesome Link -->
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
+
+  <!-- External Css -->
+  <link rel="stylesheet" href="/CSS/term-condition.css" />
+
+</head>
+
+<body>
+  <div>
+    <!-- header -->
+    <header>
+      <div class="head">
+        <div class="logo"><a href="#"><img src="/Images/book.svg" /></a></div>
+        <div class="title">
+          <p>Student Exam System</p>
+        </div>
+        <div class="user_name">
+          <p class="username">welcome' <%=username%></p>
+        </div>
+
+        <div class="user_logout">
+          <a href="/logout">Logout</a>
+        </div>
+
+      </div>
+  </div>
+  </header>
+  <!-- form -->
+
+  <section id="validate">
+    <div class="container">
+      <div>
+        <h2 class="exam_name"><%=examname%></h2>
+        <form action="/term-validation-api" method="post" onsubmit="return validateForm()">
+     
+          <div class="row">
+            <div class="col">
+              <input type="text" name="fname" id="fname" value="<%= fname %>" placeholder="Enter Firstname" />
+              <p id="fname_err">
+                <%= a_fname %>
+              </p>
+              <input type="text" name="email" id="email" value="<%= email %>" placeholder="Enter Email Address" />
+              <p id="email_err">
+                <%= a_email %>
+              </p>
+              <input type="text" onfocus="(this.type='date')" name="dob" id="dob" value="<%= dob %>"
+                placeholder="Enter your date of birth" />
+              <p id="date_err">
+                <%= a_dob %>
+              </p>
+              <input type="text" name="qualification" id="qualification" value="<%= qualification %>"
+                placeholder="Enter Qualification" />
+              <p id="qualification_err">
+                <%= a_qualification %>
+              </p>
+              <input type="text" name="accesscode" id="Accesscode" value="<%= accesscode %>"
+                placeholder="Enter Access Code" />
+              <p id="accesscode_err">
+                <%= a_accesscode %>
+              </p>
+            </div>
+
+            <div class="col">
+              <input type="text" name="lname" id="lname" value="<%= lname %>" placeholder="Enter Lastname" />
+              <p id="lname_err">
+                <%= a_lname %>
+              </p>
+              <input type="text" name="mobilenumber" id="number" value="<%= mobilenumber %>"
+                placeholder="Enter Mobile Number" />
+              <p id="number_err">
+                <%= a_mobilenumber %>
+              </p>
+              <input type="text" name="city" id="city" value="<%= city %>" placeholder="Enter City" />
+              <p id="city_err">
+                <%= a_city %>
+              </p>
+              <input type="text" name="college" id="college" value="<%= college %>" placeholder="Enter College" />
+              <p id="college_err">
+                <%= a_college %>
+              </p>
+              <input type="text" name="enrollment" id="enrollment" value="<%= enrollment %>"
+                placeholder="Enter Enrollment Number" />
+              <p id="enrollment_err">
+                <%= a_enrollment %>
+              </p>
+            </div>
+
+            <div class="col">
+              <h4>**Rules and Regulations</h4>
+              <ul>
+                <li>The Exam consists of Multiple Choice Question.</li>
+                <li>Each question is of 1 marks each.</li>
+                <li>Time Limit : 30 mins</li>
+                <li>You can not access the exam once the time is over.</li>
+                <li>There will be questions from different categories.</li>
+              </ul>
+            </div>
+          </div>
+          <div id="startbtn">
+            <input type="submit" value="Start Exam">
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </section>
+  </div>
+  <script src="/js/validate.js"></script>
+</body>
+
+</html>
