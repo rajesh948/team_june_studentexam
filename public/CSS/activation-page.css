@@ -8,3 +8,9 @@
 .font-size p{
     font-size: 2rem;
 }
+
+#activate{
+    width: 100px;
+    height: 100px;
+    background-color: blue;
+}

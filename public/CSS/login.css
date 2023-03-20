@@ -1,0 +1,171 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700&display=swap');
+
+:root {
+    --primary-clr: #287ae3;
+    --secondary-clr: #94bcf4;
+    --bg-clr: #FAFAFA;
+    --light-font: hwb(0 68% 32%);
+    --dark-font:#00000;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+.mb-24 {
+    margin-bottom: 24px;
+}
+
+.light-font {
+    color: var(--light-font);
+}
+
+.dark-font{
+    color: var(--dark-font);
+}
+
+/******* Login page *******/
+.login-container {
+    min-height: 100vh;
+    background-color: var(--bg-clr);
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    max-width: 556px;
+    max-height: 556px;
+}
+
+.content {
+    padding: 2.5rem;
+}
+
+.content .company-row {
+    margin-bottom: 20px;
+}
+
+.company-name{
+    margin-left: 20px;
+    font-size: 40px;
+    font-weight: 600;
+}
+
+.company {
+    display: flex;
+    align-items: center;
+    width: auto;
+    height: 58px;
+}
+
+.company-headline-row {
+    margin-bottom: 32px;
+}
+
+.company-logo{
+    height: 50px;
+    width: 50px;
+}
+
+.company-headline-row .company-headline {
+    line-height: 125%;
+    font-size: 40px;
+}
+
+.company-headline .headline-highlight {
+    color: var(--primary-clr);
+    font-weight: 900 !important;
+}
+
+.content-title-row .title {
+    font-size: 25px;
+}
+
+.input-container .login-input {
+    height: 49px !important;
+    font-size: 15px;
+    transition: 0.5s;
+}
+
+.input-container input:focus {
+    border: 1px solid var(--primary-clr);
+    box-shadow: 0 0 5px var(--primary-clr);
+}
+
+.submit-forgotPass-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.forgotPass-link {
+    text-decoration: none;
+}
+
+.submit-btn {
+    width: 138px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--primary-clr);
+    color: #FFFFFF;
+    border-radius: 10px;
+    border: none;
+    font-size: 18px;
+    transition: 0.5s ease;
+}
+
+.submit-btn:hover {
+    background-color: var(--secondary-clr);
+}
+
+@media(max-width: 992px) {
+    .login-wrapper {
+        position: relative;
+    }
+
+    .content {
+        height: 100vh;
+        position: absolute;
+        background-color: #fafafad0;
+    }
+}
+
+@media(max-width: 556px) {
+    .company-headline-row .company-headline {
+        font-size: 28px;
+    }
+
+    .content {
+        padding: 1rem;
+    }
+}
+.text-primary{
+    font-weight: bold;
+    font-size: 700px;
+}
+/* .login {
+    font-size: calc(9.525rem + 3.3vw);
+  }
+  
+  @media (min-width: 1200px) {
+    .login {
+      font-size: 4rem;
+    }
+  } */
+  .fs-1{
+    font-size: 500px;
+  }
+  .log{
+    font-weight: bold;
+    font-size: larger;
+    color: #00008B;
+  }
+
+  .error{
+    color: red;
+  }
