@@ -15,7 +15,6 @@
     <div class="container-fluid login-container">
         <div class="row login-wrapper">
 
-            <!-- column 1 by default row -->
 
             <section class="col min-vh-100 image-illustration d-flex justify-content-center align-items-center">
                 <div class="image-container">
@@ -24,27 +23,13 @@
                 </div>
             </section>
 
-            <!-- column 2 -->
+    
             <section class="col content d-flex flex-column justify-content-center">
 
-                <!--column 2 and row 1 -->
+                
                 <div class="row company-row">
 
-                    <!--row 1 and column 1 -->
-                    <!-- <div class="col company">
-                        <img src="./images/esparkbiz-logo.png" class="company-logo">
-                        <div class="company-name">
-                            esparkbiz
-                        </div>
-                    </div> -->
                 </div>
-
-                <!--column 2 and row 2 -->
-                <!-- <div class="row company-headline-row">
-                    <div class="col-12 col-lg-9 company-headline">
-                        Welcome to Exam Admin
-                    </div>
-                </div> -->
 
                 <div class="row company-headline-row">
                     <div class=" col-12 col-lg-9 company-headline text-primary ">
@@ -52,13 +37,8 @@
                     </div>
                 </div>
 
-                <!--column 2 and row 3 -->
-                <!-- <div class="font-weight-bold row content-title-row mb-24">
-                    <div class="title">Login into your account</div>
-                </div>
-                 -->
-                <!--column 2 and row 4 -->
-                <form action="/savedata" method="post" class="row" onsubmit="return validateForm()">
+             
+                <form action="/registration" method="post" class="row" onsubmit="return validateForm()">
 
 
                     <div class=" col-12 col-lg-10 d-flex justify-content-between input-container mb-24">
@@ -155,18 +135,17 @@
                
                     </div>
                 </form>
+                <div class="font-weight-bold row content-title-row mb-24">
+                    <div>Already have an Account ? <a href="/login"> Login</a></div>
+                </div>
             </section>
         </div>
     </div>
 </body>
 
-<script src="js/bootstrap.bundle.min.js"></script>
-<script src="js/custom.js"></script>
-<script src="js/register_val.js"></script>
-<!-- <script>
-    function validateForm() {
- 
-</script> -->
+
+<script src="js/validate.js"></script>
+
 
 
 </html>
