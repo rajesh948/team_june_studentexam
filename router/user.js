@@ -4,22 +4,24 @@ const userAuth = require('../controller/userAuth');
 
 // User Authentication 
 
-route.get('/registration',userAuth.registration); // nandani
- 
-route.get('/verify',userAuth.verify);  // nandani
+route.get('/registration',userAuth.registration);
 
-route.post('/register-api',userAuth.register_api);  //nandani
+route.get('/verify',userAuth.verify);
+
+route.post('/register-api',userAuth.register_api);
+
+route.get('/activation-api',userAuth.activation);
+
+route.get('/login',userAuth.login);
+
+route.post('/login-api',userAuth.login_api);
 
 route.get('/home',userAuth.home);
 
 route.get('/logout',userAuth.logout);
 
-route.get('/activation-api',userAuth.activation);  //nandani
+route.get('/forgotpassword',userAuth.forgotpassword);
 
-route.get('/login',userAuth.login);  //nandani
+route.post('/updatepassword',userAuth.updatepassword);
 
-route.post('/login-api',userAuth.login_api); //nandani
-
-
-module.exports = route;
 module.exports = route;

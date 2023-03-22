@@ -12,55 +12,7 @@ const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 app.use(express.json());
 
-
-
-//Render Home Page------------------------------------------------
-
-const home = async (req, res) => {
-  var data = [];
-  if (req.session.user_id) {
-    let user_id = req.session.user_id;
-    let user_email = req.session.email;
-    var sql = `select fname from student_master where email="${user_email}"`;
-    var [username] = await con.query(sql);
-    username = username[0].fname;
-    req.session.username = username;
-
-    var sql1 = `select exam_name,exam_id from exam_master where exam_isActive=0`;
-    var [examdata] = await con.query(sql1);
-
-    var sql2 = `select exam_name from exam_master,result_master where exam_master.exam_id=result_master.exam_id and submited = 1 and exam_isActive=0 and user_id=${user_id}`;
-    var [attemptdata] = await con.query(sql2);
-
-    let flag = 0;
-
-    for (let i = 0; i < examdata.length; i++) {
-      flag = 0;
-      for (let j = 0; j < attemptdata.length; j++) {
-        if (examdata[i].exam_name == attemptdata[j].exam_name) {
-          data.push({ 'exam_id': examdata[i].exam_id, 'exam_name': examdata[i].exam_name, 'attempted': true })
-          flag = 1;
-        }
-      }
-      if (flag == 0) {
-        data.push({ 'exam_id': examdata[i].exam_id, 'exam_name': examdata[i].exam_name, 'attempted': false })
-      }
-    }
-
-    res.render('home', { data, username });
-  } else {
-    res.redirect("/login");
-
-  }
-}
-
-//Logout Api -----------------------------------------------------------
-
-const logout = async (req, res) => {
-  req.session.destroy();
-  res.redirect("/login");
-}
-
+//Registration Page ----------------------------------------------- 
 
 const registration =  function (req, res) {
     if (req.session.user_id) {
@@ -133,8 +85,6 @@ const activation = async (req, res) => {
 
 const login = async (req,res) =>{
   
-
-module.exports = {home,logout};
     if (req.session.user_id) {
         res.render("home");
 
@@ -150,7 +100,7 @@ const login_api = async (req,res) =>{
 
   var [data] = await con.query(`select user_id,password,isActive from user_master where username = "${login_data.email}"`);
   if (!data[0]) {
-    return res.render("login.ejs", { error: "**Invalid Email Or Password !" });
+    return res.render("login.ejs", { error: "**Envalid Email Or Password !" });
   }
   if (data[0].isActive == 0) {
     return res.render("activation-page", { user_id: data[0].user_id, act_message: "Your Account Is Not Active!" });
@@ -164,13 +114,81 @@ const login_api = async (req,res) =>{
     res.redirect('/home');
 
   } else {
-    res.render("login.ejs", { error: "**Invalid Email Or Password !" });
+    res.render("login.ejs", { error: "**Envalid Email Or Password !" });
   }
 }
 
+//Render Home Page------------------------------------------------
+
+const home = async (req, res) => {
+  var data = [];
+  if (req.session.user_id) {
+    let user_id = req.session.user_id;
+    let user_email = req.session.email;
+    var sql = `select fname from student_master where email="${user_email}"`;
+    var [username] = await con.query(sql);
+    username = username[0].fname;
+    req.session.username = username;
+
+    var sql1 = `select exam_name,exam_id from exam_master where exam_isActive=0`;
+    var [examdata] = await con.query(sql1);
+
+    var sql2 = `select exam_name from exam_master,result_master where exam_master.exam_id=result_master.exam_id and submited = 1 and exam_isActive=0 and user_id=${user_id}`;
+    var [attemptdata] = await con.query(sql2);
+
+    let flag = 0;
+
+    for (let i = 0; i < examdata.length; i++) {
+      flag = 0;
+      for (let j = 0; j < attemptdata.length; j++) {
+        if (examdata[i].exam_name == attemptdata[j].exam_name) {
+          data.push({ 'exam_id': examdata[i].exam_id, 'exam_name': examdata[i].exam_name, 'attempted': true })
+          flag = 1;
+        }
+      }
+      if (flag == 0) {
+        data.push({ 'exam_id': examdata[i].exam_id, 'exam_name': examdata[i].exam_name, 'attempted': false })
+      }
+    }
+
+    res.render('home', { data, username });
+  } else {
+    res.redirect("/login");
+
+  }
+}
+
+//Logout Api -----------------------------------------------------------
+
+const logout = async (req, res) => {
+  req.session.destroy();
+  res.redirect("/login");
+}
 
 
+// Forgot Password ------------------------------------------------
 
 
+const forgotpassword = (req,res)=>{
+  res.render('forgotpassword');
+}
 
-module.exports = {registration,verify,register_api,activation,login,login_api,home,logout}
+
+const updatepassword = async (req,res)=>{
+  var password = req.body.password;
+  console.log(password);
+  const pass = await bcrypt.hash(password, 10);
+  console.log(pass);
+  var confirmpass = await bcrypt.compare(req.body.confirmPassword, pass);
+  console.log(confirmpass);
+
+  if(confirmpass==true){
+    var sql = `update user_master,student_master set user_master.password = '${pass}',student_master.pass='${pass}' where student_master.email = '${req.body.email}' and user_master.username='${req.body.email}'`
+    var data = await query(sql);
+    console.log(sql);
+    res.render('login',{forgotpassword:"**Password reset successfully!!",error:""})
+
+  }
+}
+
+module.exports = {registration,verify,register_api,activation,login,login_api,home,logout,updatepassword,forgotpassword}
