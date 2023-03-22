@@ -1,11 +1,17 @@
 var error_count;
 
+document.oncontextmenu = function() {
+    return false;
+ }
+
+
 // validate firstname
 function validatefname(){
     var firstname = document.getElementById("fname").value;
     var name_regex = /[0-9]/;
+    var symbol = /[!@#$%^&*()<>?/,.:;+-`~=[{}'"]/;
     var fname_err = document.getElementById("fname_err");
-    if (name_regex.test(firstname) == true || firstname == "") {
+    if (name_regex.test(firstname) == true || firstname == "" || symbol.test(firstname) ) {
         fname_err.innerText = "**Please enter valid first name!";
         fname_err.style.color = "red";
         error_count++;
@@ -19,9 +25,10 @@ function validatefname(){
 function validatelname(){
     var lastname = document.getElementById("lname").value;
     var name_regex = /[0-9]/;
+    var symbol = /[!@#$%^&*()<>?/,.:;+-`~=[{}'"]/;
     var lname_err = document.getElementById("lname_err");
 
-    if (lastname == "" || name_regex.test(lastname) == true) {
+    if (lastname == "" || name_regex.test(lastname) == true || symbol.test(lastname)) {
         lname_err.innerText = "**Please enter valid last name!";
         lname_err.style.color = "red";
         error_count++;
@@ -273,7 +280,7 @@ function validateEmail(){
 
 // validate email at login page
 
-function validateLoginEmail(){
+function validateforgotemail(){
     var email = document.getElementById("email");
     var submit = document.getElementById("submit");
     var email_err = document.getElementById("email_err");
@@ -338,3 +345,6 @@ function validateAccessCodeForm(){
         return false;
     }
 }
+
+
+
