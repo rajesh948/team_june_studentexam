@@ -209,11 +209,11 @@ app.get('/home', async (req, res) => {
     var sql1 = `select exam_name,exam_id from exam_master where exam_isActive=0`;
     var examdata = await query(sql1);
 
-    var sql2 = `select exam_name from exam_master,result_master where exam_master.exam_id=result_master.exam_id and exam_isActive=0 and user_id=${user_id}`;
+    var sql2 = `select exam_name from exam_master,result_master where exam_master.exam_id=result_master.exam_id and submited = 1 and exam_isActive=0 and user_id=${user_id}`;
     var attemptdata = await query(sql2);
 
     // console.log("examdata",examdata)
-    // console.log("attempted Exam Data",attemptdata)
+    console.log("attempted Exam Data",attemptdata)
 
     let flag = 0;
 
@@ -549,14 +549,16 @@ app.get("/getResult",async(req,res)=>{
 
 });
 
-app.get("/result", (req, res) => {
+app.get("/result", async (req, res) => {
   console.log(req.session)
   // let user_id = req.session.user_id;
   // let email = req.session.email;
   // let username = req.session.username;
   // let 
   if (req.session.exam_id) {
-   
+    let exam_id = req.session.exam_id;
+    let user_id = req.session.user_id;
+    let data= await query(`UPDATE result_master SET submited = "1" where exam_id = "${exam_id}" AND user_id ="${user_id}"; `);  
 
     res.render("thankyou.ejs", { username: req.session.username });
   } else {

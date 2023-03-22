@@ -57,7 +57,7 @@ var second;
 
 window.onload = function() {
     minute = getCookie("minutes");
- second = getCookie("seconds");
+ second = getCookie("seconds")-1;
  document.getElementById("timerCount").innerHTML = `Remaining Time: ${minute}:${second}`;
     console.log("M",minute);
     console.log("S",second);
@@ -368,23 +368,6 @@ function colors() {
 
 
 function submit() {
-    // fetch("/saveUserResult", {
-    //     method: "POST",
-    //     body: JSON.stringify({
-
-    //         user_que: user_que,
-    //         user_ans: user_ans
-    //     }),
-
-    //     headers: {
-    //         "Content-type": "application/json; charset=UTF-8"
-    //     }
-    // })
-    //     .then(response => response.json())
-    //     .then(json => {
-    //         console.log(json);
-    //         console.log("inserted");
-    //     });
-
+  
     window.location.replace("/result");
 }

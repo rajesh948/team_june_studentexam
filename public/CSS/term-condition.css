@@ -26,6 +26,10 @@
 
 }
 
+
+
+
+
 .logo {
     width: 10%;
 }
@@ -156,4 +160,19 @@
 
 #thankyou h4{
     margin-top: 50px;
+    margin-bottom: 30px;
+}
+
+.btn {
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid #0D6EFD;
+    padding: 5px 30px;
+    border-radius: 5px;
+    color: white;
+    margin: 0 15px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    background-color: #0D6EFD;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
