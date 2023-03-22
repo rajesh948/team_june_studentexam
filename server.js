@@ -23,6 +23,9 @@ app.use(session({
 }));
 
 
+const auth = require('./router/user')
+app.use('/',auth);
+
 const exam = require('./router/exam')
 app.use('/',exam);
 
