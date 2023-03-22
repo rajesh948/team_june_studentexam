@@ -1,16 +1,16 @@
 
 
-// document.oncontextmenu = function() {
-//     return false;
-//  }
+document.oncontextmenu = function() {
+    return false;
+ }
 
-//  document.onkeydown=function(){
-//     return false;
-//  }
+ document.onkeydown=function(){
+    return false;
+ }
 
-//  document.onkeyup = function(){
-//     return false;
-//  }
+ document.onkeyup = function(){
+    return false;
+ }
 var que_no = 0;
 
 
@@ -21,6 +21,7 @@ var user_que = [];
 var user_ans = [];
 var allquestion = [];
 var total_num = document.getElementById("timerCount").innerHTML;
+console.log(total_num);
 
 getResult();
 
@@ -41,11 +42,11 @@ async function getResult() {
         colors();
         document.getElementById(`btn1`).style.backgroundColor = "rgb(230, 171, 33)";
     }
-    console.log("green getresult",green);
+    // console.log("green getresult",green);
 
-    console.log("user_que getresult",user_que);
+    // console.log("user_que getresult",user_que);
 
-    console.log("user_que getresult",user_ans);
+    // console.log("user_que getresult",user_ans);
 }
 
 
@@ -55,22 +56,27 @@ var minute;
 
 var second;
 
-window.onload = function() {
-    minute = getCookie("minutes");
- second = getCookie("seconds")-1;
+window.onload = function() {    
+minute = getCookie("minutes");
+ second = getCookie("seconds");
  document.getElementById("timerCount").innerHTML = `Remaining Time: ${minute}:${second}`;
     console.log("M",minute);
     console.log("S",second);
     var timer_amount = (60*10); //default
      if (!minute || !second){
-        minute = total_num-1;
+        minute = total_num -1;
+        console.log("M"+minute);
         second = 60;  
                   //no cookie found use default
      }
      
  };
 
+
+minute = total_num-1;
+second = 60;
 var rajeshInterval = setInterval(() => {
+    console.log(minute);    
     document.getElementById("timerCount").innerHTML = `Remaining Time: ${minute}:${second}`;
     setCookie("minutes", minute.toString(), 1);
     setCookie("seconds", second.toString(), 1);
@@ -84,10 +90,15 @@ var rajeshInterval = setInterval(() => {
         clearInterval(rajeshInterval);
         submit();
     }
+
+    if(minute<5){
+        document.getElementById("timerCount").style.backgroundColor = "red";
+    }
 }, 1000);
 
 
 function setCookie(cname, cvalue, exdays) {
+   
     var d = new Date();
     d.setTime(d.getTime() + (60*1000));
     var expires = "expires="+d.toUTCString();
@@ -293,7 +304,10 @@ async function getcategoryQue(id) {
     const category = await data.json();
     saffron.push(parseInt(category.category_no));
     colors();
+    
     document.getElementById(`btn${category.category_no}`).style.backgroundColor = "rgb(230, 171, 33)";
+    
+    // document.getElementById(`${id}`).style.backgroundColor="blue";
     displayQue(category.category_no - 1, "abc");
 }
 
@@ -368,6 +382,23 @@ function colors() {
 
 
 function submit() {
-  
+    // fetch("/saveUserResult", {
+    //     method: "POST",
+    //     body: JSON.stringify({
+
+    //         user_que: user_que,
+    //         user_ans: user_ans
+    //     }),
+
+    //     headers: {
+    //         "Content-type": "application/json; charset=UTF-8"
+    //     }
+    // })
+    //     .then(response => response.json())
+    //     .then(json => {
+    //         console.log(json);
+    //         console.log("inserted");
+    //     });
+
     window.location.replace("/result");
 }

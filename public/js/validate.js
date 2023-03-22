@@ -5,13 +5,14 @@ document.oncontextmenu = function() {
  }
 
 
+
 // validate firstname
 function validatefname(){
     var firstname = document.getElementById("fname").value;
     var name_regex = /[0-9]/;
     var symbol = /[!@#$%^&*()<>?/,.:;+-`~=[{}'"]/;
     var fname_err = document.getElementById("fname_err");
-    if (name_regex.test(firstname) == true || firstname == "" || symbol.test(firstname) ) {
+    if (name_regex.test(firstname) == true || firstname == "") {
         fname_err.innerText = "**Please enter valid first name!";
         fname_err.style.color = "red";
         error_count++;
@@ -25,10 +26,10 @@ function validatefname(){
 function validatelname(){
     var lastname = document.getElementById("lname").value;
     var name_regex = /[0-9]/;
-    var symbol = /[!@#$%^&*()<>?/,.:;+-`~=[{}'"]/;
+    var symbol = /[!@#$%^&*()<>?,.:;+-`~=]/;
     var lname_err = document.getElementById("lname_err");
 
-    if (lastname == "" || name_regex.test(lastname) == true || symbol.test(lastname)) {
+    if (lastname == "" || name_regex.test(lastname) == true  ) {
         lname_err.innerText = "**Please enter valid last name!";
         lname_err.style.color = "red";
         error_count++;
@@ -260,7 +261,7 @@ function validateEmail(){
     var email_err = document.getElementById("email_err");
 
     email.addEventListener("change",async function(){
-        const ans = await fetch(`http://localhost:8081/verify`);
+        const ans = await fetch(`/verify`);
         const data = await ans.json();
         console.log(email.value);
 
@@ -286,7 +287,7 @@ function validateforgotemail(){
     var email_err = document.getElementById("email_err");
 
     email.addEventListener("change",async function(){
-        const ans = await fetch(`http://localhost:8081/verify`);
+        const ans = await fetch(`/verify`);
         const data = await ans.json();
         console.log(email.value);
 
