@@ -39,34 +39,53 @@
                 <div class="font-weight-bold row content-title-row mb-24">
                     <div class="error title"><%=error%></div>
                 </div>
+                <div class="font-weight-bold row content-title-row mb-24">
+                    <div class="forgotpassword"><%=forgotpassword%></div>
+                </div>
                 <!--column 2 and row 3 -->
                 <div class="font-weight-bold row content-title-row mb-24">
                     <div class="title">Login into your account</div>
                 </div>
                 
                 <!--column 2 and row 4 -->
-                <form action="/login" method="post" class="row">
+                <form action="/login-api" method="post" class="row">
 
 
                     <div class="col-12 col-lg-8 input-container mb-24">
-                        <input type="email" class="form-control form-control-lg login-input" placeholder="Enter Email" name="email" id="email" onfocus="validateLoginEmail()">
+                        <input type="email" class="form-control form-control-lg login-input" placeholder="Enter Email" name="email" id="email">
                     </div>
                     <p class="w-45" id="email_err"></p>
                     <div class="col-12 col-lg-8 input-container mb-24">
                         <input type="password" class="form-control form-control-lg login-input" placeholder="Enter Password" name="Password">
                     </div>
                     <div class="col-12 col-lg-8 submit-forgotPass-container mb-24">
-                        <input type="submit" value="Login" class="btn btn-primary">
+                        <input type="submit" value="Login" class="btn btn-primary" onclick="openFullscreen()">  
                       
                     </div>
                 </form>
                 <div class="font-weight-bold row content-title-row mb-24">
-                    <div class="title">Need Account ? <a href="/registration"> Registration</a></div>
+                   
+                    <div class="btn btn-primary forgot"><a href="/forgotpassword">Forgot Password</a></div>
+                    <div>Don't have an account? <a href="/registration"> Sign Up</a></div>
                 </div>
             </section>
+
+            
         </div>
     </div>
 </body>
-<script src="js/register_val.js"></script>
+<script src="js/validate.js"></script>
+<!-- <script>var elem = document.documentElement;
+    openFullscreen();
+    /* View in fullscreen */
+    function openFullscreen() {
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.webkitRequestFullscreen) { /* Safari */
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) { /* IE11 */
+        elem.msRequestFullscreen();
+      }
+    }  </script> -->
 
 </html>

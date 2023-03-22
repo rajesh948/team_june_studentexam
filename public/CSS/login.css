@@ -169,3 +169,18 @@
   .error{
     color: red;
   }
+
+  .forgotpassword{
+    color: green;
+  }
+
+  .forgot a{
+    color: white;
+    text-decoration: none;
+  }
+
+  .forgot{
+    width: fit-content;
+    margin-left: 10px;
+    margin-bottom: 10px;
+  }
