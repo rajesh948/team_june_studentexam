@@ -125,7 +125,7 @@ body {
 .hrow {
     display: inline-flex;
     width: inherit;
-    background-color: #6c9eca;;
+    background-color: #87CEEB;;
     border-radius: 20px;
 }
 
@@ -149,7 +149,7 @@ body {
     display: inline-flex;
     width: inherit;
     margin-top: 20px;
-    background-color: rgba(168, 74, 74, 0.2);
+    background-color: #f3f3f3;
     border-radius: 20px;
 }
 
