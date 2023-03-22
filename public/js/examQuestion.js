@@ -63,7 +63,7 @@ window.onload = function() {
     console.log("S",second);
     var timer_amount = (60*10); //default
      if (!minute || !second){
-        minute = 1;
+        minute = total_num-1;
         second = 60;  
                   //no cookie found use default
      }

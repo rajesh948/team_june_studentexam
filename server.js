@@ -30,4 +30,4 @@ app.use('/',exam);
 const auth = require('./router/user')
 app.use('/',auth);
 
-app.listen(1212);
+app.listen(1213);
