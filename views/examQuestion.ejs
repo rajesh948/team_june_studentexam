@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Question</title>
+    <link rel="stylesheet" href="/CSS/examQuestion.css">
+
+</head>
+
+<body>
+    <div>
+        <header>
+            <div class="head">
+                <div class="logo"><a href="#"><img src="/Images/book.svg" /></a></div>
+                <div class="title">
+                    <p>Student Exam System</p>
+                </div>
+                <div class="user_name">
+                    <p >welcome' <%=username%></p>
+                </div>
+
+                <div class="user_logout">
+                    <a href="/logout">Logout</a>
+                </div>
+
+            </div>
+    </div>
+    </header>
+
+    <div class="main_box">
+        <div class="box_left">
+            <div class="left_side">
+                <div class="first_row">
+                    <h2 class="exam_name"><%=examname%></h2>
+                    <p id="timerCount" class="timer"><%=totalQue.length%></p>
+                </div>
+                <div class="second_row">
+                    <% for(let i=0;i<category.length;i++) { %>
+
+                        <div id="<%=category[i].category_name%>" onclick="getcategoryQue('<%=category[i].category_id%>')" class="ctg">
+                            <p>
+                                <%=category[i].category_name%>
+                            </p>
+                        </div>
+                        <%}%>
+
+                </div>
+
+                <div id="questionQue" class="third_row">
+                   
+                </div>
+
+                <div class="forth_row">
+                    <div class="buttons">
+                        <div id="prevbtn"  onclick="prev()" class="btn">Prev</div>
+                        <div onclick="savedata()" class="btn">SAVE</div>
+                        <div id="nextbtn" onclick="next()" class="btn">NEXT</div>
+                    </div>
+                    <div  onclick="submit()" class="btn2">SUBMIT</div>
+                </div>
+            </div>
+        </div>
+        <div class="box_right">
+
+            <div class="right_side">
+                <div class="que_head">Question No :</div>
+                <div class="grid-container">
+                    <% for(let i=0;i<totalQue.length;i++) { %>
+                        <div id="btn<%=totalQue[i]%>" onclick="showQue('<%=totalQue[i]%>')" class="abc grid-item"><%=i+1%></div>
+   
+                        <%}%>
+                 
+                </div>
+                <div class="box_info">
+                    <div class="row1">
+                        <div id="square1" class="square"></div>
+                        <p>Saved</p>
+                    </div>
+                    <div class="row1">
+                        <div id="square2" class="square"></div>
+                        <p>Current</p>
+                    </div>
+                    <div class="row1">
+                        <div id="square3" class="square"></div>
+                        <p>Remaining</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script src="/js/examQuestion.js" defer></script>
+</body>
+
+</html>
