@@ -21,7 +21,7 @@ var user_que = [];
 var user_ans = [];
 var allquestion = [];
 var total_num = document.getElementById("timerCount").innerHTML;
-console.log(total_num);
+// console.log(total_num);
 
 getResult();
 
@@ -29,7 +29,7 @@ async function getResult() {
 
     const data = await fetch("/getResult");
     const question_paper = await data.json();
-    console.log("getResult", question_paper);
+    // console.log("getResult", question_paper);
 
     for (let i = 0; i < question_paper.user_que.length; i++) {
         user_que[question_paper.user_que[i] - 1] = question_paper.user_que[i];
@@ -60,12 +60,12 @@ window.onload = function() {
 minute = getCookie("minutes");
  second = getCookie("seconds");
  document.getElementById("timerCount").innerHTML = `Remaining Time: ${minute}:${second}`;
-    console.log("M",minute);
-    console.log("S",second);
+    // console.log("M",minute);
+    // console.log("S",second);
     var timer_amount = (60*10); //default
      if (!minute || !second){
         minute = total_num -1;
-        console.log("M"+minute);
+        // console.log("M"+minute);
         second = 60;  
                   //no cookie found use default
      }
@@ -242,7 +242,7 @@ function prev() {
 
         user_que[que_no] = (que_no + 1);
 
-console.log("user_que[que_no]",user_que.length);
+// console.log("user_que[que_no]",user_que.length);
 
         user_ans[que_no] = `"${getSelectedValue.value}"`;
         saveQuestion[que_no] = {
@@ -269,7 +269,7 @@ console.log("user_que[que_no]",user_que.length);
             .then(response => response.json())
             .then(json => {
                 console.log(json);
-                console.log("inserted");
+                // console.log("inserted");
             });
 
         green.push(que_no + 1);
@@ -382,23 +382,6 @@ function colors() {
 
 
 function submit() {
-    // fetch("/saveUserResult", {
-    //     method: "POST",
-    //     body: JSON.stringify({
-
-    //         user_que: user_que,
-    //         user_ans: user_ans
-    //     }),
-
-    //     headers: {
-    //         "Content-type": "application/json; charset=UTF-8"
-    //     }
-    // })
-    //     .then(response => response.json())
-    //     .then(json => {
-    //         console.log(json);
-    //         console.log("inserted");
-    //     });
 
     window.location.replace("/result");
 }
