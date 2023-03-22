@@ -23,11 +23,11 @@ app.use(session({
 }));
 
 
-const auth = require('./router/user')
-app.use('/',auth);
-
 const exam = require('./router/exam')
 app.use('/',exam);
 
-app.listen(1214);
 
+const auth = require('./router/user')
+app.use('/',auth);
+
+app.listen(1212);
