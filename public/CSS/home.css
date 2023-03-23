@@ -37,11 +37,11 @@ body {
 }
 
 .title {
-    width: 50%;
+    width: 40%;
 }
 
-.user_logout {
-    width: 15%;
+.two_btn {
+    width: 25%;
 }
 
 .user_name {
