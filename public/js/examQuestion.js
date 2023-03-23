@@ -1,16 +1,16 @@
 
 
-// document.oncontextmenu = function() {
-//     return false;
-//  }
+document.oncontextmenu = function() {
+    return false;
+ }
 
-//  document.onkeydown=function(){
-//     return false;
-//  }
+ document.onkeydown=function(){
+    return false;
+ }
 
-//  document.onkeyup = function(){
-//     return false;
-//  }
+ document.onkeyup = function(){
+    return false;
+ }
 var que_no = 0;
 
 
@@ -29,7 +29,7 @@ async function getResult() {
 
     const data = await fetch("/getResult");
     const question_paper = await data.json();
-    console.log("getResult", question_paper);
+    // console.log("getResult", question_paper);
 
     for (let i = 0; i < question_paper.user_que.length; i++) {
         user_que[question_paper.user_que[i] - 1] = question_paper.user_que[i];
@@ -38,11 +38,11 @@ async function getResult() {
     }
 
 
-        console.log("green getresult",green);
+    //     console.log("green getresult",green);
 
-    console.log("user_que getresult",user_que);
+    // console.log("user_que getresult",user_que);
 
-    console.log("user_que getresult",user_ans);
+    // console.log("user_que getresult",user_ans);
 
     if (user_que[0]) {
         green = user_que;
@@ -50,7 +50,7 @@ async function getResult() {
         document.getElementById(`btn1`).style.backgroundColor = "rgb(230, 171, 33)";
     }
 
-    console.log("green getresult",green);
+    // console.log("green getresult",green);
 
 }
 
@@ -65,8 +65,8 @@ function gettimer() {
 minute = getCookie("minutes");
  second = getCookie("seconds");
  document.getElementById("timerCount").innerHTML = `Remaining Time: ${minute}:${second}`;
-    console.log("M",minute);
-    console.log("S",second);
+    // console.log("M",minute);
+    // console.log("S",second);
     var timer_amount = (60*10); //default
      if (!minute || !second){
         minute = total_num -1;
@@ -79,7 +79,7 @@ minute = getCookie("minutes");
 
 
 var rajeshInterval = setInterval(() => {
-    console.log(minute);    
+    // console.log(minute);    
     document.getElementById("timerCount").innerHTML = `Remaining Time: ${minute}:${second}`;
     setCookie("minutes", minute.toString(), 1);
     setCookie("seconds", second.toString(), 1);
