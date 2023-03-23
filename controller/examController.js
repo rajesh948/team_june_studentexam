@@ -251,11 +251,11 @@ getResult = async(req,res)=>{
 
 result = async (req, res) => {
   if (req.session.exam_id) {
-
-
     let exam_id = req.session.exam_id;
     let user_id = req.session.user_id;
-    let data= await con.query(`UPDATE result_master SET submited = "1" where exam_id = "${exam_id}" AND user_id ="${user_id}"; `);  
+    var sql = `UPDATE result_master SET submited = "1" where exam_id = "${exam_id}" AND user_id ="${user_id}"; `
+    let data= await con.query(sql); 
+    // console.log(sql); 
     res.render("thankyou.ejs", { username: req.session.username });
   } else {
     res.redirect("/login");
