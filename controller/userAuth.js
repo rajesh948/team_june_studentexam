@@ -63,7 +63,7 @@ const registration =  function (req, res) {
       const [data1] = await con.query(user_sql);
       insertId2 = data1.insertId;
 
-      res.render("activation-page", { user_id: insertId1, act_message: "Thank you for Registering!" });
+      res.render("activation-page", { user_id: insertId2, act_message: "Thank you for Registering!" });
     } else {
       res.redirect("/registration");
     }
