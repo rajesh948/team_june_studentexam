@@ -54,6 +54,10 @@
     font-weight: 600;
 }
 
+#error{
+    color: red;
+    /* font-size: 25px; */
+}
 .company {
     display: flex;
     align-items: center;

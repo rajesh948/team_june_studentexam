@@ -52,14 +52,14 @@
 
 
                     <div class="col-12 col-lg-8 input-container mb-24">
-                        <input type="email" class="form-control form-control-lg login-input" placeholder="Enter Email" name="email" id="email">
+                        <input type="email" class="form-control form-control-lg login-input" placeholder="Enter Email" name="email" id="email" value="<%=login_data.email%>">
                     </div>
                     <p class="w-45" id="email_err"></p>
                     <div class="col-12 col-lg-8 input-container mb-24">
-                        <input type="password" class="form-control form-control-lg login-input" placeholder="Enter Password" name="Password">
+                        <input type="password" class="form-control form-control-lg login-input" placeholder="Enter Password" name="Password" value="<%=login_data.Password%>">
                     </div>
                     <div class="col-12 col-lg-8 submit-forgotPass-container mb-24">
-                        <input type="submit" value="Login" class="btn btn-primary" onclick="openFullscreen()">  
+                        <input type="submit" value="Login" class="btn btn-primary" >  
                       
                     </div>
                 </form>
@@ -75,17 +75,6 @@
     </div>
 </body>
 <script src="js/validate.js"></script>
-<!-- <script>var elem = document.documentElement;
-    openFullscreen();
-    /* View in fullscreen */
-    function openFullscreen() {
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-      } else if (elem.webkitRequestFullscreen) { /* Safari */
-        elem.webkitRequestFullscreen();
-      } else if (elem.msRequestFullscreen) { /* IE11 */
-        elem.msRequestFullscreen();
-      }
-    }  </script> -->
+
 
 </html>
