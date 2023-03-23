@@ -21,7 +21,7 @@ var user_que = [];
 var user_ans = [];
 var allquestion = [];
 var total_num = document.getElementById("timerCount").innerHTML;
-// console.log(total_num);
+document.getElementById(`btn1`).style.backgroundColor = "rgb(230, 171, 33)";
 
 getResult();
 
@@ -29,7 +29,7 @@ async function getResult() {
 
     const data = await fetch("/getResult");
     const question_paper = await data.json();
-    // console.log("getResult", question_paper);
+    console.log("getResult", question_paper);
 
     for (let i = 0; i < question_paper.user_que.length; i++) {
         user_que[question_paper.user_que[i] - 1] = question_paper.user_que[i];
@@ -37,16 +37,21 @@ async function getResult() {
         user_ans[question_paper.user_que[i] - 1] = question_paper.user_ans[i];
     }
 
-    if (user_que[0] != 0) {
+
+        console.log("green getresult",green);
+
+    console.log("user_que getresult",user_que);
+
+    console.log("user_que getresult",user_ans);
+
+    if (user_que[0]) {
         green = user_que;
         colors();
         document.getElementById(`btn1`).style.backgroundColor = "rgb(230, 171, 33)";
     }
-    // console.log("green getresult",green);
 
-    // console.log("user_que getresult",user_que);
+    console.log("green getresult",green);
 
-    // console.log("user_que getresult",user_ans);
 }
 
 

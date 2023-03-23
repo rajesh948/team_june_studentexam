@@ -98,7 +98,6 @@ term_validation_api = async (req, res) => {
 }
 //Display Question Page --------------------------------------------------------------------------------------
 
-var result_num = 0;
 startexam =  async (req, res) => {
   
   if (req.session.startExam && req.session.user_id) {
@@ -108,10 +107,11 @@ startexam =  async (req, res) => {
     let examname = req.session.exam_name;
     let category = [];
     let totalQue = [];
-
-    if(result_num == 0){
+         let result_num =  await con.query(`SELECT id FROM Exam.result_master where exam_id = "${exam_id}" AND user_id ="${user_id}";`);
+      console.log("result_num[0]",result_num[0]);
+    if(!result_num[0][0]){
       await con.query(`insert into Exam.result_master (exam_id,user_id,obtain_mark,total_mark,question_ids,question_answers,submited) values("${exam_id}","${user_id}","${0}","${0}","${0}",'${0}','${0}');`);
-      result_num++;
+  
     }
 
     let [get_question] = await con.query(`SELECT question_id,category_id FROM exam_category where exam_id = "${exam_id}";`);
@@ -246,7 +246,7 @@ getResult = async(req,res)=>{
     res.send({user_que:data[0].question_ids.split(","),user_ans:data[0].question_answers.split(",")});
    }else{
 
-     res.send({user_que:[1],user_ans:[1]});
+     res.send({user_que:[false],user_ans:[1]});
    }
   }else{
     res.send({hi:"hello"});
