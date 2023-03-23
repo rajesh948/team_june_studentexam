@@ -77,11 +77,32 @@
     background-color: rgb(203, 210, 210);
 }
 
+h2{
+    
+}
+#startexam{
 
+    text-align: center;
+        margin-top: 200px;
+        /* margin-left: 700px; */
+        
+}
+
+#startexambtn{
+    width: 250px;
+    margin:30px 155px;
+    text-align: center;
+}
+#startexam p{
+    font-size: 30px;
+}
 
 .main_box {
     display: flex;
     flex-wrap: wrap;
+    /* border: 1px solid black; */
+    /* text-align: center; */
+    justify-content: center;
 }
 
 .box_left {

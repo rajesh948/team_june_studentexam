@@ -180,7 +180,7 @@ body {
     background-color: rgb(59, 104, 250);
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
     border-radius: 5px;
-    padding: 8px 35px;
+    padding: 8px 0;
 }
 
 .startexam:hover {
@@ -190,7 +190,7 @@ body {
 .attemptedexam {
     background-color: rgba(59, 104, 250, 0.658);
     border-radius: 5px;
-    padding: 8px 35px;
+    padding: 8px 0;
 }
 
 .attemptedexam:hover {
@@ -200,4 +200,5 @@ body {
 .startanchor {
     color: #ffffff;
     text-decoration: none;
+    padding: 8px 35px;
 }
