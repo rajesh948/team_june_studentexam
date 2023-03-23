@@ -224,19 +224,6 @@ ${que_no + 1}) ${allquestion[que_no].question}
 
 
 
-
-
-function next() {
-
-    saffron.push(que_no + 2);
-    // console.log("next que_no :",que_no+2)
-    // console.log("next saffron nooo:",saffron);
-    displayQue(-1, "inc");
-    colors();
-    document.getElementById(`btn${que_no + 2}`).style.backgroundColor = "rgb(230, 171, 33)";
-}
-
-
 function prev() {
     var getSelectedValue = document.querySelector('input[name="que1"]:checked');
 
@@ -289,35 +276,7 @@ function prev() {
 }
 
 
-function showQue(num) {
-    // console.log("num2::::::::::::::::", saffron);
-    saffron.push(parseInt(num));
-    colors();
-    document.getElementById(`btn${num}`).style.backgroundColor = "rgb(230, 171, 33)";
-    // console.log("ShowQue ::::::",num);
-    displayQue(num - 1, "abc");
-
-}
-
-
-async function getcategoryQue(id) {
-
-
-    const data = await fetch(`/getCategory?cat_id=${id}`);
-    const category = await data.json();
-    saffron.push(parseInt(category.category_no));
-    colors();
-    
-    document.getElementById(`btn${category.category_no}`).style.backgroundColor = "rgb(230, 171, 33)";
-    
-    // document.getElementById(`${id}`).style.backgroundColor="blue";
-    displayQue(category.category_no - 1, "abc");
-}
-
-
-
-
-function savedata() {
+function next() {
 
     var getSelectedValue = document.querySelector('input[name="que1"]:checked');
 
@@ -326,7 +285,7 @@ function savedata() {
 
         user_que[que_no] = (que_no + 1);
 
-console.log("user_que[que_no]",user_que.length);
+// console.log("user_que[que_no]",user_que.length);
 
         user_ans[que_no] = `"${getSelectedValue.value}"`;
         saveQuestion[que_no] = {
@@ -368,6 +327,34 @@ console.log("user_que[que_no]",user_que.length);
     colors();
     document.getElementById(`btn${que_no + 2}`).style.backgroundColor = "rgb(230, 171, 33)";
 }
+
+function showQue(num) {
+    // console.log("num2::::::::::::::::", saffron);
+    saffron.push(parseInt(num));
+    colors();
+    document.getElementById(`btn${num}`).style.backgroundColor = "rgb(230, 171, 33)";
+    // console.log("ShowQue ::::::",num);
+    displayQue(num - 1, "abc");
+
+}
+
+
+async function getcategoryQue(id) {
+
+
+    const data = await fetch(`/getCategory?cat_id=${id}`);
+    const category = await data.json();
+    saffron.push(parseInt(category.category_no));
+    colors();
+    
+    document.getElementById(`btn${category.category_no}`).style.backgroundColor = "rgb(230, 171, 33)";
+    
+    // document.getElementById(`${id}`).style.backgroundColor="blue";
+    displayQue(category.category_no - 1, "abc");
+}
+
+
+
 
 
 
