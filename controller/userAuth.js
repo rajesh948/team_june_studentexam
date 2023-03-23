@@ -191,4 +191,5 @@ const updatepassword = async (req,res)=>{
   }
 }
 
+
 module.exports = {registration,verify,register_api,activation,login,login_api,home,logout,updatepassword,forgotpassword}

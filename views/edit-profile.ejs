@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit</title>
+
+    <link rel="stylesheet" href="CSS/edit-profile.css">
+
+    <script src="js/edit_prof.js"></script>
+</head>
+
+<body class="bg-image">
+    <header>
+        <div class="head">
+            <div class="logo"><a href="#"><img src="/Images/book.svg" /></a></div>
+            <div class="title">
+                <p>Student Exam System</p>
+            </div>
+            <div class="user_name">
+                <a href="/edit">
+                    <p>Welcome' <%=data.fname%>
+                    </p>
+                </a>
+            </div>
+
+            <div class="user_logout">
+                <a href="/logout">Logout</a>
+            </div>
+
+        </div>
+        </div>
+    </header>
+    <div class="container">
+        <div class="editprofdiv">
+            <div class="customrow">
+                <div class="col-md-3">
+
+                    <div class="imagediv">
+                        <img class="logoimg"
+                            src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp" />
+                    </div>
+
+                    <div class="col-md-5">
+                        <div class="colcont">
+                            <div class="profdiv">
+                                <h4>Profile Settings</h4>
+                            </div>
+
+                            <div class="namerow">
+                                <div class="col-md-6"><label class="labels">First-name</label>
+                                    <input type="text" class="form-control" placeholder="first name"
+                                        oninput="namevalidation(this,'fname')" value="<%=data.fname%>" id="fname">
+                                    <p class="err" id="fname_err"></p>
+                                </div>
+                                <div class="col-md-6"><label class="labels">Last-name</label>
+                                    <input type="text" class="form-control" placeholder="surname"
+                                        oninput="namevalidation(this,'lname')" value="<%=data.lname%>" id="lname">
+                                    <p class="err" id="lname_err"></p>
+                                </div>
+                            </div>
+
+
+                            <div class="namerow othercont">
+
+                                <div class="col-md-12 gencol">
+                                    <label class="labels formgen">Gender:-</label>
+                                    <div class="formgen">
+                                        <%if(data.gender=='Male'){%>
+                                            <input class="checkinput" type="radio" name="gender" id="inlineRadio1"
+                                                value="Male" checked oninput="checkgen()">
+                                            <label for="inlineRadio1">Male</label>
+                                            <%}%>
+                                                <%if(data.gender!='Male'){%>
+                                                    <input class="checkinput" type="radio" name="gender"
+                                                        id="inlineRadio1" value="Male" oninput="checkgen()">
+                                                    <label for="inlineRadio1">Male</label>
+                                                    <%}%>
+                                    </div>
+                                    <div class="formgen">
+                                        <%if(data.gender=='Female'){%>
+                                            <input class="checkinput" type="radio" name="gender" id="inlineRadio2"
+                                                value="Female" checked oninput="checkgen()">
+                                            <label for="inlineRadio2">Female</label>
+                                            <%}%>
+                                                <%if(data.gender!='Female'){%>
+                                                    <input class="checkinput" type="radio" name="gender"
+                                                        id="inlineRadio2" value="Female" oninput="checkgen()">
+                                                    <label for="inlineRadio2">Female</label>
+                                                    <%}%>
+                                    </div>
+                                    <p class="err" id="gender_err"></p>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label class="labels">Email</label>
+                                    <input type="text" class="form-control" placeholder="enter email"
+                                        value="<%=data.email%>" id="email" oninput="emailexist(this,'edit')">
+                                    <p class="err" id="email_err"></p>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label class="labels">Phone number</label>
+                                    <input type="text" class="form-control" placeholder="enter phone number"
+                                        value="<%=data.mobile%>" id="phone" oninput="numbervalidation(this)">
+                                    <p class="err" id="number_err"></p>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label class="labels">Enrollment number</label>
+                                    <input type="text" class="form-control" placeholder="enter enrollment number"
+                                        value="<%=data.enrollment%>" id="enroll" oninput="enrollvalidate(this)">
+                                    <p class="err" id="enrollment_err"></p>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="labels">Qualification</label>
+                                    <input type="text" class="form-control" placeholder="enter qualification"
+                                        value="<%=data.qualification%>" id="qualification"
+                                        oninput="qualivalidate(this)">
+                                    <p class="err" id="qualification_err"></p>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="labels">City</label>
+                                    <input type="text" class="form-control" placeholder="enter city"
+                                        value="<%=data.city%>" id="city" oninput="cityvalidate(this)">
+                                    <p class="err" id="city_err"></p>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="labels">College</label>
+                                    <input type="text" class="form-control" placeholder="enter college name"
+                                        value="<%=data.college%>" id="college" oninput="collegevalidate(this)">
+                                    <p class="err" id="college_err"></p>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="labels">Birthdate</label>
+                                    <input type="text" class="form-control" placeholder="enter birthdate"
+                                        value="<%=data.birthdate%>" onfocus="(this.type='date')" id="dob"
+                                        oninput="datevalidate(this)">
+                                    <p class="err" id="date_err"></p>
+                                </div>
+
+
+                            </div>
+
+                            <div class="buttons">
+                                <button class="mainbutton" type="submit" name="submit"
+                                    onclick="return validateForm();">Save
+                                    Profile</button>
+                                <a href="/home" class="mainbutton">
+                                    Go to Home
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <script src="/js/edit_prof.js"></script>
+</body>
+
+</html>
