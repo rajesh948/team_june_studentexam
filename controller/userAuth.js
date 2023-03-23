@@ -142,11 +142,14 @@ const home = async (req, res) => {
     username = username[0].fname;
     req.session.username = username;
 
-    var sql1 = `select exam_name,exam_id from exam_master where exam_isActive=0`;
+    var sql1 = `select exam_name,exam_id from exam_master where exam_isActive='yes'`;
     var [examdata] = await con.query(sql1);
 
-    var sql2 = `select exam_name from exam_master,result_master where exam_master.exam_id=result_master.exam_id and submited = 1 and exam_isActive=0 and user_id=${user_id}`;
+    var sql2 = `select exam_name from exam_master,result_master where exam_master.exam_id=result_master.exam_id and submited = 1 and exam_isActive='yes' and user_id=${user_id}`;
     var [attemptdata] = await con.query(sql2);
+
+    console.log(examdata)
+    console.log(attemptdata)
 
     let flag = 0;
 
