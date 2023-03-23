@@ -98,7 +98,7 @@ const login = async (req,res) =>{
 const login_api = async (req, res) => {
   let login_data = req.body;
   console.log(login_data);
-  var studidsql = `select id from student_master where email = "${login_data.email}"`;
+  var studidsql = `select student_id from student_master where email = "${login_data.email}"`;
   var [studdata] = await con.query(studidsql);
 
   console.log(studdata);
