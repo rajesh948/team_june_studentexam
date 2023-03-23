@@ -63,7 +63,7 @@ const registration =  function (req, res) {
       const [data1] = await con.query(user_sql);
       insertId2 = data1.insertId;
 
-      res.render("activation-page", { user_id: insertId2, act_message: "Thank you for Registering!" });
+      res.render("activation-page", { user_id: insertId1, act_message: "Thank you for Registering!" });
     } else {
       res.redirect("/registration");
     }
@@ -97,10 +97,10 @@ const login = async (req,res) =>{
 
 const login_api = async (req,res) =>{
   let login_data = req.body;  
-console.log(login_data);
+
   var [data] = await con.query(`select user_id,password,isActive from user_master where username = "${login_data.email}"`);
   if (!data[0]) {
-    return res.render("login.ejs", { error: "**Invalid Email Or Password !",forgotpassword:"" });
+    return res.render("login.ejs", { error: "**Envalid Email Or Password !" });
   }
   if (data[0].isActive == 0) {
     return res.render("activation-page", { user_id: data[0].user_id, act_message: "Your Account Is Not Active!" });
@@ -114,7 +114,7 @@ console.log(login_data);
     res.redirect('/home');
 
   } else {
-    res.render("login.ejs", { error: "**Invalid Email Or Password !" , forgotpassword:""});
+    res.render("login.ejs", { error: "**Envalid Email Or Password !" });
   }
 }
 
@@ -184,12 +184,11 @@ const updatepassword = async (req,res)=>{
 
   if(confirmpass==true){
     var sql = `update user_master,student_master set user_master.password = '${pass}',student_master.pass='${pass}' where student_master.email = '${req.body.email}' and user_master.username='${req.body.email}'`
-    var data = await con.query(sql);
+    var data = await query(sql);
     console.log(sql);
     res.render('login',{forgotpassword:"**Password reset successfully!!",error:""})
 
   }
 }
-
 
 module.exports = {registration,verify,register_api,activation,login,login_api,home,logout,updatepassword,forgotpassword}
