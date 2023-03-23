@@ -14,7 +14,7 @@ app.use(express.json());
 app.set('view engine', 'ejs');
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
-require('dotenv').config();
+
 
 app.use(session({
   secret: "secretkey",

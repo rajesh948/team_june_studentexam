@@ -26,7 +26,7 @@
           </div>
 
           <div class="user_logout">
-            <a href="/logout">Logout</a>
+            <a href="/logout" >Logout</a>
           </div>
         </div>
       </header>
@@ -44,6 +44,7 @@
   <script id="jss"></script>
   <script>
     function startexam() {
+
       var elem = document.documentElement;
 
       if (elem.requestFullscreen) {
@@ -85,7 +86,7 @@ document.getElementById("jss").setAttribute("src","/js/examQuestion.js");
         <div class="forth_row">
             <div class="buttons">
                 <div id="prevbtn"  onclick="prev()" class="btn">Prev</div>
-                <div id="nextbtn"  onclick="next()" class="btn">Next</div>
+                <div id="nextbtn"  onclick="savedata()" class="btn">Next</div>
            
             </div>
             <div  onclick="submit()" class="btn2">SUBMIT</div>
