@@ -14,6 +14,8 @@ route.get('/activation-api',userAuth.activation);
 
 route.get('/login',userAuth.login);
 
+route.get('/',userAuth.login);
+
 route.post('/login-api',userAuth.login_api);
 
 route.get('/home',userAuth.home);
