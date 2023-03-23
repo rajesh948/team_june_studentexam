@@ -107,10 +107,10 @@ startexam =  async (req, res) => {
     let examname = req.session.exam_name;
     let category = [];
     let totalQue = [];
-         let result_num =  await con.query(`SELECT id FROM Exam.result_master where exam_id = "${exam_id}" AND user_id ="${user_id}";`);
+         let result_num =  await con.query(`SELECT id FROM result_master where exam_id = "${exam_id}" AND user_id ="${user_id}";`);
       console.log("result_num[0]",result_num[0]);
     if(!result_num[0][0]){
-      await con.query(`insert into Exam.result_master (exam_id,user_id,obtain_mark,total_mark,question_ids,question_answers,submited) values("${exam_id}","${user_id}","${0}","${0}","${0}",'${0}','${0}');`);
+      await con.query(`insert into result_master (exam_id,user_id,obtain_mark,total_mark,question_ids,question_answers,submited) values("${exam_id}","${user_id}","${0}","${0}","${0}",'${0}','${0}');`);
   
     }
 
@@ -149,13 +149,13 @@ getQuestion = async (req, res) => {
 
     for (let i = 0; i < get_question.length; i++) {
       var [get_cate] = await con.query(`SELECT * FROM question_category where category_id = "${get_question[i].category_id}";`);
-      var [get_que] = await con.query(`SELECT question_id,question,question_answer FROM Exam.question_master  where category_id = "${get_question[i].category_id}";`);
+      var [get_que] = await con.query(`SELECT question_id,question,question_answer FROM question_master  where category_id = "${get_question[i].category_id}";`);
       var questions = [];
 
       for (let j = 0; j < get_que.length; j++) {
         
         if (totalQue.includes(`${get_que[j].question_id}`)) {
-          var [get_option] = await con.query(`SELECT option_value FROM Exam.option_master where question_id="${get_que[j].question_id}";`)
+          var [get_option] = await con.query(`SELECT option_value FROM option_master where question_id="${get_que[j].question_id}";`)
 
           var option = [];
           for (let n = 0; n < get_option.length; n++) {
@@ -225,7 +225,7 @@ saveUserResult = async (req, res) => {
     marks = get_result[0].count;
   }
 
-  let [total_que] = await con.query(`SELECT exam_total_question as total FROM Exam.exam_master where exam_id = "${req.session.exam_id}";`);
+  let [total_que] = await con.query(`SELECT exam_total_question as total FROM exam_master where exam_id = "${req.session.exam_id}";`);
   total = total_que[0].total;
 
   await con.query(`UPDATE  result_master SET obtain_mark="${marks}",total_mark="${total}",question_ids="${question}",question_answers='${answer}' where user_id =${user_id} and exam_id=${exam_id} ;`);
