@@ -114,7 +114,7 @@ body {
 }
 
 .hometable {
-    width: -webkit-fill-available;
+    width: 100%;
 }
 
 .headerrow {

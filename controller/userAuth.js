@@ -9,6 +9,7 @@ app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
 
 const cookieParser = require("cookie-parser");
+const { log } = require('console');
 app.use(cookieParser());
 app.use(express.json());
 
@@ -97,8 +98,8 @@ const login = async (req,res) =>{
 
 const login_api = async (req,res) =>{
   let login_data = req.body;  
-console.log(login_data);
   var [data] = await con.query(`select user_id,password,isActive from user_master where username = "${login_data.email}"`);
+  
   if (!data[0]) {
     return res.render("login.ejs", { error: "**Invalid Email Or Password !",forgotpassword:"" });
   }
@@ -106,7 +107,7 @@ console.log(login_data);
     return res.render("activation-page", { user_id: data[0].user_id, act_message: "Your Account Is Not Active!" });
   }
 
-  var check_pass = await bcrypt.compare(login_data.Password, data[0].password);
+  var check_pass = await bcrypt.compare(login_data.password, data[0].password);
 
   if (check_pass) {
     req.session.user_id = data[0].user_id;
@@ -190,5 +191,4 @@ const updatepassword = async (req,res)=>{
 
   }
 }
-
 module.exports = {registration,verify,register_api,activation,login,login_api,home,logout,updatepassword,forgotpassword}

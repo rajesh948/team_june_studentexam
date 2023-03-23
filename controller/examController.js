@@ -130,17 +130,12 @@ getQuestion = async (req, res) => {
   let exam_id = req.session.exam_id;
   let totalQue = [];
   try {
-
-    console.log("1");
-
     let [get_question] = await con.query(`SELECT question_id,category_id FROM exam_category where exam_id = "${exam_id}";`);
     for (let i = 0; i < get_question.length; i++) {
       var [get_cate] = await con.query(`SELECT * FROM question_category where category_id = "${get_question[i].category_id}";`);
       totalQue = totalQue.concat(get_question[i].question_id.split(","));
 
     }
-
-    console.log("2");
 
     var question_paper = [];
     var question_item;
@@ -149,8 +144,6 @@ getQuestion = async (req, res) => {
       var [get_cate] = await con.query(`SELECT * FROM question_category where category_id = "${get_question[i].category_id}";`);
       var [get_que] = await con.query(`SELECT question_id,question,question_answer FROM Exam.question_master  where category_id = "${get_question[i].category_id}";`);
       var questions = [];
-
-      console.log("3");
 
       for (let j = 0; j < get_que.length; j++) {
 
@@ -176,7 +169,7 @@ getQuestion = async (req, res) => {
       }
       question_paper.push(question_item);
     }
-console.log(question_paper);
+
     res.send(question_paper);
   } catch (err) {
     console.log(err);
@@ -239,8 +232,7 @@ getResult = async (req, res) => {
   if (req.session.exam_id) {
     let exam_id = req.session.exam_id;
     let user_id = req.session.user_id;
-    let [data] = await con.query(`select question_ids,question_answers from result_master where user_id =${user_id} and exam_id=${exam_id};`);
-    console.log("data::::::::::::;", data);
+    let [data] = await con.query(`select question_ids,question_answers from result_master where user_id =${user_id} and exam_id=${exam_id};`);  
     if (data[0]) {
       if (data[0].question_ids != "0") {
         res.send({ user_que: data[0].question_ids.split(","), user_ans: data[0].question_answers.split(",") });
@@ -252,7 +244,7 @@ getResult = async (req, res) => {
       res.send({ hi: "hello" });
     }
   }
-  return res.redirect("/login");
+  // return res.redirect("/login");
 
 }
 
