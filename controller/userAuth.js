@@ -18,7 +18,7 @@ const registration =  function (req, res) {
     if (req.session.user_id) {
       res.redirect("/home");  
     } else {
-      res.render('registration.ejs');
+      res.render('registration.ejs',{error:"",register_data:""});
     }
   }
 
@@ -65,7 +65,9 @@ const registration =  function (req, res) {
 
       res.render("activation-page", { user_id: insertId2, act_message: "Thank you for Registering!" });
     } else {
-      res.redirect("/registration");
+      var register_data = req.body;
+      // console.log(register_data);
+      res.render("registration",{error:"Email-id already exists!!",register_data});
     }
   }
 
@@ -89,7 +91,7 @@ const login = async (req,res) =>{
         res.render("home");
 
     } else {
-        res.render("login.ejs", { error: "" ,forgotpassword:""});
+        res.render("login.ejs", { error: "" ,forgotpassword:"",login_data:""});
     }
 }
 
@@ -100,7 +102,7 @@ const login_api = async (req,res) =>{
 console.log(login_data);
   var [data] = await con.query(`select user_id,password,isActive from user_master where username = "${login_data.email}"`);
   if (!data[0]) {
-    return res.render("login.ejs", { error: "**Invalid Email Or Password !",forgotpassword:"" });
+    return res.render("login.ejs", { error: "**Invalid Email Or Password !",forgotpassword:"",login_data });
   }
   if (data[0].isActive == 0) {
     return res.render("activation-page", { user_id: data[0].user_id, act_message: "Your Account Is Not Active!" });
@@ -114,7 +116,7 @@ console.log(login_data);
     res.redirect('/home');
 
   } else {
-    res.render("login.ejs", { error: "**Invalid Email Or Password !" , forgotpassword:""});
+    res.render("login.ejs", { error: "**Invalid Email Or Password !" , forgotpassword:"",login_data});
   }
 }
 
@@ -186,7 +188,7 @@ const updatepassword = async (req,res)=>{
     var sql = `update user_master,student_master set user_master.password = '${pass}',student_master.pass='${pass}' where student_master.email = '${req.body.email}' and user_master.username='${req.body.email}'`
     var data = await con.query(sql);
     console.log(sql);
-    res.render('login',{forgotpassword:"**Password reset successfully!!",error:""})
+    res.render('login',{forgotpassword:"**Password reset successfully!!",error:"",login_data:""})
 
   }
 }
