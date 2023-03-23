@@ -47,7 +47,6 @@ term_validation_api = async (req, res) => {
   let qualification = req.body.qualification;
   let acess_code = req.body.accesscode;
   let username = req.session.username;
-  let examname = req.session.exam_name;
 
   let q1 = (`SELECT exam_access_code FROM exam_master WHERE exam_id=${exam_id}`);
   let [a1] = await con.query(q1);

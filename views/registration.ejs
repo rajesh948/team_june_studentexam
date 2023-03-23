@@ -30,23 +30,22 @@
                 <div class="row company-row">
 
                 </div>
-
+               
                 <div class="row company-headline-row">
                     <div class=" col-12 col-lg-9 company-headline text-primary ">
                         <p class="reg"> Registration </p>
                     </div>
                 </div>
 
-             
                 <form action="/register-api" method="post" class="row" onsubmit="return validateForm()">
 
 
                     <div class=" col-12 col-lg-10 d-flex justify-content-between input-container mb-24">
                         <input type="text" class="form-control form-control-lg w-45 login-input" id="fname"
-                            placeholder="First Name" name="fname">
+                            placeholder="First Name" name="fname" value="<%=register_data.fname%>">
                            
                         <input type="text" class="form-control form-control-lg w-45 login-input"
-                            placeholder="Last Name" id="lname" name="lname">
+                            placeholder="Last Name" id="lname" name="lname" value="<%=register_data.lname%>">
                     </div>
 
                     <div class="col-12 col-lg-10 d-flex justify-content-between input-container mb-24">
@@ -57,12 +56,14 @@
 
                     <div class="col-12 col-lg-10  d-flex justify-content-between input-container mb-24">
                         <input type="text" class="form-control form-control-lg w-45 login-input"
-                            placeholder="Email address" id="email" name="email" onfocus="validateEmail()">
+                            placeholder="Email address" id="email" name="email" onfocus="validateEmail()" value="<%=register_data.email%>">
                         <input type="text" class="form-control form-control-lg w-45 login-input"
-                            placeholder="Mobile no." id="number" name="number">
+                            placeholder="Mobile no." id="number" name="number" value="<%=register_data.number%>">
                     </div>
 
-
+                    <div>
+                        <p id="error"><%=error%></p>
+                     </div>
                     <div class="col-12 col-lg-10 d-flex justify-content-between input-container mb-24">
                         <p class="w-45" id="email_err"></p>
                         <p class="w-45" id="number_err"></p>
@@ -71,20 +72,44 @@
                     <div class="col-12 col-lg-10  d-flex  justify-content-between input-container mb-24">
  
                             <input type="text" class="form-control form-control-lg w-45 login-input"
-                            placeholder="College" id="college" name="college">
+                            placeholder="College" id="college" name="college" value="<%=register_data.college%>">
                            
                         <div class="w-45">
                             <label class="form-check  form-check-inline">Gender:-</label>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="gender" id="inlineRadio1"
-                                    value="Male">
-                                <label class="form-check-label" for="inlineRadio1">Male</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="gender" id="inlineRadio2"
-                                    value="Female">
-                                <label class="form-check-label" for="inlineRadio2">Female</label>
-                            </div>
+                            <%if(register_data.gender=='Female'){%>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="gender" id="inlineRadio1"
+                                        value="Male" >
+                                    <label class="form-check-label" for="inlineRadio1">Male</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="gender" id="inlineRadio2"
+                                        value="Female" checked>
+                                    <label class="form-check-label" for="inlineRadio2">Female</label>
+                                </div>
+                            <%} else if (register_data.gender=='Male'){%>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="gender" id="inlineRadio1"
+                                        value="Male" checked>
+                                    <label class="form-check-label" for="inlineRadio1">Male</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="gender" id="inlineRadio2"
+                                        value="Female">
+                                    <label class="form-check-label" for="inlineRadio2">Female</label>
+                                </div>
+                                <%}else{%>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="gender" id="inlineRadio1"
+                                            value="Male">
+                                        <label class="form-check-label" for="inlineRadio1">Male</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="gender" id="inlineRadio2"
+                                            value="Female">
+                                        <label class="form-check-label" for="inlineRadio2">Female</label>
+                                    </div>
+                                    <%}%>
                         </div>
                     </div>
 
@@ -95,9 +120,9 @@
                     </div>
 
                     <div class="col-12 col-lg-10 justify-content-between  d-flex input-container mb-24">
-                        <input type="text"   onfocus="(this.type='date')" placeholder="Enter date of birth" class="form-control w-45 form-control-lg login-input" id="dob" name="dob">
+                        <input type="text"   onfocus="(this.type='date')" placeholder="Enter date of birth" class="form-control w-45 form-control-lg login-input" id="dob" name="dob" value="<%=register_data.dob%>">
                         <input type="text" class="form-control w-45 form-control-lg login-input"
-                            placeholder="Enrollment no." id="enrollment" name="enrollment">
+                            placeholder="Enrollment no." id="enrollment" name="enrollment" value="<%=register_data.enrollment%>">
                     </div>
 
 
@@ -108,9 +133,9 @@
 
                     <div class="col-12 col-lg-10 justify-content-between d-flex input-container mb-24">
                         <input type="text" class="form-control w-45 form-control-lg login-input"
-                            placeholder="Qualifaction" id="qualification" name="qualification">
+                            placeholder="Qualifaction" id="qualification" name="qualification" value="<%=register_data.qualification%>">
                         <input type="text" class="form-control w-45 form-control-lg login-input" placeholder="City"
-                        id="city" name="city">
+                        id="city" name="city" value="<%=register_data.city%>">
                     </div>
 
                     <div class="col-12 col-lg-10 d-flex justify-content-between input-container mb-24">

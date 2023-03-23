@@ -20,10 +20,9 @@
                 <p>Student Exam System</p>
             </div>
             <div class="user_name">
-                <a href="/edit">
-                    <p>Welcome' <%=data.fname%>
-                    </p>
-                </a>
+   
+                    <p>Welcome' <%=data.fname%></p>
+       
             </div>
 
             <div class="user_logout">
@@ -97,7 +96,7 @@
                                 <div class="col-md-12">
                                     <label class="labels">Email</label>
                                     <input type="text" class="form-control" placeholder="enter email"
-                                        value="<%=data.email%>" id="email" oninput="emailexist(this,'edit')">
+                                        value="<%=data.email%>" id="email" oninput="emailexist(this,'edit',`<%=data.email%>`)">
                                     <p class="err" id="email_err"></p>
                                 </div>
 
@@ -158,8 +157,6 @@
                 </div>
             </div>
         </div>
-
-        <script src="/js/edit_prof.js"></script>
 </body>
 
 </html>
