@@ -14,7 +14,7 @@ app.use(express.json());
 app.set('view engine', 'ejs');
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
-require('dotenv').config();
+
 
 app.use(session({
   secret: "secretkey",
@@ -30,7 +30,4 @@ app.use('/',exam);
 const auth = require('./router/user')
 app.use('/',auth);
 
-app.listen(process.env.port,(err)=>{
-  if(err) throw err;
-  console.log("you server running on "+ process.env.port +" port number")
-});
+app.listen(8081);
