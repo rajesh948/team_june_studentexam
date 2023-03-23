@@ -63,7 +63,7 @@ const registration =  function (req, res) {
       const [data1] = await con.query(user_sql);
       insertId2 = data1.insertId;
 
-      res.render("activation-page", { user_id: insertId1, act_message: "Thank you for Registering!" });
+      res.render("activation-page", { user_id: insertId2, act_message: "Thank you for Registering!" });
     } else {
       res.redirect("/registration");
     }
@@ -97,7 +97,7 @@ const login = async (req,res) =>{
 
 const login_api = async (req,res) =>{
   let login_data = req.body;  
-
+console.log(login_data);
   var [data] = await con.query(`select user_id,password,isActive from user_master where username = "${login_data.email}"`);
   if (!data[0]) {
     return res.render("login.ejs", { error: "**Invalid Email Or Password !",forgotpassword:"" });
