@@ -13,13 +13,13 @@ app.use(express.json());
 
 //Registration Page -----------------------------------------------
 
-const registration = function (req, res) {
-  if (req.session.user_id) {
-    res.redirect("/home");
-  } else {
-    res.render("registration.ejs");
+const registration =  function (req, res) {
+    if (req.session.user_id) {
+      res.redirect("/home");  
+    } else {
+      res.render('registration.ejs',{error:"",register_data:""});
+    }
   }
-};
 
 // Verify Registration Details--------------------------------
 
@@ -61,14 +61,13 @@ const register_api = async (req, res) => {
     const [data1] = await con.query(user_sql);
     insertId2 = data1.insertId;
 
-    res.render("activation-page", {
-      user_id: insertId2,
-      act_message: "Thank you for Registering!",
-    });
-  } else {
-    res.redirect("/registration");
+      res.render("activation-page", { user_id: insertId2, act_message: "Thank you for Registering!" });
+    } else {
+      var register_data = req.body;
+      // console.log(register_data);
+      res.render("registration",{error:"Email-id already exists!!",register_data});
+    }
   }
-};
 
 //Account activationPage --------------------------------
 
@@ -84,13 +83,15 @@ const activation = async (req, res) => {
 
 //Render Login Page --------------------------------
 
-const login = async (req, res) => {
-  if (req.session.user_id) {
-    res.redirect("/home");
-  } else {
-    res.render("login.ejs", { error: "", forgotpassword: "" });
-  }
-};
+const login = async (req,res) =>{
+  
+    if (req.session.user_id) {
+        res.redirect("/home");
+
+    } else {
+        res.render("login.ejs", { error: "" ,forgotpassword:"",login_data:""});
+    }
+}
 
 //Verify Login Details------------------------------------------------
 
@@ -106,10 +107,7 @@ const login_api = async (req, res) => {
     `select user_id,password,isActive from user_master where username = "${login_data.email}"`
   );
   if (!data[0]) {
-    return res.render("login.ejs", {
-      error: "**Invalid Email Or Password !",
-      forgotpassword: "",
-    });
+    return res.render("login.ejs", { error: "**Invalid Email Or Password !",forgotpassword:"",login_data });
   }
   if (data[0].isActive == 0) {
     return res.render("activation-page", {
@@ -126,10 +124,7 @@ const login_api = async (req, res) => {
     req.session.email = login_data.email;
     res.redirect("/home");
   } else {
-    res.render("login.ejs", {
-      error: "**Invalid Email Or Password !",
-      forgotpassword: "",
-    });
+    res.render("login.ejs", { error: "**Invalid Email Or Password !" , forgotpassword:"",login_data});
   }
 };
 
@@ -214,10 +209,8 @@ const updatepassword = async (req, res) => {
     var sql = `update user_master,student_master set user_master.password = '${pass}',student_master.pass='${pass}' where student_master.email = '${req.body.email}' and user_master.username='${req.body.email}'`;
     var data = await con.query(sql);
     console.log(sql);
-    res.render("login", {
-      forgotpassword: "**Password reset successfully!!",
-      error: "",
-    });
+    res.render('login',{forgotpassword:"**Password reset successfully!!",error:"",login_data:""})
+
   }
 };
 
