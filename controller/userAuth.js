@@ -97,8 +97,9 @@ const login = async (req,res) =>{
 
 const login_api = async (req,res) =>{
   let login_data = req.body;  
-
+console.log(req.body);
   var [data] = await con.query(`select user_id,password,isActive from user_master where username = "${login_data.email}"`);
+  console.log("data",data);
   if (!data[0]) {
     return res.render("login.ejs", { error: "**Invalid Email Or Password !",forgotpassword:"" });
   }

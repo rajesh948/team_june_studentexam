@@ -1,16 +1,16 @@
 
 
-document.oncontextmenu = function() {
-    return false;
- }
+// document.oncontextmenu = function() {
+//     return false;
+//  }
 
- document.onkeydown=function(){
-    return false;
- }
+//  document.onkeydown=function(){
+//     return false;
+//  }
 
- document.onkeyup = function(){
-    return false;
- }
+//  document.onkeyup = function(){
+//     return false;
+//  }
 var que_no = 0;
 
 
@@ -55,13 +55,13 @@ async function getResult() {
 var minute;
 
 var second;
-
-window.onload = function() {    
+gettimer();
+function gettimer() {    
 minute = getCookie("minutes");
  second = getCookie("seconds");
  document.getElementById("timerCount").innerHTML = `Remaining Time: ${minute}:${second}`;
-    // console.log("M",minute);
-    // console.log("S",second);
+    console.log("M",minute);
+    console.log("S",second);
     var timer_amount = (60*10); //default
      if (!minute || !second){
         minute = total_num -1;
@@ -73,8 +73,6 @@ minute = getCookie("minutes");
  };
 
 
-minute = total_num-1;
-second = 60;
 var rajeshInterval = setInterval(() => {
     console.log(minute);    
     document.getElementById("timerCount").innerHTML = `Remaining Time: ${minute}:${second}`;

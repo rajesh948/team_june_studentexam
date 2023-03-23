@@ -1,15 +1,19 @@
+const session = require('express-session');
 const { log } = require('util');
 const con = require('../db');
 
 //Set exam_id & exam_name ----------------------------------------------------------------
 
 exam_term = async (req, res) => {
+
   let examid = req.query.exam_id;
   let examname = req.query.exam_name;
-  req.session.exam_id = examid;
-  req.session.exam_name = examname;
+ 
+
 
   if (req.session.user_id) {
+    req.session.exam_id = examid;
+    req.session.exam_name = examname;
     res.redirect("/exam-verification");
   } else {
     res.redirect("/login");
@@ -19,9 +23,10 @@ exam_term = async (req, res) => {
 // Render term_condition and acess_code verification page----------------------------------
 
 exam_verification = async (req, res) => {
-  if (req.session.user_id && req.session.exam_id) {
+  if (req.session.exam_id) {
     let username = req.session.username;
     let examname = req.session.exam_name;
+
     res.render('term_condition', { examname, username, a_fname: '', a_lname: '', a_email: '', a_mobilenumber: '', a_dob: '', a_city: '', a_qualification: '', a_college: '', a_accesscode: '', a_enrollment: '', fname: '', lname: '', email: '', mobilenumber: '', dob: '', city: '', qualification: '', college: '', accesscode: '', enrollment: '' });
 
   } else {
@@ -56,6 +61,7 @@ term_validation_api = async (req, res) => {
   let [a2] = await con.query(q2);
 
   if (a2[0].fname == fname && a2[0].lname == lname && a2[0].email == email && a2[0].mobile == contact && a2[0].city == city && a2[0].college == college && a2[0].qualification == qualification && a2[0].enrollment == enrollment && a2[0].birthdate == dob && acess_code == a1[0].exam_access_code) {
+    req.session.startExam = 1;
     res.redirect('/startexam');
   }
   else if (a2[0].fname != fname) {
@@ -95,7 +101,7 @@ term_validation_api = async (req, res) => {
 var result_num = 0;
 startexam =  async (req, res) => {
   
-  if (req.session.user_id && req.session.exam_id) {
+  if (req.session.startExam && req.session.user_id) {
     let user_id = req.session.user_id;
     let exam_id = req.session.exam_id;
     let username = req.session.username;
@@ -105,8 +111,9 @@ startexam =  async (req, res) => {
 
     if(result_num == 0){
       await con.query(`insert into Exam.result_master (exam_id,user_id,obtain_mark,total_mark,question_ids,question_answers,submited) values("${exam_id}","${user_id}","${0}","${0}","${0}",'${0}','${0}');`);
+      result_num++;
     }
-result_num++;
+
     let [get_question] = await con.query(`SELECT question_id,category_id FROM exam_category where exam_id = "${exam_id}";`);
 
     for (let i = 0; i < get_question.length; i++) {
@@ -119,7 +126,7 @@ result_num++;
     res.render("examQuestion.ejs", { examname, username, category, totalQue });
 
   }  else {
-    res.redirect("/login");
+    res.redirect("/home");
   }
 }
 
@@ -250,8 +257,8 @@ getResult = async(req,res)=>{
 // Thank You Page ----------------------------------------------------------------
 
 result = async (req, res) => {
-  if (req.session.exam_id) {
-
+  if (req.session.startExam) {
+    req.session.startExam =0;
 
     let exam_id = req.session.exam_id;
     let user_id = req.session.user_id;
