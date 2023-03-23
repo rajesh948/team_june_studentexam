@@ -1,8 +1,8 @@
 var error_count;
 
-document.oncontextmenu = function() {
-    return false;
- }
+// document.oncontextmenu = function() {
+//     return false;
+//  }
 
 
 
