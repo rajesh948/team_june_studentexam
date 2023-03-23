@@ -7,7 +7,6 @@ const bodyparser = require('body-parser');
 const session = require('express-session');
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
-const oneDay = 1000 * 60 * 60 * 24;
 app.use(express.static('public'));
 app.use(express.static('images'));
 app.use(express.json());
@@ -16,12 +15,16 @@ const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
 
+// creating 24 hours from milliseconds
+const oneDay = 1000 * 60 * 60 * 24;
+
+//session middleware
 app.use(session({
   secret: "secretkey",
   saveUninitialized: true,
+  cookie: { maxAge: oneDay },
   resave: false
 }));
-
 
 const exam = require('./router/exam')
 app.use('/',exam);
