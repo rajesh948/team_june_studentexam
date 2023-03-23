@@ -20,6 +20,10 @@ route.post('/login-api',userAuth.login_api);
 
 route.get('/home',userAuth.home);
 
+route.get('/edit',userAuth.edit);
+
+route.get('/updatedata',userAuth.updatedata);
+
 route.get('/logout',userAuth.logout);
 
 route.get('/forgotpassword',userAuth.forgotpassword);

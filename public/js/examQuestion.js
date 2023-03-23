@@ -1,16 +1,16 @@
 
 
-// document.oncontextmenu = function() {
-//     return false;
-//  }
+document.oncontextmenu = function() {
+    return false;
+ }
 
-//  document.onkeydown=function(){
-//     return false;
-//  }
+ document.onkeydown=function(){
+    return false;
+ }
 
-//  document.onkeyup = function(){
-//     return false;
-//  }
+ document.onkeyup = function(){
+    return false;
+ }
 var que_no = 0;
 
 
@@ -29,7 +29,7 @@ async function getResult() {
 
     const data = await fetch("/getResult");
     const question_paper = await data.json();
-    console.log("getResult", question_paper);
+    // console.log("getResult", question_paper);
 
     for (let i = 0; i < question_paper.user_que.length; i++) {
         user_que[question_paper.user_que[i] - 1] = question_paper.user_que[i];
@@ -38,11 +38,11 @@ async function getResult() {
     }
 
 
-        console.log("green getresult",green);
+    //     console.log("green getresult",green);
 
-    console.log("user_que getresult",user_que);
+    // console.log("user_que getresult",user_que);
 
-    console.log("user_que getresult",user_ans);
+    // console.log("user_que getresult",user_ans);
 
     if (user_que[0]) {
         green = user_que;
@@ -50,7 +50,7 @@ async function getResult() {
         document.getElementById(`btn1`).style.backgroundColor = "rgb(230, 171, 33)";
     }
 
-    console.log("green getresult",green);
+    // console.log("green getresult",green);
 
 }
 
@@ -65,8 +65,8 @@ function gettimer() {
 minute = getCookie("minutes");
  second = getCookie("seconds");
  document.getElementById("timerCount").innerHTML = `Remaining Time: ${minute}:${second}`;
-    console.log("M",minute);
-    console.log("S",second);
+    // console.log("M",minute);
+    // console.log("S",second);
     var timer_amount = (60*10); //default
      if (!minute || !second){
         minute = total_num -1;
@@ -79,7 +79,7 @@ minute = getCookie("minutes");
 
 
 var rajeshInterval = setInterval(() => {
-    console.log(minute);    
+    // console.log(minute);    
     document.getElementById("timerCount").innerHTML = `Remaining Time: ${minute}:${second}`;
     setCookie("minutes", minute.toString(), 1);
     setCookie("seconds", second.toString(), 1);
@@ -224,19 +224,6 @@ ${que_no + 1}) ${allquestion[que_no].question}
 
 
 
-
-
-function next() {
-
-    saffron.push(que_no + 2);
-    // console.log("next que_no :",que_no+2)
-    // console.log("next saffron nooo:",saffron);
-    displayQue(-1, "inc");
-    colors();
-    document.getElementById(`btn${que_no + 2}`).style.backgroundColor = "rgb(230, 171, 33)";
-}
-
-
 function prev() {
     var getSelectedValue = document.querySelector('input[name="que1"]:checked');
 
@@ -289,35 +276,7 @@ function prev() {
 }
 
 
-function showQue(num) {
-    // console.log("num2::::::::::::::::", saffron);
-    saffron.push(parseInt(num));
-    colors();
-    document.getElementById(`btn${num}`).style.backgroundColor = "rgb(230, 171, 33)";
-    // console.log("ShowQue ::::::",num);
-    displayQue(num - 1, "abc");
-
-}
-
-
-async function getcategoryQue(id) {
-
-
-    const data = await fetch(`/getCategory?cat_id=${id}`);
-    const category = await data.json();
-    saffron.push(parseInt(category.category_no));
-    colors();
-    
-    document.getElementById(`btn${category.category_no}`).style.backgroundColor = "rgb(230, 171, 33)";
-    
-    // document.getElementById(`${id}`).style.backgroundColor="blue";
-    displayQue(category.category_no - 1, "abc");
-}
-
-
-
-
-function savedata() {
+function next() {
 
     var getSelectedValue = document.querySelector('input[name="que1"]:checked');
 
@@ -326,7 +285,7 @@ function savedata() {
 
         user_que[que_no] = (que_no + 1);
 
-console.log("user_que[que_no]",user_que.length);
+// console.log("user_que[que_no]",user_que.length);
 
         user_ans[que_no] = `"${getSelectedValue.value}"`;
         saveQuestion[que_no] = {
@@ -368,6 +327,34 @@ console.log("user_que[que_no]",user_que.length);
     colors();
     document.getElementById(`btn${que_no + 2}`).style.backgroundColor = "rgb(230, 171, 33)";
 }
+
+function showQue(num) {
+    // console.log("num2::::::::::::::::", saffron);
+    saffron.push(parseInt(num));
+    colors();
+    document.getElementById(`btn${num}`).style.backgroundColor = "rgb(230, 171, 33)";
+    // console.log("ShowQue ::::::",num);
+    displayQue(num - 1, "abc");
+
+}
+
+
+async function getcategoryQue(id) {
+
+
+    const data = await fetch(`/getCategory?cat_id=${id}`);
+    const category = await data.json();
+    saffron.push(parseInt(category.category_no));
+    colors();
+    
+    document.getElementById(`btn${category.category_no}`).style.backgroundColor = "rgb(230, 171, 33)";
+    
+    // document.getElementById(`${id}`).style.backgroundColor="blue";
+    displayQue(category.category_no - 1, "abc");
+}
+
+
+
 
 
 
