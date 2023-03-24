@@ -142,10 +142,10 @@ const home = async (req, res) => {
     username = username[0].fname;
     req.session.username = username;
 
-    var sql1 = `select exam_name,exam_id from exam_master where exam_isActive='yes'`;
+    var sql1 = `select exam_name,exam_id from exam_master where exam_isActive="yes"`;
     var [examdata] = await con.query(sql1);
 
-    var sql2 = `select exam_name from exam_master,result_master where exam_master.exam_id=result_master.exam_id and submited = 1 and exam_isActive='yes' and user_id=${user_id}`;
+    var sql2 = `select exam_name from exam_master,result_master where exam_master.exam_id=result_master.exam_id and submited = "1" and exam_isActive="yes" and user_id=${user_id}`;
     var [attemptdata] = await con.query(sql2);
 
     console.log(examdata)
@@ -202,11 +202,11 @@ const forgotpassword = (req, res) => {
 
 const updatepassword = async (req, res) => {
   var password = req.body.password;
-  console.log(password);
+  // console.log(password);
   const pass = await bcrypt.hash(password, 10);
-  console.log(pass);
+  // console.log(pass);
   var confirmpass = await bcrypt.compare(req.body.confirmPassword, pass);
-  console.log(confirmpass);
+  // console.log(confirmpass);
 
   if (confirmpass == true) {
     var sql = `update user_master,student_master set user_master.password = '${pass}',student_master.pass='${pass}' where student_master.email = '${req.body.email}' and user_master.username='${req.body.email}'`;
