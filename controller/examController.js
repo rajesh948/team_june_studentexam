@@ -27,11 +27,11 @@ exam_verification = async (req, res) => {
     let username = req.session.username;
     let examname = req.session.exam_name;
 
-    var sql = `select exam_total_question from exam_master where exam_name = '${examname}'`;
+    var sql = `select exam_duration from exam_master where exam_name = '${examname}'`;
     // console.log(sql);
     var time = await con.query(sql);
     
-    time = time[0][0].exam_total_question;
+    time = time[0][0].exam_duration;
     // console.log(time);
 
     res.render('term_condition', { examname, username, a_fname: '', a_lname: '', a_email: '', a_mobilenumber: '', a_dob: '', a_city: '', a_qualification: '', a_college: '', a_accesscode: '', a_enrollment: '', fname: '', lname: '', email: '', mobilenumber: '', dob: '', city: '', qualification: '', college: '', accesscode: '', enrollment: '',time});
