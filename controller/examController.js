@@ -246,7 +246,7 @@ getResult = async(req,res)=>{
     res.send({user_que:data[0].question_ids.split(","),user_ans:data[0].question_answers.split(",")});
    }else{
 
-     res.send({user_que:[false],user_ans:[1]});
+     res.send({user_que:[],user_ans:[]});
    }
   }else{
     res.send({hi:"hello"});
