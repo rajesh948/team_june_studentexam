@@ -106,7 +106,6 @@ term_validation_api = async (req, res) => {
 }
 //Display Question Page --------------------------------------------------------------------------------------
 
-var result_num = 0;
 startexam =  async (req, res) => {
   
   if (req.session.user_id && req.session.exam_id) {
@@ -117,10 +116,14 @@ startexam =  async (req, res) => {
     let category = [];
     let totalQue = [];
 
-    if(result_num == 0){
+   let check_record = await con.query(`SELECT id FROM Exam.result_master where exam_id = "${exam_id}" AND user_id = "${user_id}" ;`);
+ 
+   console.log("check record",check_record[0].check_record);
+
+    if(!check_record[0].id){
       await con.query(`insert into Exam.result_master (exam_id,user_id,obtain_mark,total_mark,question_ids,question_answers,submited) values("${exam_id}","${user_id}","${0}","${0}","${0}",'${0}','${0}');`);
     }
-result_num++;
+
     let [get_question] = await con.query(`SELECT question_id,category_id FROM exam_category where exam_id = "${exam_id}";`);
 
     for (let i = 0; i < get_question.length; i++) {
