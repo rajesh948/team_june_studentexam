@@ -116,9 +116,9 @@ startexam =  async (req, res) => {
     let category = [];
     let totalQue = [];
 
-   let check_record = await con.query(`SELECT id FROM Exam.result_master where exam_id = "${exam_id}" AND user_id = "${user_id}" ;`);
+   let [check_record] = await con.query(`SELECT id FROM Exam.result_master where exam_id = "${exam_id}" AND user_id = "${user_id}" ;`);
  
-   console.log("check record",check_record[0].check_record);
+   console.log("check record",check_record);
 
     if(!check_record[0].id){
       await con.query(`insert into Exam.result_master (exam_id,user_id,obtain_mark,total_mark,question_ids,question_answers,submited) values("${exam_id}","${user_id}","${0}","${0}","${0}",'${0}','${0}');`);

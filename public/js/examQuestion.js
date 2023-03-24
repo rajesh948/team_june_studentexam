@@ -11,6 +11,7 @@
 //  }
 
 var que_no = 0;
+var index=0;
 var saffron = [1];
 var green = [];
 var saveQuestion = [];
@@ -33,7 +34,7 @@ async function getResult() {
 
         user_ans[question_paper.user_que[i] - 1] = question_paper.user_ans[i];
     }
-    
+
     if (user_que.length) {
         green = user_que;
         colors();
