@@ -131,10 +131,10 @@ async function displayQue(num, text) {
 
     let catego_id = get_categoryId[0].category_id;
 
-    console.log("quo_no", que_no);
-    console.log("catego_id", catego_id);
-    console.log("saffron :", saffron);
-    console.log("green", green);
+    // console.log("quo_no", que_no);
+    // console.log("catego_id", catego_id);
+    // console.log("saffron :", saffron);
+    // console.log("green", green);
 
     category_ids.push(catego_id);
 
