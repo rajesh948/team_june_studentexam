@@ -120,7 +120,7 @@ const login_api = async (req, res) => {
 
   if (check_pass) {
     req.session.user_id = data[0].user_id;
-    req.session.stud_id = studdata[0].id;
+    req.session.stud_id = studdata[0].student_id;
     req.session.email = login_data.email;
     res.redirect("/home");
   } else {
@@ -235,7 +235,7 @@ const updatedata = async (req, res) => {
   var stud_id = session.stud_id;
 
   try {
-    var sql = `update student_master set fname='${alldata.fname}', lname='${alldata.lname}', gender='${alldata.gender}', email='${alldata.email}', mobile='${alldata.phone}', enrollment='${alldata.enroll}', qualification='${alldata.qualification}', city='${alldata.city}', college='${alldata.college}', birthdate='${alldata.dob}' where id=${stud_id}`;
+    var sql = `update student_master set fname='${alldata.fname}', lname='${alldata.lname}', gender='${alldata.gender}', email='${alldata.email}', mobile='${alldata.phone}', enrollment='${alldata.enroll}', qualification='${alldata.qualification}', city='${alldata.city}', college='${alldata.college}', birthdate='${alldata.dob}' where student_id=${stud_id}`;
     var [result1] = await con.query(sql);
 
     var sql1 = `update user_master set username='${alldata.email}' where user_id=${user_id}`;

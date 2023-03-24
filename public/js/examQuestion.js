@@ -1,16 +1,16 @@
 
 
-// document.oncontextmenu = function() {
-//     return false;
-//  }
+document.oncontextmenu = function() {
+    return false;
+ }
 
-//  document.onkeydown=function(){
-//     return false;
-//  }
+ document.onkeydown=function(){
+    return false;
+ }
 
-//  document.onkeyup = function(){
-//     return false;
-//  }
+ document.onkeyup = function(){
+    return false;
+ }
 var que_no = 0;
 
 
@@ -20,6 +20,7 @@ var saveQuestion = [];
 var user_que = [];
 var user_ans = [];
 var allquestion = [];
+var category_ids =[];
 var total_num = document.getElementById("timerCount").innerHTML;
 document.getElementById(`btn1`).style.backgroundColor = "rgb(230, 171, 33)";
 
@@ -126,6 +127,9 @@ displayQue();
 
 async function displayQue(num, text) {
 
+
+
+
     if (num >= 0) {
         que_no = num;
     }
@@ -133,7 +137,17 @@ async function displayQue(num, text) {
     const data = await fetch("/getQuestion");
     const question_paper = await data.json();
 
-    // console.log(question_paper);
+    console.log(question_paper);
+    console.log("que_no",que_no);
+
+    const cate_data = await fetch(`/getCategoryId?que_no=${que_no+1}`);
+    const get_categoryId = await cate_data.json();
+   let catego_id =get_categoryId[0].category_id;
+    console.log("get_categoryId:::",catego_id);
+    category_ids.push(catego_id);
+    colors();
+    document.getElementById(`${catego_id}`).style.backgroundColor ="#547dbb";
+
     // console.log(question_paper.length);
     // var question_no = question_paper.length;
     // var category_nums=[];
@@ -365,6 +379,10 @@ function colors() {
 
     green.forEach(id => {
         document.getElementById(`btn${id}`).style.backgroundColor = "rgb(56, 233, 56)";
+    })
+
+    category_ids.forEach(id =>{
+        document.getElementById(`${id}`).style.backgroundColor = "#87CEEB";
     })
 }
 
