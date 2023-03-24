@@ -1,16 +1,16 @@
 
 
-document.oncontextmenu = function() {
-    return false;
- }
+// document.oncontextmenu = function() {
+//     return false;
+//  }
 
- document.onkeydown=function(){
-    return false;
- }
+//  document.onkeydown=function(){
+//     return false;
+//  }
 
- document.onkeyup = function(){
-    return false;
- }
+//  document.onkeyup = function(){
+//     return false;
+//  }
 var que_no = 0;
 
 
@@ -44,7 +44,7 @@ async function getResult() {
 
     // console.log("user_que getresult",user_ans);
 
-    if (user_que[0]) {
+    if (user_que.length) {
         green = user_que;
         colors();
         document.getElementById(`btn1`).style.backgroundColor = "rgb(230, 171, 33)";
