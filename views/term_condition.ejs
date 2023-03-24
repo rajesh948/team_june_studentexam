@@ -44,7 +44,7 @@
     <div class="container">
       <div>
         <h2 class="exam_name"><%=examname%></h2>
-        <form action="" method="" onsubmit="return validateAccessCodeForm()">
+        <form action="/term-validation-api" method="post" onsubmit="return validateAccessCodeForm()">
      
           <div class="row">
             <div class="col">
@@ -103,7 +103,7 @@
               <ul>
                 <li>The Exam consists of Multiple Choice Question.</li>
                 <li>Each question is of 1 marks each.</li>
-                <li>Time Limit : <%= time %> min</li>
+                <li>Time Limit : 30 mins</li>
                 <li>You can not access the exam once the time is over.</li>
                 <li>There will be questions from different categories.</li>
               </ul>
