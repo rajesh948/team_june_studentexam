@@ -292,7 +292,7 @@ getResult = async (req, res) => {
 result = async (req, res) => {
   if (req.session.start_exam) {
 
-
+    req.session.start_exam=0;
     let exam_id = req.session.exam_id;
     let user_id = req.session.user_id;
     let data = await con.query(`UPDATE result_master SET submited = "1" where exam_id = "${exam_id}" AND user_id ="${user_id}"; `);
