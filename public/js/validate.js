@@ -7,7 +7,7 @@ var error_count;
 
 
 // validate firstname
-function validatefname(){
+async function validatefname(){
     var firstname = document.getElementById("fname").value;
     var name_regex = /[0-9]/;
     var symbol = /[!@#$%^&*()<>?/,.:;+-`~=[{}'"]/;
@@ -23,7 +23,7 @@ function validatefname(){
 }
 
 // validate lastname
-function validatelname(){
+async function validatelname(){
     var lastname = document.getElementById("lname").value;
     var name_regex = /[0-9]/;
     var symbol = /[!@#$%^&*()<>?,.:;+-`~=]/;
@@ -41,7 +41,7 @@ function validatelname(){
 
 
 // validate client side email
-function validateEmailuser(){
+async function validateEmailuser(){
 
     var email = document.getElementById("email").value;
     var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -59,7 +59,7 @@ function validateEmailuser(){
 
 
 // validate mobile number
-function validatenumber(){
+async function validatenumber(){
     var number = document.getElementById("number").value;
     var number_regex = /^\d{10}$/;
     var number_err = document.getElementById("number_err");
@@ -76,7 +76,7 @@ else {
 }
 
 
-function validatebirthdate(){
+async function validatebirthdate(){
 
     var birthdate = document.getElementById("dob").value;
     var date_err = document.getElementById("date_err");
@@ -95,7 +95,7 @@ function validatebirthdate(){
 
 
 // validate city
-function validatecity(){
+async function validatecity(){
 
     var city = document.getElementById("city").value;
     var city_err = document.getElementById("city_err");
@@ -111,7 +111,7 @@ function validatecity(){
 
 
 // validate college
-function validatecollege(){
+async function validatecollege(){
     var college = document.getElementById("college").value;
     var college_err = document.getElementById("college_err");
     if (college == "") {
@@ -126,7 +126,7 @@ function validatecollege(){
 }
 
 // validate qualification
-function validatequalification(){
+async function validatequalification(){
     var qualification = document.getElementById("qualification").value;
     var qualification_err = document.getElementById("qualification_err");
     if (qualification == "") {
@@ -141,7 +141,7 @@ function validatequalification(){
 }
 
 // validate gender
-function validategender(){
+async function validategender(){
 
     var gender_err = document.getElementById('gender_err');
     if(document.querySelector('input[name="gender"]:checked')==null){
@@ -156,7 +156,7 @@ function validategender(){
 
 
 // validate password
-function validatepassword(){
+async function validatepassword(){
     var password = document.getElementById('password').value;
     var paswd=  /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
     var pass_err = document.getElementById("pass_err");
@@ -176,7 +176,7 @@ function validatepassword(){
 }
 
 // validate confirm password
-function validateconfirmpassword(){
+async function validateconfirmpassword(){
     var password = document.getElementById('password').value;
     var confirmpassword = document.getElementById('confirmPassword').value;
     var confirmpass_err = document.getElementById("confirmPass_err");
@@ -195,7 +195,7 @@ function validateconfirmpassword(){
 
 // validate enrollment
 
-function validateenrollment(){
+async function validateenrollment(){
     var enrollment = document.getElementById("enrollment").value;
     var enrollment_err = document.getElementById("enrollment_err");
     if (enrollment.length != 12) {
@@ -211,7 +211,7 @@ function validateenrollment(){
 
 
 // validate accesscode
-function validateaccesscode(){
+async function validateaccesscode(){
     var access_code = document.getElementById("Accesscode").value;
     var accesscode_err = document.getElementById("accesscode_err");
     if (access_code.length != 6) {
@@ -224,7 +224,7 @@ function validateaccesscode(){
     }
 }
 
-function validateForm(){
+async function validateForm(){
 
     error_count = 0;
 
@@ -255,7 +255,7 @@ function validateForm(){
 
 // validate unique email
 
-function validateEmail(){
+async function validateEmail(){
     var email = document.getElementById("email");
     var submit = document.getElementById("submit");
     var email_err = document.getElementById("email_err");
@@ -281,7 +281,7 @@ function validateEmail(){
 
 // validate email at login page
 
-function validateforgotemail(){
+async function validateforgotemail(){
     var email = document.getElementById("email");
     var submit = document.getElementById("submit");
     var email_err = document.getElementById("email_err");
@@ -305,7 +305,7 @@ function validateforgotemail(){
 }
 
 
-function validateforgotpass(){
+async function validateforgotpass(){
     error_count = 0;
     validatepassword();
     validateEmailuser();
@@ -323,7 +323,7 @@ function validateforgotpass(){
 
 // validate accesscode form
 
-function validateAccessCodeForm(){
+async function validateAccessCodeForm(){
 
     error_count = 0;
     validatefname();
@@ -336,7 +336,7 @@ function validateAccessCodeForm(){
     validatecollege();
     validateaccesscode();
     validateenrollment();
-
+    valiBackend();
     if (error_count == 0) 
     {
         return true;
@@ -346,6 +346,8 @@ function validateAccessCodeForm(){
         return false;
     }
 }
+
+
 
 
 

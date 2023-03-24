@@ -2,6 +2,8 @@ document.oncontextmenu = function() {
     return false;
  }
 
+// const { log } = require("util");
+
  document.onkeydown=function(){
     return false;
  }
@@ -149,11 +151,13 @@ async function displayQue(num, text) {
         }
     }
 
+
     if (que_no >= allquestion.length - 1) {
         document.getElementById("nextbtn").style.display = "none";
     } else {
         document.getElementById("nextbtn").style.display = "block";
     }
+
     if (que_no <= 0) {
         document.getElementById("prevbtn").style.display = "none";
     } else {
@@ -276,6 +280,8 @@ function next() {
 
     var getSelectedValue = document.querySelector('input[name="que1"]:checked');
 
+    // console.log('281--- get selected value', getSelectedValue);
+    // console.log('user_que[que_no]',user_que[que_no]);
 
     if (getSelectedValue) {
 
