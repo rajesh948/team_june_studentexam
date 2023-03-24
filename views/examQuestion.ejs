@@ -58,6 +58,8 @@
    
         elem.msRequestFullscreen();
       }
+
+    
 document.getElementById("jss").setAttribute("src","/js/examQuestion.js");
       var e = document.getElementById('exambox').innerHTML= `
       <div class="main_box">
@@ -127,6 +129,24 @@ document.getElementById("jss").setAttribute("src","/js/examQuestion.js");
 `;
 
     }
+
+    document.onkeydown = function(evt) {
+    evt = evt || window.event;
+    if (evt.keyCode === 27) {
+      alert("ESc")
+    }
+
+    if(evt.key === 'F11'){
+      return false;
+    }
+
+    if(evt.key==='Tab' && evt.ctrlKey === true){
+     return false;
+    }
+
+   
+
+};
   </script>
      
 </html>
