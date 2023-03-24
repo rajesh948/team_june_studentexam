@@ -7,7 +7,6 @@ const bodyparser = require("body-parser");
 const session = require("express-session");
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
-const oneDay = 1000 * 60 * 60 * 24;
 app.use(express.static("public"));
 app.use(express.static("images"));
 app.use(express.json());
@@ -17,19 +16,23 @@ app.use(cookieParser());
 require("dotenv").config();
 
 
-app.use(
-  session({
-    secret: "secretkey",
-    saveUninitialized: false,
-    resave: false,
-  })
-);
+// creating 24 hours from milliseconds
+const oneDay = 1000 * 60 * 60 * 24;
 
-const exam = require("./router/exam");
-app.use(exam);
+//session middleware
+app.use(session({
+  secret: "secretkey",
+  saveUninitialized: false,
+  cookie: { maxAge: oneDay },
+  resave: false
+}));
 
-const auth = require("./router/user");
-app.use(auth);
+const exam = require('./router/exam')
+app.use('/',exam);
+
+
+const auth = require('./router/user')
+app.use('/',auth);
 
 
 app.listen(8081);
