@@ -61,22 +61,30 @@
                                         <div class="tabcolumn">
                                             <%=data[i].exam_name%>
                                         </div>
-                                        <%if(data[i].attempted==false){%>
+                                        <%if(data[i].giving==true  && data[i].attempted==false){%>
+                                            <div class="tabcolumn greenattempt middletab">Unattempted</div>
+                                            <div class="tabcolumn">
+                                                <div class="startexam">
+                                                    <a class="startanchor" href="/exam-term?exam_id=<%=data[i].exam_id%>&exam_name=<%=data[i].exam_name%>">RESUME</a>
+                                                </div>
+                                            </div>
+                                        <%}%>
+                                        <%if(data[i].giving==false && data[i].attempted==false){%>
                                             <div class="tabcolumn greenattempt middletab">Unattempted</div>
                                             <div class="tabcolumn">
                                                 <div class="startexam">
                                                     <a class="startanchor" href="/exam-term?exam_id=<%=data[i].exam_id%>&exam_name=<%=data[i].exam_name%>">START</a>
                                                 </div>
                                             </div>
-                                            <%}%>
-                                                <%if(data[i].attempted==true){%>
-                                                    <div class="tabcolumn redattempt middletab">Attempted</div>
-                                                    <div class="tabcolumn">
-                                                        <div class="attemptedexam">
-                                                            <a  class="startanchor">START</a>
-                                                        </div>
-                                                    </div>
-                                                    <%}%>
+                                        <%}%>
+                                        <%if(data[i].attempted==true){%>
+                                            <div class="tabcolumn redattempt middletab">Attempted</div>
+                                            <div class="tabcolumn">
+                                                <div class="attemptedexam">
+                                                    <a  class="startanchor">START</a>
+                                               </div>
+                                            </div>
+                                        <%}%>
                                     </div>
                                     <%}%>
                             </div>
