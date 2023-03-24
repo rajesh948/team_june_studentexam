@@ -1,14 +1,14 @@
-// document.oncontextmenu = function() {
-//     return false;
-//  }
+document.oncontextmenu = function() {
+    return false;
+ }
 
-//  document.onkeydown=function(){
-//     return false;
-//  }
+ document.onkeydown=function(){
+    return false;
+ }
 
-//  document.onkeyup = function(){
-//     return false;
-//  }
+ document.onkeyup = function(){
+    return false;
+ }
 
 var que_no = 0;
 var index=0;
