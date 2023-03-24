@@ -211,7 +211,7 @@ const forgotpassword = (req, res) => {
   if(req.session.user_id)
   {
     res.redirect('/home');
-  }
+  } 
   else{
     res.render("forgotpassword");
   }
