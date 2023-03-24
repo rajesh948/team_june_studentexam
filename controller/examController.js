@@ -118,12 +118,15 @@ startexam =  async (req, res) => {
 
     for (let i = 0; i < get_question.length; i++) {
       var [get_cate] = await con.query(`SELECT * FROM question_category where category_id = "${get_question[i].category_id}";`);
+    
       totalQue = totalQue.concat(get_question[i].question_id.split(","));
 
       category.push(get_cate[0]);
     }
 
-    res.render("examQuestion.ejs", { examname, username, category, totalQue });
+    let [exam_duration] = await con.query(`SELECT exam_duration FROM exam_master where exam_id ="${exam_id}";`);
+console.log("exam duratuion",exam_duration[0].exam_duration);
+    res.render("examQuestion.ejs", { examname, username, category, totalQue,exam_duration:exam_duration[0].exam_duration });
 
   }  else {
     res.redirect("/home");
