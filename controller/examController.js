@@ -136,6 +136,9 @@ getQuestion = async (req, res) => {
       totalQue = totalQue.concat(get_question[i].question_id.split(","));
 
     }
+
+    console.log("2");
+
     var question_paper = [];
     var question_item;
 
@@ -243,8 +246,9 @@ getResult = async(req,res)=>{
   }else{
     res.send({hi:"hello"});
   }}
-  
-  }
+//   return res.redirect("/login");
+
+}
 
 // Thank You Page ----------------------------------------------------------------
 

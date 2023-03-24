@@ -1,16 +1,15 @@
+document.oncontextmenu = function() {
+    return false;
+ }
 
+ document.onkeydown=function(){
+    return false;
+ }
 
-// document.oncontextmenu = function() {
-//     return false;
-//  }
-
-//  document.onkeydown=function(){
-//     return false;
-//  }
-
-//  document.onkeyup = function(){
-//     return false;
-//  }
+ document.onkeyup = function(){
+    return false;
+ }
+ 
 var que_no = 0;
 
 
@@ -202,13 +201,11 @@ ${que_no + 1}) ${allquestion[que_no].question}
             // console.log("user_ans[index])",user_ans[index]);
 
             Quequery += ` <div><input value="${allquestion[que_no].option[j]}" type="radio"  name="que1" checked >
-
             <p>${allquestion[que_no].option[j]}</p>
         </div>`;
         } else {
 
             Quequery += ` <div><input value="${allquestion[que_no].option[j]}" type="radio"  name="que1" >
-
             <p>${allquestion[que_no].option[j]}</p>
         </div>`;
         }

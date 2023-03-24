@@ -184,3 +184,8 @@
     margin-left: 10px;
     margin-bottom: 10px;
   }
+
+  .show-icons {
+    margin-left: -40px ;
+    margin-top: 15px;
+}

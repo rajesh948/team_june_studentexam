@@ -8,6 +8,7 @@ app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
 
 const cookieParser = require("cookie-parser");
+const { log } = require('console');
 app.use(cookieParser());
 app.use(express.json());
 
@@ -116,7 +117,7 @@ const login_api = async (req, res) => {
     });
   }
 
-  var check_pass = await bcrypt.compare(login_data.Password, data[0].password);
+  var check_pass = await bcrypt.compare(login_data.password, data[0].password);
 
   if (check_pass) {
     req.session.user_id = data[0].user_id;
