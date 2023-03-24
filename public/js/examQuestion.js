@@ -1,25 +1,22 @@
+document.oncontextmenu = function() {
+    return false;
+ }
 
-
-// document.oncontextmenu = function() {
-//     return false;
-//  }
-
-//  document.onkeydown=function(){+
-//     return false;
-//  }
-
-//  document.onkeyup = function(){
-//     return false;
-//  }
+ document.onkeydown=function(){
+    return false;
+ }
+ 
+ document.onkeyup = function(){
+    return false;
+ }
 var que_no = 0;
-
-
 var saffron = [1];
 var green = [];
 var saveQuestion = [];
 var user_que = [];
 var user_ans = [];
 var allquestion = [];
+var category_ids =[];
 var total_num = document.getElementById("timerCount").innerHTML;
 document.getElementById(`btn1`).style.backgroundColor = "rgb(230, 171, 33)";
 
@@ -29,7 +26,6 @@ async function getResult() {
 
     const data = await fetch("/getResult");
     const question_paper = await data.json();
-    // console.log("getResult", question_paper);
 
     for (let i = 0; i < question_paper.user_que.length; i++) {
         user_que[question_paper.user_que[i] - 1] = question_paper.user_que[i];
@@ -38,11 +34,7 @@ async function getResult() {
     }
 
 
-    //     console.log("green getresult",green);
 
-    // console.log("user_que getresult",user_que);
-
-    // console.log("user_que getresult",user_ans);
 
     if (user_que.length) {
         green = user_que;
@@ -50,7 +42,7 @@ async function getResult() {
         document.getElementById(`btn1`).style.backgroundColor = "rgb(230, 171, 33)";
     }
 
-    // console.log("green getresult",green);
+
 
 }
 
@@ -58,21 +50,21 @@ async function getResult() {
 ///////////////////////////////timer////////////
 
 var minute;
-
 var second;
+
 gettimer();
+
 function gettimer() {    
 minute = getCookie("minutes");
  second = getCookie("seconds");
  document.getElementById("timerCount").innerHTML = `Remaining Time: ${minute}:${second}`;
-    // console.log("M",minute);
-    // console.log("S",second);
+ 
+
+    
     var timer_amount = (60*10); //default
      if (!minute || !second){
         minute = total_num -1;
-        // console.log("M"+minute);
         second = 60;  
-                  //no cookie found use default
      }
      
  };
@@ -126,6 +118,9 @@ displayQue();
 
 async function displayQue(num, text) {
 
+
+
+
     if (num >= 0) {
         que_no = num;
     }
@@ -133,10 +128,21 @@ async function displayQue(num, text) {
     const data = await fetch("/getQuestion");
     const question_paper = await data.json();
 
-    // console.log(question_paper);
-    // console.log(question_paper.length);
-    // var question_no = question_paper.length;
-    // var category_nums=[];
+
+    const cate_data = await fetch(`/getCategoryId?que_no=${que_no+1}`);
+    const get_categoryId = await cate_data.json();
+
+   let catego_id =get_categoryId[0].category_id;
+
+
+    category_ids.push(catego_id);
+
+    category_ids.forEach(id =>{
+        document.getElementById(`${id}`).style.backgroundColor = "#87CEEB";
+    })
+
+    document.getElementById(`${catego_id}`).style.backgroundColor ="#547dbb";
+
 
     if (text == "inc") {
         que_no += 1;
@@ -162,7 +168,6 @@ async function displayQue(num, text) {
         document.getElementById("prevbtn").style.display = "block";
     }
 
-    // console.log(allquestion);
 
     var Quequery = ` <div class="que_body" oncopy="return false">
 <p class="question">
@@ -185,12 +190,7 @@ ${que_no + 1}) ${allquestion[que_no].question}
 
 
     }
-    // console.log("****************************");
-    // console.log("index", index, "que_no", que_no);
-    // console.log("allquestion", allquestion);
-    // console.log("user_que:", user_que);
-    // console.log("user_ans:", user_ans);
-    // console.log("****************************");
+
 
     for (let j = 0; j < allquestion[que_no].option.length; j++) {
 
@@ -198,17 +198,13 @@ ${que_no + 1}) ${allquestion[que_no].question}
         if (`"${allquestion[que_no].option[j]}"` == user_ans[index]) {
 
 
-            // console.log("${allquestion[que_no].option[j]}",allquestion[que_no].option[j]);
-            // console.log("user_ans[index])",user_ans[index]);
 
             Quequery += ` <div><input value="${allquestion[que_no].option[j]}" type="radio"  name="que1" checked >
-
             <p>${allquestion[que_no].option[j]}</p>
         </div>`;
         } else {
 
             Quequery += ` <div><input value="${allquestion[que_no].option[j]}" type="radio"  name="que1" >
-
             <p>${allquestion[que_no].option[j]}</p>
         </div>`;
         }
@@ -225,25 +221,20 @@ ${que_no + 1}) ${allquestion[que_no].question}
 
 
 function prev() {
+
     var getSelectedValue = document.querySelector('input[name="que1"]:checked');
 
 
     if (getSelectedValue) {
 
         user_que[que_no] = (que_no + 1);
-
-// console.log("user_que[que_no]",user_que.length);
-
         user_ans[que_no] = `"${getSelectedValue.value}"`;
+
         saveQuestion[que_no] = {
             question_id: que_no + 1,
             user_answer: `${getSelectedValue.value}`
         };
-        // console.log("#############################3");
-        // console.log("que_no", que_no);
-        // console.log("savedatauser_que:", user_que);
-        // console.log("savedatauser_ans:", user_ans);
-        // console.log("#############################3");
+
         fetch("/saveUserResult", {
             method: "POST",
             body: JSON.stringify({
@@ -259,17 +250,16 @@ function prev() {
             .then(response => response.json())
             .then(json => {
                 console.log(json);
-                // console.log("inserted");
             });
 
         green.push(que_no + 1);
-        colors();
-
-        // console.log(saveQuestion)
+              
     }
+
     saffron.push(que_no);
-    // console.log("prev saffron no",saffron);
-    // console.log("prev que_no :",que_no)
+
+
+
     displayQue(-1, "dec");
     colors();
     document.getElementById(`btn${que_no}`).style.backgroundColor = "rgb(230, 171, 33)";
@@ -285,18 +275,12 @@ function next() {
 
         user_que[que_no] = (que_no + 1);
 
-// console.log("user_que[que_no]",user_que.length);
-
         user_ans[que_no] = `"${getSelectedValue.value}"`;
         saveQuestion[que_no] = {
             question_id: que_no + 1,
             user_answer: `${getSelectedValue.value}`
         };
-        // console.log("#############################3");
-        // console.log("que_no", que_no);
-        // console.log("savedatauser_que:", user_que);
-        // console.log("savedatauser_ans:", user_ans);
-        // console.log("#############################3");
+
         fetch("/saveUserResult", {
             method: "POST",
             body: JSON.stringify({
@@ -316,13 +300,12 @@ function next() {
             });
 
         green.push(que_no + 1);
-        colors();
-
-        // console.log(saveQuestion)
     }
+
     saffron.push(que_no + 2);
-    // console.log("next que_no :",que_no+2)
-    // console.log("next saffron nooo:",saffron);
+
+
+
     displayQue(-1, "inc");
     colors();
     document.getElementById(`btn${que_no + 2}`).style.backgroundColor = "rgb(230, 171, 33)";
@@ -366,6 +349,7 @@ function colors() {
     green.forEach(id => {
         document.getElementById(`btn${id}`).style.backgroundColor = "rgb(56, 233, 56)";
     })
+
 }
 
 

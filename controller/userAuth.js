@@ -8,6 +8,7 @@ app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
 
 const cookieParser = require("cookie-parser");
+const { log } = require('console');
 app.use(cookieParser());
 app.use(express.json());
 
@@ -61,10 +62,9 @@ const register_api = async (req, res) => {
     const [data1] = await con.query(user_sql);
     insertId2 = data1.insertId;
 
-      res.render("activation-page", { user_id: insertId2, act_message: "Thank you for Registering!" });
+      res.render("activation-page", { user_id: insertId1, act_message: "Thank you for Registering!" });
     } else {
       var register_data = req.body;
-      // console.log(register_data);
       res.render("registration",{error:"Email-id already exists!!",register_data});
     }
   }
@@ -97,11 +97,9 @@ const login = async (req,res) =>{
 
 const login_api = async (req, res) => {
   let login_data = req.body;
-  console.log(login_data);
   var studidsql = `select student_id from student_master where email = "${login_data.email}"`;
   var [studdata] = await con.query(studidsql);
 
-  console.log(studdata);
 
   var [data] = await con.query(
     `select user_id,password,isActive from user_master where username = "${login_data.email}"`
@@ -116,11 +114,11 @@ const login_api = async (req, res) => {
     });
   }
 
-  var check_pass = await bcrypt.compare(login_data.Password, data[0].password);
+  var check_pass = await bcrypt.compare(login_data.password, data[0].password);
 
   if (check_pass) {
     req.session.user_id = data[0].user_id;
-    req.session.stud_id = studdata[0].id;
+    req.session.stud_id = studdata[0].student_id;
     req.session.email = login_data.email;
     res.redirect("/home");
   } else {
@@ -133,7 +131,6 @@ const login_api = async (req, res) => {
 const home = async (req, res) => {
   var data = [];
   if (req.session.user_id) {
-    console.log(req.session);
 
     let user_id = req.session.user_id;
     let user_email = req.session.email;
@@ -145,8 +142,10 @@ const home = async (req, res) => {
     var sql1 = `select exam_name,exam_id from exam_master where exam_isActive="yes"`;
     var [examdata] = await con.query(sql1);
 
-    var sql2 = `select exam_name from exam_master,result_master where exam_master.exam_id=result_master.exam_id and submited = "1" and exam_isActive="yes" and user_id=${user_id}`;
+    var sql2 = `select exam_name,submited from exam_master,result_master where exam_master.exam_id=result_master.exam_id and exam_isActive="yes" and user_id=${user_id}`;
     var [attemptdata] = await con.query(sql2);
+
+
 
     let flag = 0;
 
@@ -154,11 +153,24 @@ const home = async (req, res) => {
       flag = 0;
       for (let j = 0; j < attemptdata.length; j++) {
         if (examdata[i].exam_name == attemptdata[j].exam_name) {
-          data.push({
-            exam_id: examdata[i].exam_id,
-            exam_name: examdata[i].exam_name,
-            attempted: true,
-          });
+          if(attemptdata[j].submited==1)
+          {
+            data.push({
+              exam_id: examdata[i].exam_id,
+              exam_name: examdata[i].exam_name,
+              attempted: true,
+              giving: false
+            });
+          }
+          if(attemptdata[j].submited==0)
+          {
+            data.push({
+              exam_id: examdata[i].exam_id,
+              exam_name: examdata[i].exam_name,
+              attempted: false,
+              giving: true
+            });
+          }
           flag = 1;
         }
       }
@@ -167,9 +179,12 @@ const home = async (req, res) => {
           exam_id: examdata[i].exam_id,
           exam_name: examdata[i].exam_name,
           attempted: false,
+          giving: false,
         });
       }
     }
+
+
 
     res.render("home", { data, username });
   } else {
@@ -199,16 +214,16 @@ const forgotpassword = (req, res) => {
 
 const updatepassword = async (req, res) => {
   var password = req.body.password;
-  // console.log(password);
+
   const pass = await bcrypt.hash(password, 10);
-  // console.log(pass);
+
   var confirmpass = await bcrypt.compare(req.body.confirmPassword, pass);
-  // console.log(confirmpass);
+
 
   if (confirmpass == true) {
     var sql = `update user_master,student_master set user_master.password = '${pass}',student_master.pass='${pass}' where student_master.email = '${req.body.email}' and user_master.username='${req.body.email}'`;
     var data = await con.query(sql);
-    console.log(sql);
+
     res.render('login',{forgotpassword:"**Password reset successfully!!",error:"",login_data:""})
 
   }
@@ -229,7 +244,10 @@ const updatedata = async (req, res) => {
   {
     var alldata = JSON.parse(req.query.newdata);
 
+
   var session = req.session;
+
+
 
   var user_id = session.user_id;
   var stud_id = session.stud_id;
@@ -244,7 +262,9 @@ const updatedata = async (req, res) => {
     session.email = alldata.email;
 
     res.json("Update done..!");
-  } catch {
+  } catch(e) {
+    console.log(e);
+    
     res.json("Update didn't happen");
   }
   }

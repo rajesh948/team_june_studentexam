@@ -22,7 +22,7 @@ const oneDay = 1000 * 60 * 60 * 24;
 //session middleware
 app.use(session({
   secret: "secretkey",
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: { maxAge: oneDay },
   resave: false
 }));
@@ -33,5 +33,6 @@ app.use('/',exam);
 
 const auth = require('./router/user')
 app.use('/',auth);
+
 
 app.listen(8081);
