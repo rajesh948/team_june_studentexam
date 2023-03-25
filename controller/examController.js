@@ -29,7 +29,6 @@ exam_verification = async (req, res) => {
     
     time = time[0][0].exam_duration;
 
-
     res.render('term_condition', { examname, username, a_fname: '', a_lname: '', a_email: '', a_mobilenumber: '', a_dob: '', a_city: '', a_qualification: '', a_college: '', a_accesscode: '', a_enrollment: '', fname: '', lname: '', email: '', mobilenumber: '', dob: '', city: '', qualification: '', college: '', accesscode: '', enrollment: '',time});
 
   } else {

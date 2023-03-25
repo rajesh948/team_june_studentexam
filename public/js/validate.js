@@ -98,11 +98,19 @@ else {
 function validatebirthdate(){
 
     var birthdate = document.getElementById("dob").value;
+    var dob = new Date(birthdate);  
+    var month_diff = Date.now() - dob.getTime();  
+  
+    var age_dt = new Date(month_diff);  
+  
+    var year = age_dt.getUTCFullYear(); 
+   
+    var age = Math.abs(year - 1970);  
+  
     var date_err = document.getElementById("date_err");
-    let currentDate = new Date().toJSON().slice(0, 10);
-    var nandani = currentDate-birthdate;
-    console.log(currentDate);
-    if (currentDate < birthdate ) {
+    // let currentDate = new Date().toJSON().slice(0, 10);
+   
+    if (age<18) {
     date_err.style.color = "red";
     date_err.innerText = "**Please enter valid date of birth";
     error_count++;
@@ -301,7 +309,7 @@ function validateForm(){
     validatepassword();
     validateconfirmpassword();
 
-    console.log(error_count);
+    // console.log(error_count);
     if (error_count == 0) 
         {
             return true;
