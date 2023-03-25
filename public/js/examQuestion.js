@@ -5,10 +5,17 @@ document.oncontextmenu = function() {
  document.onkeydown=function(){
     return false;
  }
- 
+
  document.onkeyup = function(){
     return false;
  }
+
+ document.onkeydown = function (evt) {
+    if (evt.key === "Tab" && evt.ctrlKey === true) {
+      return false;
+    }
+  };
+ 
 var que_no = 0;
 var saffron = [1];
 var green = [];

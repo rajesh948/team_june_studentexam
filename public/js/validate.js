@@ -1,22 +1,27 @@
 var error_count;
 
-// document.oncontextmenu = function() {
-//     return false;
-//  }
+document.oncontextmenu = function() {
+    return false;
+ }
 
-
+var name_regex = /[0-9]/;
 
 // validate firstname
 function validatefname(){
     var firstname = document.getElementById("fname").value;
-    var name_regex = /[0-9]/;
+ 
     var symbol = /[!@#$%^&*()<>?/,.:;+-`~=[{}'"]/;
     var fname_err = document.getElementById("fname_err");
-    if (name_regex.test(firstname) == true || firstname == "") {
-        fname_err.innerText = "**Please enter valid first name!";
+    if (firstname == "") {
+        fname_err.innerText = "**First name should not be empty!";
         fname_err.style.color = "red";
         error_count++;
     } 
+    else if(name_regex.test(firstname) == true){
+        fname_err.innerText = "**First name should not contain number!";
+        fname_err.style.color = "red";
+        error_count++;
+    }
     else {
         fname_err.innerText = "";
     }
@@ -25,15 +30,19 @@ function validatefname(){
 // validate lastname
 function validatelname(){
     var lastname = document.getElementById("lname").value;
-    var name_regex = /[0-9]/;
     var symbol = /[!@#$%^&*()<>?,.:;+-`~=]/;
     var lname_err = document.getElementById("lname_err");
 
-    if (lastname == "" || name_regex.test(lastname) == true  ) {
-        lname_err.innerText = "**Please enter valid last name!";
+    if (lastname == "") {
+        lname_err.innerText = "**Last name should not be empty!";
         lname_err.style.color = "red";
         error_count++;
     } 
+    else if(name_regex.test(lastname) == true){
+        lname_err.innerText = "**Last name should not contain number!";
+        lname_err.style.color = "red";
+        error_count++;
+    }
     else {
         lname_err.innerText = "";
     }
@@ -46,7 +55,12 @@ function validateEmailuser(){
     var email = document.getElementById("email").value;
     var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     var email_err = document.getElementById("email_err");
-    if (!email.match(mailformat)) {
+    if(email==""){
+        email_err.style.color = "red";
+        email_err.innerText = "**Email should not be empty!";
+        error_count++;
+    }
+    else if (!email.match(mailformat)) {
         email_err.style.color = "red";
         email_err.innerText = "**Please enter valid email";
         error_count++;
@@ -67,7 +81,12 @@ function validatenumber(){
 
 if (!number.match(number_regex)) {
     number_err.style.color = "red";
-    number_err.innerText = "**Please enter valid contact number";
+    number_err.innerText = "**Contact number should be of 10 digits only!";
+    error_count++;
+}
+else if(number==""){
+    number_err.style.color = "red";
+    number_err.innerText = "**Contact number should not be empty";
     error_count++;
 }
 else {
@@ -81,12 +100,18 @@ function validatebirthdate(){
     var birthdate = document.getElementById("dob").value;
     var date_err = document.getElementById("date_err");
     let currentDate = new Date().toJSON().slice(0, 10);
-
-    if (currentDate < birthdate || birthdate == "") {
+    var nandani = currentDate-birthdate;
+    console.log(currentDate);
+    if (currentDate < birthdate ) {
     date_err.style.color = "red";
     date_err.innerText = "**Please enter valid date of birth";
     error_count++;
     } 
+    else if(birthdate == ""){
+        date_err.style.color = "red";
+        date_err.innerText = "**Birthdate should not be empty!";
+        error_count++;
+    }
     else {
     date_err.innerText = "";
     }
@@ -101,7 +126,12 @@ function validatecity(){
     var city_err = document.getElementById("city_err");
     if (city == "") {
         city_err.style.color = "red";
-        city_err.innerText = "**Please enter city name";
+        city_err.innerText = "**City name should not be empty!";
+        error_count++;
+    }
+    else if (name_regex.test(city) == true){
+        city_err.style.color = "red";
+        city_err.innerText = "**City name should not contain number!";
         error_count++;
     }
     else {
@@ -116,9 +146,14 @@ function validatecollege(){
     var college_err = document.getElementById("college_err");
     if (college == "") {
         college_err.style.color = "red";
-        college_err.innerText = "**Please enter valid College Name";
+        college_err.innerText = "**College name should not be empty";
         error_count++;
     } 
+    else if (name_regex.test(college) == true){
+        city_err.style.color = "red";
+        city_err.innerText = "**College name should not contain number!";
+        error_count++;
+    }
     else {
         college_err.innerText = "";
     }
@@ -131,7 +166,12 @@ function validatequalification(){
     var qualification_err = document.getElementById("qualification_err");
     if (qualification == "") {
         qualification_err.style.color = "red";
-        qualification_err.innerText = "**Please enter valid qualification";
+        qualification_err.innerText = "**Qualification field should not be empty!";
+        error_count++;
+    }
+    else if (name_regex.test(city) == true){
+        city_err.style.color = "red";
+        city_err.innerText = "**Qualification should not contain number!";
         error_count++;
     }
     else {
@@ -160,10 +200,15 @@ function validatepassword(){
     var password = document.getElementById('password').value;
     var paswd=  /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
     var pass_err = document.getElementById("pass_err");
-
-    if(!password.match(paswd)){
+    if(password==""){
         pass_err.style.color = "red";
-        pass_err.innerText="**Please enter valid password";
+        pass_err.innerText="**Password should not be empty";
+        error_count++;
+    }
+    
+    else if(!password.match(paswd)){
+        pass_err.style.color = "red";
+        pass_err.innerText="**Password should contain atleast 1 Uppercase , 1 Lowercase , 1 digit , 1 special character and should be of minimun 8 length!";
         error_count++;
         // return false;
     }
@@ -180,8 +225,13 @@ function validateconfirmpassword(){
     var password = document.getElementById('password').value;
     var confirmpassword = document.getElementById('confirmPassword').value;
     var confirmpass_err = document.getElementById("confirmPass_err");
-    if(confirmpassword != password || confirmpassword=="")
+    if(confirmpassword=="")
     {
+        confirmpass_err.style.color="red";
+        confirmpass_err.innerText="**Confirm password should not be empty!"
+        error_count++;
+    }
+    else if(confirmpassword != password){
         confirmpass_err.style.color="red";
         confirmpass_err.innerText="**Password and confirm password didn't match!"
         error_count++;
@@ -198,11 +248,16 @@ function validateconfirmpassword(){
 function validateenrollment(){
     var enrollment = document.getElementById("enrollment").value;
     var enrollment_err = document.getElementById("enrollment_err");
-    if (enrollment.length != 12) {
+    if (enrollment=="") {
         enrollment_err.style.color = "red";
-        enrollment_err.innerText = "**Please enter valid Enrollment Number";
+        enrollment_err.innerText = "**Enrollment Number should not be empty!";
         error_count++;
     } 
+    else if (enrollment.length!=12){
+        city_err.style.color = "red";
+        city_err.innerText = "**Enrollment Number should be of 12 digits!";
+        error_count++;
+    }
     else 
     {
         enrollment_err.innerText = "";
@@ -214,6 +269,11 @@ function validateenrollment(){
 function validateaccesscode(){
     var access_code = document.getElementById("Accesscode").value;
     var accesscode_err = document.getElementById("accesscode_err");
+    if(access_code==""){
+        accesscode_err.style.color = "red";
+        accesscode_err.innerText = "**Access Code should not be empty!";
+        error_count++;
+    }
     if (access_code.length != 6) {
         accesscode_err.style.color = "red";
         accesscode_err.innerText = "**Please enter valid Access Code";
@@ -271,7 +331,6 @@ function validateEmail(){
         }
         else{
             email_err.innerText="";
-            submit.disabled = false;
         }
 
 
