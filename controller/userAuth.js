@@ -48,9 +48,6 @@ const register_api = async (req, res) => {
   await conn.beginTransaction();
 
   try{
- 
-
- 
 
   const email_arr = [];
   var sql = `select email from student_master;`;
@@ -71,13 +68,12 @@ const register_api = async (req, res) => {
     const [data1] = await conn.query(user_sql);
     insertId2 = data1.insertId;
 
-    res.render("activation-page", { user_id: insertId2, act_message: "Thank you for Registering!" });
-
-   
-  } else {
-    var register_data = req.body;
-    res.render("registration", { error: "Email-id already exists!!", register_data });
-  }
+      res.render("activation-page", { user_id: insertId2, act_message: "Thank you for Registering!" });
+    } else {
+      var register_data = req.body;
+      res.render("registration",{error:"Email-id already exists!!",register_data});
+    }
+  
 
   await conn.commit();
 }catch (err) {
