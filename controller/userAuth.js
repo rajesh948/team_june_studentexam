@@ -34,18 +34,27 @@ const verify = async (req, res) => {
   }
 
   res.json(email_arr);
+  
 };
 
-//Insert Registration Details --------------------------------
+//23dev075 Transaction 
 
 const register_api = async (req, res) => {
   var password = req.body.password;
   const pass = await bcrypt.hash(password, 10);
   var confirmpass = await bcrypt.compare(req.body.confirmPassword, pass);
+  let conn = await con.getConnection();
+
+  await conn.beginTransaction();
+
+  try{
+ 
+
+ 
 
   const email_arr = [];
   var sql = `select email from student_master;`;
-  var [data] = await con.query(sql);
+  var [data] = await conn.query(sql);
 
   for (i = 0; i < data.length; i++) {
     email_arr.push(data[i].email);
@@ -54,20 +63,70 @@ const register_api = async (req, res) => {
   var insertId1;
   if (confirmpass == true && !email_arr.includes(req.body.email)) {
     var sql = ` insert into student_master (fname,lname,gender,email,mobile,enrollment,qualification,city,college,birthdate,pass) VALUES('${req.body.fname}','${req.body.lname}','${req.body.gender}','${req.body.email}','${req.body.number}','${req.body.enrollment}','${req.body.qualification}','${req.body.city}','${req.body.college}','${req.body.dob}','${pass}');`;
-    const [data] = await con.query(sql);
+    const [data] = await conn.query(sql);
     insertId1 = data.insertId;
 
     var user_sql = `insert into user_master (username,password,role,isActive) values ('${req.body.email}','${pass}','student','0');`;
 
-    const [data1] = await con.query(user_sql);
+    const [data1] = await conn.query(user_sql);
     insertId2 = data1.insertId;
 
-      res.render("activation-page", { user_id: insertId1, act_message: "Thank you for Registering!" });
-    } else {
-      var register_data = req.body;
-      res.render("registration",{error:"Email-id already exists!!",register_data});
-    }
+    res.render("activation-page", { user_id: insertId1, act_message: "Thank you for Registering!" });
+
+   
+  } else {
+    var register_data = req.body;
+    res.render("registration", { error: "Email-id already exists!!", register_data });
   }
+
+  await conn.commit();
+}catch (err) {
+  if (conn) {
+    await conn.rollback();
+  }
+  console.log(err);
+  res.status(500).json({ msg: "Somethig went wrong", status: 500 });
+
+}
+finally {
+  if (conn) {
+    conn.release();
+  }
+}
+}
+
+//Insert Registration Details --------------------------------
+
+// const register_api = async (req, res) => {
+//   var password = req.body.password;
+//   const pass = await bcrypt.hash(password, 10);
+//   var confirmpass = await bcrypt.compare(req.body.confirmPassword, pass);
+
+//   const email_arr = [];
+//   var sql = `select email from student_master;`;
+//   var [data] = await con.query(sql);
+
+//   for (i = 0; i < data.length; i++) {
+//     email_arr.push(data[i].email);
+//   }
+//   var insertId2;
+//   var insertId1;
+//   if (confirmpass == true && !email_arr.includes(req.body.email)) {
+//     var sql = ` insert into student_master (fname,lname,gender,email,mobile,enrollment,qualification,city,college,birthdate,pass) VALUES('${req.body.fname}','${req.body.lname}','${req.body.gender}','${req.body.email}','${req.body.number}','${req.body.enrollment}','${req.body.qualification}','${req.body.city}','${req.body.college}','${req.body.dob}','${pass}');`;
+//     const [data] = await con.query(sql);
+//     insertId1 = data.insertId;
+
+//     var user_sql = `insert into user_master (username,password,role,isActive) values ('${req.body.email}','${pass}','student','0');`;
+
+//     const [data1] = await con.query(user_sql);
+//     insertId2 = data1.insertId;
+
+//       res.render("activation-page", { user_id: insertId1, act_message: "Thank you for Registering!" });
+//     } else {
+//       var register_data = req.body;
+//       res.render("registration",{error:"Email-id already exists!!",register_data});
+//     }
+//   }
 
 //Account activationPage --------------------------------
 
