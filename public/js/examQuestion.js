@@ -120,10 +120,6 @@ function getCookie(cname) {
 displayQue();
 
 async function displayQue(num, text) {
-
-
-
-
     if (num >= 0) {
         que_no = num;
     }
@@ -136,7 +132,6 @@ async function displayQue(num, text) {
     const get_categoryId = await cate_data.json();
 
    let catego_id =get_categoryId[0].category_id;
-
 
     category_ids.push(catego_id);
 

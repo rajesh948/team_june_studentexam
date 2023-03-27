@@ -54,15 +54,18 @@ const register_api = async (req, res) => {
   var insertId1;
   if (confirmpass == true && !email_arr.includes(req.body.email)) {
     var sql = ` insert into student_master (fname,lname,gender,email,mobile,enrollment,qualification,city,college,birthdate,pass) VALUES('${req.body.fname}','${req.body.lname}','${req.body.gender}','${req.body.email}','${req.body.number}','${req.body.enrollment}','${req.body.qualification}','${req.body.city}','${req.body.college}','${req.body.dob}','${pass}');`;
+
     const [data] = await con.query(sql);
+
     insertId1 = data.insertId;
 
     var user_sql = `insert into user_master (username,password,role,isActive) values ('${req.body.email}','${pass}','student','0');`;
 
     const [data1] = await con.query(user_sql);
+
     insertId2 = data1.insertId;
 
-      res.render("activation-page", { user_id: insertId1, act_message: "Thank you for Registering!" });
+      res.render("activation-page", { user_id: insertId2, act_message: "Thank you for Registering!" });
     } else {
       var register_data = req.body;
       res.render("registration",{error:"Email-id already exists!!",register_data});
@@ -74,9 +77,13 @@ const register_api = async (req, res) => {
 const activation = async (req, res) => {
   var user_id = req.query.user_id;
 
+  console.log('Hello',user_id);
+
   if (user_id) {
-    var sql = `update user_master set isActive = 1 where user_id =${user_id};`;
+    var sql = `update user_master set isActive = '1' where user_id =${user_id};`;
+    console.log('queryyyy',sql);
     var [data] = await con.query(sql);
+    console.log('data is updated');
   }
   res.redirect("/login");
 };

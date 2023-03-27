@@ -3,7 +3,7 @@ const con = require('../db');
 
 //Set exam_id & exam_name ----------------------------------------------------------------
 
-exam_term = async (req, res) => {
+const exam_term = async (req, res) => {
   let examid = req.query.exam_id;
   let examname = req.query.exam_name;
   req.session.exam_id = examid;
@@ -18,7 +18,7 @@ exam_term = async (req, res) => {
 
 // Render term_condition and acess_code verification page----------------------------------
 
-exam_verification = async (req, res) => {
+const exam_verification = async (req, res) => {
   if (req.session.user_id && req.session.exam_id) {
     let username = req.session.username;
     let examname = req.session.exam_name;
@@ -39,7 +39,7 @@ exam_verification = async (req, res) => {
 
 // Verify term_condition and acess_code verification page----------------------------------
 
-term_validation_api = async (req, res) => {
+const term_validation_api = async (req, res) => {
 
   let user_email = req.session.email;
   let exam_id = req.session.exam_id;
@@ -107,7 +107,7 @@ term_validation_api = async (req, res) => {
 //Display Question Page --------------------------------------------------------------------------------------
 
 var result_num = 0;
-startexam =  async (req, res) => {
+const startexam =  async (req, res) => {
   
   if (req.session.user_id && req.session.exam_id) {
     let user_id = req.session.user_id;
@@ -123,13 +123,20 @@ startexam =  async (req, res) => {
 result_num++;
     let [get_question] = await con.query(`SELECT question_id,category_id FROM exam_category where exam_id = "${exam_id}";`);
 
+    // console.log('126---get_question',get_question);
+
     for (let i = 0; i < get_question.length; i++) {
       var [get_cate] = await con.query(`SELECT * FROM question_category where category_id = "${get_question[i].category_id}";`);
+
+      // console.log('129---getcat',get_cate);
     
       totalQue = totalQue.concat(get_question[i].question_id.split(","));
 
       category.push(get_cate[0]);
     }
+
+    // console.log('138---category',category);
+    // console.log('139---total question',totalQue);
 
     let [exam_duration] = await con.query(`SELECT exam_duration FROM exam_master where exam_id ="${exam_id}";`);
 
@@ -142,7 +149,7 @@ result_num++;
 
 //Display questions --------------------------------------------------------
  
-getQuestion = async (req, res) => {
+const getQuestion = async (req, res) => {
 
   let exam_id = req.session.exam_id;
   let totalQue = [];
@@ -189,8 +196,9 @@ getQuestion = async (req, res) => {
       }
       question_paper.push(question_item);
     }
-
-    res.send(question_paper);
+    // console.log('question Paper',question_paper);
+    console.log('All Question',questions);
+    res.send(question_paper); 
   } catch (err) {
     console.log(err);
   }
@@ -198,7 +206,7 @@ getQuestion = async (req, res) => {
 
 //Display categories of questions ------------------------------------------
 
-getCategory = async (req, res) => {
+const getCategory = async (req, res) => {
 
   let exam_id = req.session.exam_id;
   let cat_id = req.query.cat_id;
@@ -217,7 +225,7 @@ getCategory = async (req, res) => {
 
 //get category id api ........................................
 
-getCategoryId = async (req,res)=>{
+const getCategoryId = async (req,res)=>{
   let exam_id = req.session.exam_id;
   let que_id = req.query.que_no;
   let [get_categoryId] = await con.query(`SELECT category_id FROM question_master where question_id =${que_id};`);
@@ -228,7 +236,7 @@ getCategoryId = async (req,res)=>{
 
 // Save user results --------------------------------
 
-saveUserResult = async (req, res) => {
+const saveUserResult = async (req, res) => {
 
   let question = [];
   let answer = [];
@@ -261,7 +269,7 @@ saveUserResult = async (req, res) => {
 
 // Get results ----------------------------------------------------------------
 
-getResult = async(req,res)=>{
+const getResult = async(req,res)=>{
   if(req.session.exam_id){
     let exam_id = req.session.exam_id;
     let user_id = req.session.user_id;
@@ -284,7 +292,7 @@ getResult = async(req,res)=>{
 
 // Thank You Page ----------------------------------------------------------------
 
-result = async (req, res) => {
+const result = async (req, res) => {
   if (req.session.exam_id) {
 
 
