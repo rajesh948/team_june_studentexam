@@ -112,7 +112,7 @@ function validatebirthdate(){
    
     if (age<15) {
     date_err.style.color = "red";
-    date_err.innerText = "**Please enter valid date of birth! You are not eligible for this exam!";
+    date_err.innerText = "**Age should be greater than 15 years!";
     error_count++;
     } 
     else if(birthdate == ""){
@@ -158,8 +158,8 @@ function validatecollege(){
         error_count++;
     } 
     else if (name_regex.test(college) == true){
-        city_err.style.color = "red";
-        city_err.innerText = "**College name should not contain number!";
+        college_err.style.color = "red";
+        college_err.innerText = "**College name should not contain number!";
         error_count++;
     }
     else {
@@ -177,9 +177,9 @@ function validatequalification(){
         qualification_err.innerText = "**Qualification field should not be empty!";
         error_count++;
     }
-    else if (name_regex.test(city) == true){
-        city_err.style.color = "red";
-        city_err.innerText = "**Qualification should not contain number!";
+    else if (name_regex.test(qualification) == true){
+        qualification_err.style.color = "red";
+        qualification_err.innerText = "**Qualification should not contain number!";
         error_count++;
     }
     else {
@@ -256,14 +256,15 @@ function validateconfirmpassword(){
 function validateenrollment(){
     var enrollment = document.getElementById("enrollment").value;
     var enrollment_err = document.getElementById("enrollment_err");
-    if (enrollment=="") {
+    if (enrollment== "") {
         enrollment_err.style.color = "red";
         enrollment_err.innerText = "**Enrollment Number should not be empty!";
         error_count++;
     } 
     else if (enrollment.length!=12){
-        city_err.style.color = "red";
-        city_err.innerText = "**Enrollment Number should be of 12 digits!";
+        
+        enrollment_err.style.color = "red";
+        enrollment_err.innerText = "**Enrollment Number should be of 12 digits!";
         error_count++;
     }
     else 
