@@ -62,7 +62,7 @@ const register_api = async (req, res) => {
     const [data1] = await con.query(user_sql);
     insertId2 = data1.insertId;
 
-      res.render("activation-page", { user_id: insertId1, act_message: "Thank you for Registering!" });
+      res.render("activation-page", { user_id: insertId2, act_message: "Thank you for Registering!" });
     } else {
       var register_data = req.body;
       res.render("registration",{error:"Email-id already exists!!",register_data});

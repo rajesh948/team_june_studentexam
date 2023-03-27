@@ -78,15 +78,15 @@ function validatenumber(){
     var number_regex = /^\d{10}$/;
     var number_err = document.getElementById("number_err");
 
+    if(number==""){
+        number_err.style.color = "red";
+        number_err.innerText = "**Contact number should not be empty";
+        error_count++;
+    }
 
-if (!number.match(number_regex)) {
+else if (!number.match(number_regex)) {
     number_err.style.color = "red";
     number_err.innerText = "**Contact number should be of 10 digits only!";
-    error_count++;
-}
-else if(number==""){
-    number_err.style.color = "red";
-    number_err.innerText = "**Contact number should not be empty";
     error_count++;
 }
 else {
@@ -110,9 +110,9 @@ function validatebirthdate(){
     var date_err = document.getElementById("date_err");
     // let currentDate = new Date().toJSON().slice(0, 10);
    
-    if (age<18) {
+    if (age<15) {
     date_err.style.color = "red";
-    date_err.innerText = "**Please enter valid date of birth";
+    date_err.innerText = "**Please enter valid date of birth! You are not eligible for this exam!";
     error_count++;
     } 
     else if(birthdate == ""){
