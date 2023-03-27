@@ -1,5 +1,5 @@
 const { log } = require('util');
-const con = require('../db');
+const con = require('../config/db');
 
 //Set exam_id & exam_name ----------------------------------------------------------------
 
