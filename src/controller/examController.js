@@ -22,14 +22,26 @@ exam_verification = async (req, res) => {
   if (req.session.user_id && req.session.exam_id) {
     let username = req.session.username;
     let examname = req.session.exam_name;
-
+    var error_obj ={
+      a_fname :'',
+      a_lname:'',
+      a_email:'',
+      a_mobilenumber:'',
+      a_dob:'',
+      a_city:'',
+      a_qualification:'',
+      a_college:'',
+      a_accesscode:'',
+      a_enrollment:''
+    };
+    
     var sql = `select exam_duration from exam_master where exam_name = '${examname}'`;
 
     var time = await con.query(sql);
 
     time = time[0][0].exam_duration;
 
-    res.render('term_condition', { examname, username, a_fname: '', a_lname: '', a_email: '', a_mobilenumber: '', a_dob: '', a_city: '', a_qualification: '', a_college: '', a_accesscode: '', a_enrollment: '', fname: '', lname: '', email: '', mobilenumber: '', dob: '', city: '', qualification: '', college: '', accesscode: '', enrollment: '', time });
+    res.render('term_condition', { examname, username,error_obj, fname: '', lname: '', email: '', mobilenumber: '', dob: '', city: '', qualification: '', college: '', accesscode: '', enrollment: '', time });
 
    
 
@@ -57,6 +69,19 @@ term_validation_api = async (req, res) => {
   let acess_code = req.body.accesscode;
   let username = req.session.username;
   let examname = req.session.exam_name;
+var error_obj ={
+  a_fname :'',
+  a_lname:'',
+  a_email:'',
+  a_mobilenumber:'',
+  a_dob:'',
+  a_city:'',
+  a_qualification:'',
+  a_college:'',
+  a_accesscode:'',
+  a_enrollment:''
+};
+let error_count=0;
 
   let q1 = (`SELECT exam_access_code FROM exam_master WHERE exam_id=${exam_id}`);
   let [a1] = await con.query(q1);
@@ -72,38 +97,52 @@ term_validation_api = async (req, res) => {
 
   if (a2[0].fname == fname && a2[0].lname == lname && a2[0].email == email && a2[0].mobile == contact && a2[0].city == city && a2[0].college == college && a2[0].qualification == qualification && a2[0].enrollment == enrollment && a2[0].birthdate == dob && acess_code == a1[0].exam_access_code) {
     req.session.start_exam = 1;
-    res.redirect('/startexam');
+   return res.redirect('/startexam');
   }
-  else if (a2[0].fname != fname) {
-    res.render('term_condition', { examname, username, a_fname: 'Enter valid fname !!!', a_lname: '', a_email: '', a_mobilenumber: '', a_dob: '', a_city: '', a_qualification: '', a_college: '', a_accesscode: '', a_enrollment: '', fname: fname, lname: lname, email: email, mobilenumber: contact, dob: dob, city: city, qualification: qualification, college: college, accesscode: acess_code, enrollment: enrollment, time });
-  }
-  else if (a2[0].lname != lname) {
-    res.render('term_condition', { examname, username, a_lname: 'Enter valid lname !!!', a_fname: '', a_email: '', a_mobilenumber: '', a_dob: '', a_city: '', a_qualification: '', a_college: '', a_accesscode: '', a_enrollment: '', fname: fname, lname: lname, email: email, mobilenumber: contact, dob: dob, city: city, qualification: qualification, college: college, accesscode: acess_code, enrollment: enrollment, time });
-  }
-  else if (a2[0].email != email) {
-    res.render('term_condition', { examname, username, a_email: 'Enter valid email!!!', a_fname: '', a_lname: '', a_mobilenumber: '', a_dob: '', a_city: '', a_qualification: '', a_college: '', a_accesscode: '', a_enrollment: '', fname: fname, lname: lname, email: email, mobilenumber: contact, dob: dob, city: city, qualification: qualification, college: college, accesscode: acess_code, enrollment: enrollment, time });
-  }
-  else if (a2[0].mobile != contact) {
-    res.render('term_condition', { examname, username, a_mobilenumber: 'Enter valid mobile number!!!', a_fname: '', a_lname: '', a_email: '', a_dob: '', a_city: '', a_qualification: '', a_college: '', a_accesscode: '', a_enrollment: '', fname: fname, lname: lname, email: email, mobilenumber: contact, dob: dob, city: city, qualification: qualification, college: college, accesscode: acess_code, enrollment: enrollment, time });
-  }
-  else if (a2[0].city != city) {
-    res.render('term_condition', { examname, username, a_city: 'Enter valid city!!!', a_fname: '', a_lname: '', a_email: '', a_mobilenumber: '', a_dob: '', a_qualification: '', a_college: '', a_accesscode: '', a_enrollment: '', fname: fname, lname: lname, email: email, mobilenumber: contact, dob: dob, city: city, qualification: qualification, college: college, accesscode: acess_code, enrollment: enrollment, time });
-  }
-  else if (a2[0].college != college) {
-    res.render('term_condition', { examname, username, a_college: 'Enter valid college!!!', a_fname: '', a_lname: '', a_email: '', a_mobilenumber: '', a_dob: '', a_city: '', a_qualification: '', a_accesscode: '', a_enrollment: '', fname: fname, lname: lname, email: email, mobilenumber: contact, dob: dob, city: city, qualification: qualification, college: college, accesscode: acess_code, enrollment: enrollment, time });
-  }
-  else if (a2[0].qualification != qualification) {
-    res.render('term_condition', { examname, username, a_qualification: 'Enter valid qualification!!!', a_fname: '', a_lname: '', a_email: '', a_mobilenumber: '', a_dob: '', a_city: '', a_college: '', a_accesscode: '', a_enrollment: '', fname: fname, lname: lname, email: email, mobilenumber: contact, dob: dob, city: city, qualification: qualification, college: college, accesscode: acess_code, enrollment: enrollment, time });
-  }
-  else if (a2[0].enrollment != enrollment) {
-    res.render('term_condition', { examname, username, a_enrollment: 'Enter valid enrollment!!!', a_fname: '', a_lname: '', a_email: '', a_mobilenumber: '', a_dob: '', a_city: '', a_qualification: '', a_college: '', a_accesscode: '', fname: fname, lname: lname, email: email, mobilenumber: contact, dob: dob, city: city, qualification: qualification, college: college, accesscode: acess_code, enrollment: enrollment, time });
-  }
-  else if (a2[0].birthdate != dob) {
-    res.render('term_condition', { examname, username, a_dob: 'Enter valid dob!!!', a_fname: '', a_lname: '', a_email: '', a_mobilenumber: '', a_city: '', a_qualification: '', a_college: '', a_accesscode: '', a_enrollment: '', fname: fname, lname: lname, email: email, mobilenumber: contact, dob: dob, city: city, qualification: qualification, college: college, accesscode: acess_code, enrollment: enrollment, time });
-  }
-  else if (a1[0].accesscode != acess_code) {
-    res.render('term_condition', { examname, username, a_accesscode: 'Enter valid access code!!!', a_fname: '', a_lname: '', a_email: '', a_mobilenumber: '', a_dob: '', a_city: '', a_qualification: '', a_college: '', a_enrollment: '', fname: fname, lname: lname, email: email, mobilenumber: contact, dob: dob, city: city, qualification: qualification, college: college, accesscode: acess_code, enrollment: enrollment, time });
-  }
+   if (a2[0].fname != fname) {
+    error_obj.a_fname = 'Enter valid fname !!!';
+    error_count++;
+   }
+   if (a2[0].lname != lname) {
+    error_obj.a_lname= 'Enter valid lname !!!';
+    error_count++;
+    }
+  if (a2[0].email != email) {
+    error_obj.a_email='Enter valid email!!!';
+    error_count++;
+     }
+  if (a2[0].mobile != contact) {
+    error_obj.a_mobilenumber='Enter valid mobile number!!!';
+    error_count++;
+      }
+  if (a2[0].city != city) {
+    error_obj.a_city='Enter valid city!!!';
+    error_count++;
+     }
+  if (a2[0].college != college) {
+    error_obj.a_college='Enter valid college!!!';
+    error_count++;
+     }
+  if (a2[0].qualification != qualification) {
+    error_obj.a_qualification='Enter valid qualification!!!';
+    error_count++;
+      }
+   if (a2[0].enrollment != enrollment) {
+    error_obj.a_enrollment='Enter valid enrollment!!!';
+    error_count++;
+    }
+   if (a2[0].birthdate != dob) {
+    error_obj.a_dob='Enter valid Date Of Birth!!!';
+    error_count++;
+     }
+   if (a1[0].accesscode != acess_code) {
+    error_obj.a_accesscode='Enter valid access code!!!';
+    error_count++;
+    }
+    if(error_count != 0){
+      res.render('term_condition', { examname, username,error_obj, fname: fname, lname: lname, email: email, mobilenumber: contact, dob: dob, city: city, qualification: qualification, college: college, accesscode: acess_code, enrollment: enrollment, time });
+ 
+    }
 
 }
 //Display Question Page --------------------------------------------------------------------------------------
