@@ -7,13 +7,13 @@ const bodyparser = require("body-parser");
 const session = require("express-session");
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
-app.use(express.static("public"));
-app.use(express.static("images"));
+app.use(express.static("../public"));
+app.use(express.static("../images"));
 app.use(express.json());
 app.set("view engine", "ejs");
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
-require("dotenv").config();
+// require("dotenv").config();
 
 
 // creating 24 hours from milliseconds

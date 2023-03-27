@@ -1,9 +1,9 @@
 const { log } = require('util');
-const con = require('../db');
+const con = require('../config/db');
 
 //Set exam_id & exam_name ----------------------------------------------------------------
 
-const exam_term = async (req, res) => {
+exam_term = async (req, res) => {
   let examid = req.query.exam_id;
   let examname = req.query.exam_name;
   req.session.exam_id = examid;
@@ -18,7 +18,7 @@ const exam_term = async (req, res) => {
 
 // Render term_condition and acess_code verification page----------------------------------
 
-const exam_verification = async (req, res) => {
+exam_verification = async (req, res) => {
   if (req.session.user_id && req.session.exam_id) {
     let username = req.session.username;
     let examname = req.session.exam_name;
@@ -26,11 +26,12 @@ const exam_verification = async (req, res) => {
     var sql = `select exam_duration from exam_master where exam_name = '${examname}'`;
 
     var time = await con.query(sql);
-    
+
     time = time[0][0].exam_duration;
 
+    res.render('term_condition', { examname, username, a_fname: '', a_lname: '', a_email: '', a_mobilenumber: '', a_dob: '', a_city: '', a_qualification: '', a_college: '', a_accesscode: '', a_enrollment: '', fname: '', lname: '', email: '', mobilenumber: '', dob: '', city: '', qualification: '', college: '', accesscode: '', enrollment: '', time });
 
-    res.render('term_condition', { examname, username, a_fname: '', a_lname: '', a_email: '', a_mobilenumber: '', a_dob: '', a_city: '', a_qualification: '', a_college: '', a_accesscode: '', a_enrollment: '', fname: '', lname: '', email: '', mobilenumber: '', dob: '', city: '', qualification: '', college: '', accesscode: '', enrollment: '',time});
+   
 
   } else {
     res.redirect("/login");
@@ -39,7 +40,7 @@ const exam_verification = async (req, res) => {
 
 // Verify term_condition and acess_code verification page----------------------------------
 
-const term_validation_api = async (req, res) => {
+term_validation_api = async (req, res) => {
 
   let user_email = req.session.email;
   let exam_id = req.session.exam_id;
@@ -59,57 +60,57 @@ const term_validation_api = async (req, res) => {
 
   let q1 = (`SELECT exam_access_code FROM exam_master WHERE exam_id=${exam_id}`);
   let [a1] = await con.query(q1);
- 
+
   let q2 = `SELECT * FROM student_master WHERE email='${user_email}'`
   let [a2] = await con.query(q2);
 
   var sql = `select exam_duration from exam_master where exam_name = '${examname}'`;
 
-    var time = await con.query(sql);
-    
-    time = time[0][0].exam_duration;
+  var time = await con.query(sql);
+
+  time = time[0][0].exam_duration;
 
   if (a2[0].fname == fname && a2[0].lname == lname && a2[0].email == email && a2[0].mobile == contact && a2[0].city == city && a2[0].college == college && a2[0].qualification == qualification && a2[0].enrollment == enrollment && a2[0].birthdate == dob && acess_code == a1[0].exam_access_code) {
+    req.session.start_exam = 1;
     res.redirect('/startexam');
   }
   else if (a2[0].fname != fname) {
-    res.render('term_condition', {examname,username, a_fname: 'Enter valid fname !!!', a_lname: '', a_email: '', a_mobilenumber: '', a_dob: '', a_city: '', a_qualification: '', a_college: '', a_accesscode: '', a_enrollment: '', fname: fname, lname: lname, email: email, mobilenumber: contact, dob: dob, city: city, qualification: qualification, college: college, accesscode: acess_code, enrollment: enrollment,time});
+    res.render('term_condition', { examname, username, a_fname: 'Enter valid fname !!!', a_lname: '', a_email: '', a_mobilenumber: '', a_dob: '', a_city: '', a_qualification: '', a_college: '', a_accesscode: '', a_enrollment: '', fname: fname, lname: lname, email: email, mobilenumber: contact, dob: dob, city: city, qualification: qualification, college: college, accesscode: acess_code, enrollment: enrollment, time });
   }
   else if (a2[0].lname != lname) {
-    res.render('term_condition', {examname,username, a_lname: 'Enter valid lname !!!', a_fname: '', a_email: '', a_mobilenumber: '', a_dob: '', a_city: '', a_qualification: '', a_college: '', a_accesscode: '', a_enrollment: '', fname: fname, lname: lname, email: email, mobilenumber: contact, dob: dob, city: city, qualification: qualification, college: college, accesscode: acess_code, enrollment: enrollment,time });
+    res.render('term_condition', { examname, username, a_lname: 'Enter valid lname !!!', a_fname: '', a_email: '', a_mobilenumber: '', a_dob: '', a_city: '', a_qualification: '', a_college: '', a_accesscode: '', a_enrollment: '', fname: fname, lname: lname, email: email, mobilenumber: contact, dob: dob, city: city, qualification: qualification, college: college, accesscode: acess_code, enrollment: enrollment, time });
   }
   else if (a2[0].email != email) {
-    res.render('term_condition', {examname,username, a_email: 'Enter valid email!!!', a_fname: '', a_lname: '', a_mobilenumber: '', a_dob: '', a_city: '', a_qualification: '', a_college: '', a_accesscode: '', a_enrollment: '', fname: fname, lname: lname, email: email, mobilenumber: contact, dob: dob, city: city, qualification: qualification, college: college, accesscode: acess_code, enrollment: enrollment,time});
+    res.render('term_condition', { examname, username, a_email: 'Enter valid email!!!', a_fname: '', a_lname: '', a_mobilenumber: '', a_dob: '', a_city: '', a_qualification: '', a_college: '', a_accesscode: '', a_enrollment: '', fname: fname, lname: lname, email: email, mobilenumber: contact, dob: dob, city: city, qualification: qualification, college: college, accesscode: acess_code, enrollment: enrollment, time });
   }
   else if (a2[0].mobile != contact) {
-    res.render('term_condition', { examname,username,a_mobilenumber: 'Enter valid mobile number!!!', a_fname: '', a_lname: '', a_email: '', a_dob: '', a_city: '', a_qualification: '', a_college: '', a_accesscode: '', a_enrollment: '', fname: fname, lname: lname, email: email, mobilenumber: contact, dob: dob, city: city, qualification: qualification, college: college, accesscode: acess_code, enrollment: enrollment,time });
+    res.render('term_condition', { examname, username, a_mobilenumber: 'Enter valid mobile number!!!', a_fname: '', a_lname: '', a_email: '', a_dob: '', a_city: '', a_qualification: '', a_college: '', a_accesscode: '', a_enrollment: '', fname: fname, lname: lname, email: email, mobilenumber: contact, dob: dob, city: city, qualification: qualification, college: college, accesscode: acess_code, enrollment: enrollment, time });
   }
   else if (a2[0].city != city) {
-    res.render('term_condition', {examname,username, a_city: 'Enter valid city!!!', a_fname: '', a_lname: '', a_email: '', a_mobilenumber: '', a_dob: '', a_qualification: '', a_college: '', a_accesscode: '', a_enrollment: '', fname: fname, lname: lname, email: email, mobilenumber: contact, dob: dob, city: city, qualification: qualification, college: college, accesscode: acess_code, enrollment: enrollment,time});
+    res.render('term_condition', { examname, username, a_city: 'Enter valid city!!!', a_fname: '', a_lname: '', a_email: '', a_mobilenumber: '', a_dob: '', a_qualification: '', a_college: '', a_accesscode: '', a_enrollment: '', fname: fname, lname: lname, email: email, mobilenumber: contact, dob: dob, city: city, qualification: qualification, college: college, accesscode: acess_code, enrollment: enrollment, time });
   }
   else if (a2[0].college != college) {
-    res.render('term_condition', {examname,username, a_college: 'Enter valid college!!!', a_fname: '', a_lname: '', a_email: '', a_mobilenumber: '', a_dob: '', a_city: '', a_qualification: '', a_accesscode: '', a_enrollment: '', fname: fname, lname: lname, email: email, mobilenumber: contact, dob: dob, city: city, qualification: qualification, college: college, accesscode: acess_code, enrollment: enrollment,time});
+    res.render('term_condition', { examname, username, a_college: 'Enter valid college!!!', a_fname: '', a_lname: '', a_email: '', a_mobilenumber: '', a_dob: '', a_city: '', a_qualification: '', a_accesscode: '', a_enrollment: '', fname: fname, lname: lname, email: email, mobilenumber: contact, dob: dob, city: city, qualification: qualification, college: college, accesscode: acess_code, enrollment: enrollment, time });
   }
   else if (a2[0].qualification != qualification) {
-    res.render('term_condition', {examname,username, a_qualification: 'Enter valid qualification!!!', a_fname: '', a_lname: '', a_email: '', a_mobilenumber: '', a_dob: '', a_city: '', a_college: '', a_accesscode: '', a_enrollment: '', fname: fname, lname: lname, email: email, mobilenumber: contact, dob: dob, city: city, qualification: qualification, college: college, accesscode: acess_code, enrollment: enrollment,time});
+    res.render('term_condition', { examname, username, a_qualification: 'Enter valid qualification!!!', a_fname: '', a_lname: '', a_email: '', a_mobilenumber: '', a_dob: '', a_city: '', a_college: '', a_accesscode: '', a_enrollment: '', fname: fname, lname: lname, email: email, mobilenumber: contact, dob: dob, city: city, qualification: qualification, college: college, accesscode: acess_code, enrollment: enrollment, time });
   }
   else if (a2[0].enrollment != enrollment) {
-    res.render('term_condition', {examname,username, a_enrollment: 'Enter valid enrollment!!!', a_fname: '', a_lname: '', a_email: '', a_mobilenumber: '', a_dob: '', a_city: '', a_qualification: '', a_college: '', a_accesscode: '', fname: fname, lname: lname, email: email, mobilenumber: contact, dob: dob, city: city, qualification: qualification, college: college, accesscode: acess_code, enrollment: enrollment,time});
+    res.render('term_condition', { examname, username, a_enrollment: 'Enter valid enrollment!!!', a_fname: '', a_lname: '', a_email: '', a_mobilenumber: '', a_dob: '', a_city: '', a_qualification: '', a_college: '', a_accesscode: '', fname: fname, lname: lname, email: email, mobilenumber: contact, dob: dob, city: city, qualification: qualification, college: college, accesscode: acess_code, enrollment: enrollment, time });
   }
   else if (a2[0].birthdate != dob) {
-    res.render('term_condition', {examname,username, a_dob: 'Enter valid dob!!!', a_fname: '', a_lname: '', a_email: '', a_mobilenumber: '', a_city: '', a_qualification: '', a_college: '', a_accesscode: '', a_enrollment: '', fname: fname, lname: lname, email: email, mobilenumber: contact, dob: dob, city: city, qualification: qualification, college: college, accesscode: acess_code, enrollment: enrollment,time});
+    res.render('term_condition', { examname, username, a_dob: 'Enter valid dob!!!', a_fname: '', a_lname: '', a_email: '', a_mobilenumber: '', a_city: '', a_qualification: '', a_college: '', a_accesscode: '', a_enrollment: '', fname: fname, lname: lname, email: email, mobilenumber: contact, dob: dob, city: city, qualification: qualification, college: college, accesscode: acess_code, enrollment: enrollment, time });
   }
   else if (a1[0].accesscode != acess_code) {
-    res.render('term_condition', {examname,username, a_accesscode: 'Enter valid access code!!!', a_fname: '', a_lname: '', a_email: '', a_mobilenumber: '', a_dob: '', a_city: '', a_qualification: '', a_college: '', a_enrollment: '', fname: fname, lname: lname, email: email, mobilenumber: contact, dob: dob, city: city, qualification: qualification, college: college, accesscode: acess_code, enrollment: enrollment,time});
+    res.render('term_condition', { examname, username, a_accesscode: 'Enter valid access code!!!', a_fname: '', a_lname: '', a_email: '', a_mobilenumber: '', a_dob: '', a_city: '', a_qualification: '', a_college: '', a_enrollment: '', fname: fname, lname: lname, email: email, mobilenumber: contact, dob: dob, city: city, qualification: qualification, college: college, accesscode: acess_code, enrollment: enrollment, time });
   }
 
 }
 //Display Question Page --------------------------------------------------------------------------------------
 
-var result_num = 0;
-const startexam =  async (req, res) => {
-  
-  if (req.session.user_id && req.session.exam_id) {
+startexam = async (req, res) => {
+
+  if (req.session.user_id && req.session.start_exam) {
     let user_id = req.session.user_id;
     let exam_id = req.session.exam_id;
     let username = req.session.username;
@@ -117,39 +118,36 @@ const startexam =  async (req, res) => {
     let category = [];
     let totalQue = [];
 
-    if(result_num == 0){
+    let [check_record] = await con.query(`SELECT id FROM Exam.result_master where exam_id = "${exam_id}" AND user_id = "${user_id}" ;`);
+
+    //  console.log("check record",check_record[0]);
+
+    if (!check_record[0]) {
       await con.query(`insert into Exam.result_master (exam_id,user_id,obtain_mark,total_mark,question_ids,question_answers,submited) values("${exam_id}","${user_id}","${0}","${0}","${0}",'${0}','${0}');`);
     }
-result_num++;
-    let [get_question] = await con.query(`SELECT question_id,category_id FROM exam_category where exam_id = "${exam_id}";`);
 
-    // console.log('126---get_question',get_question);
+    let [get_question] = await con.query(`SELECT question_id,category_id FROM exam_category where exam_id = "${exam_id}";`);
 
     for (let i = 0; i < get_question.length; i++) {
       var [get_cate] = await con.query(`SELECT * FROM question_category where category_id = "${get_question[i].category_id}";`);
 
-      // console.log('129---getcat',get_cate);
-    
       totalQue = totalQue.concat(get_question[i].question_id.split(","));
 
       category.push(get_cate[0]);
     }
 
-    // console.log('138---category',category);
-    // console.log('139---total question',totalQue);
-
     let [exam_duration] = await con.query(`SELECT exam_duration FROM exam_master where exam_id ="${exam_id}";`);
 
-    res.render("examQuestion.ejs", { examname, username, category, totalQue,exam_duration:exam_duration[0].exam_duration });
+    res.render("examQuestion.ejs", { examname, username, category, totalQue, exam_duration: exam_duration[0].exam_duration });
 
-  }  else {
+  } else {
     res.redirect("/login");
   }
 }
 
 //Display questions --------------------------------------------------------
- 
-const getQuestion = async (req, res) => {
+
+getQuestion = async (req, res) => {
 
   let exam_id = req.session.exam_id;
   let totalQue = [];
@@ -173,7 +171,7 @@ const getQuestion = async (req, res) => {
       var questions = [];
 
       for (let j = 0; j < get_que.length; j++) {
-        
+
         if (totalQue.includes(`${get_que[j].question_id}`)) {
           var [get_option] = await con.query(`SELECT option_value FROM option_master where question_id="${get_que[j].question_id}";`)
 
@@ -196,9 +194,8 @@ const getQuestion = async (req, res) => {
       }
       question_paper.push(question_item);
     }
-    // console.log('question Paper',question_paper);
-    console.log('All Question',questions);
-    res.send(question_paper); 
+
+    res.send(question_paper);
   } catch (err) {
     console.log(err);
   }
@@ -206,13 +203,13 @@ const getQuestion = async (req, res) => {
 
 //Display categories of questions ------------------------------------------
 
-const getCategory = async (req, res) => {
+getCategory = async (req, res) => {
 
   let exam_id = req.session.exam_id;
   let cat_id = req.query.cat_id;
   let category_no = 1;
   let [get_question] = await con.query(`SELECT category_count,category_id  FROM exam_category where exam_id=${exam_id};`);
-  
+
   for (let i = 0; i < get_question.length; i++) {
     if (cat_id == get_question[i].category_id) {
       break;
@@ -225,18 +222,18 @@ const getCategory = async (req, res) => {
 
 //get category id api ........................................
 
-const getCategoryId = async (req,res)=>{
+getCategoryId = async (req, res) => {
   let exam_id = req.session.exam_id;
   let que_id = req.query.que_no;
   let [get_categoryId] = await con.query(`SELECT category_id FROM question_master where question_id =${que_id};`);
 
   res.send(get_categoryId);
-  
+
 }
 
 // Save user results --------------------------------
 
-const saveUserResult = async (req, res) => {
+saveUserResult = async (req, res) => {
 
   let question = [];
   let answer = [];
@@ -269,40 +266,41 @@ const saveUserResult = async (req, res) => {
 
 // Get results ----------------------------------------------------------------
 
-const getResult = async(req,res)=>{
-  if(req.session.exam_id){
+getResult = async (req, res) => {
+  if (req.session.exam_id) {
     let exam_id = req.session.exam_id;
     let user_id = req.session.user_id;
-    let [data]= await con.query(`select question_ids,question_answers from result_master where user_id =${user_id} and exam_id=${exam_id};`);  
+    let [data] = await con.query(`select question_ids,question_answers from result_master where user_id =${user_id} and exam_id=${exam_id};`);
 
-   if(data[0]){
-   if(data[0].question_ids != "0"){
-    res.send({user_que:data[0].question_ids.split(","),user_ans:data[0].question_answers.split(",")});
-   }else{
+    if (data[0]) {
+      if (data[0].question_ids != "0") {
+        res.send({ user_que: data[0].question_ids.split(","), user_ans: data[0].question_answers.split(",") });
+      } else {
 
-     res.send({user_que:[],user_ans:[]});
-   }
-  }else{
-    res.send({hi:"hello"});
-  }}
-//   return res.redirect("/login");
+        res.send({ user_que: [], user_ans: [] });
+      }
+    } else {
+      res.send({ hi: "hello" });
+    }
+  }
+  //   return res.redirect("/login");
 
 }
 
 
 // Thank You Page ----------------------------------------------------------------
 
-const result = async (req, res) => {
-  if (req.session.exam_id) {
+result = async (req, res) => {
+  if (req.session.start_exam) {
 
-
+    req.session.start_exam=0;
     let exam_id = req.session.exam_id;
     let user_id = req.session.user_id;
-    let data= await con.query(`UPDATE result_master SET submited = "1" where exam_id = "${exam_id}" AND user_id ="${user_id}"; `);  
+    let data = await con.query(`UPDATE result_master SET submited = "1" where exam_id = "${exam_id}" AND user_id ="${user_id}"; `);
     res.render("thankyou.ejs", { username: req.session.username });
   } else {
     res.redirect("/login");
   }
 }
 
-module.exports = {exam_term,exam_verification,term_validation_api,startexam,getQuestion,getCategory,saveUserResult,result,getResult,getCategoryId};
+module.exports = { exam_term, exam_verification, term_validation_api, startexam, getQuestion, getCategory, saveUserResult, result, getResult, getCategoryId };

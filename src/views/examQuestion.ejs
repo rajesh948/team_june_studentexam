@@ -6,9 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Exam Question</title>
     <link rel="stylesheet" href="/CSS/examQuestion.css" />
-   
-
-  
   </head>
 
   <body>
@@ -22,44 +19,42 @@
             <p>Student Exam System</p>
           </div>
           <div class="user_name">
-    
-              <p>Welcome' <%=username%></p>
-       
+            <p>Welcome' <%=username%></p>
           </div>
 
           <div class="user_logout">
-            <a href="/logout" >Logout</a>
+            <a href="/logout">Logout</a>
           </div>
         </div>
       </header>
 
       <div id="exambox">
-        <div class="main_box" >
-            <div id="startexam">
-              <h2>Please start your exam by clicking the below button</h2>
-              <p class="btn btn-primary" id="startexambtn" onclick="startexam()">Start Exam</p>
-            </div>
+        <div class="main_box">
+          <div id="startexam">
+            <h2>Please start your exam by clicking the below button</h2>
+            <p class="btn btn-primary" id="startexambtn" onclick="startexam()">
+              Start Exam
+            </p>
           </div>
+        </div>
       </div>
     </div>
   </body>
   <script id="jss"></script>
   <script>
     function startexam() {
-
       var elem = document.documentElement;
 
       if (elem.requestFullscreen) {
         elem.requestFullscreen();
       } else if (elem.webkitRequestFullscreen) {
-       
         elem.webkitRequestFullscreen();
       } else if (elem.msRequestFullscreen) {
-   
         elem.msRequestFullscreen();
       }
-document.getElementById("jss").setAttribute("src","/js/examQuestion.js");
-      var e = document.getElementById('exambox').innerHTML= `
+
+      document.getElementById("jss").setAttribute("src", "/js/examQuestion.js");
+      var e = (document.getElementById("exambox").innerHTML = `
       <div class="main_box">
 
       
@@ -124,9 +119,12 @@ document.getElementById("jss").setAttribute("src","/js/examQuestion.js");
 </div>
 </div> 
 
-`;
-
+`);
     }
+
+  
+
+   
+
   </script>
-     
 </html>
