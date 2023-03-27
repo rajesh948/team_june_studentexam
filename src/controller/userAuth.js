@@ -3,7 +3,6 @@ const bodyparser = require("body-parser");
 const express = require("express");
 const app = express();
 const bcrypt = require("bcrypt");
-
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
 
