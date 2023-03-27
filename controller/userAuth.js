@@ -71,7 +71,7 @@ const register_api = async (req, res) => {
     const [data1] = await conn.query(user_sql);
     insertId2 = data1.insertId;
 
-    res.render("activation-page", { user_id: insertId1, act_message: "Thank you for Registering!" });
+    res.render("activation-page", { user_id: insertId2, act_message: "Thank you for Registering!" });
 
    
   } else {
@@ -85,7 +85,7 @@ const register_api = async (req, res) => {
     await conn.rollback();
   }
   console.log(err);
-  res.status(500).json({ msg: "Somethig went wrong", status: 500 });
+  res.render("500error");
 
 }
 finally {

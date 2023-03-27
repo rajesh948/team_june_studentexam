@@ -14,90 +14,93 @@
 
         <header>
             <div class="head">
-              <div class="logo"><a href="#"><img src="/Images/book.svg" /></a></div>
-              <div class="title">
-                <p>Student Exam System</p>
-              </div>
-              <div class="user_name">
-                <p>welcome' <%=username%></p>
-              </div>
-      <div class="two_btn">
-        <div class="user_logout">
-            <a href="/logout">Logout</a>
-          </div>
-        <div class="user_logout">
-            <a href="/edit">Profile</a>
-          </div>
-      </div>
-             
-      
+                <div class="logo"><a href="#"><img src="/Images/book.svg" /></a></div>
+                <div class="title">
+                    <p>Student Exam System</p>
+                </div>
+                <div class="user_name">
+                    <p>welcome' <%=username%>
+                    </p>
+                </div>
+                <div class="two_btn">
+                    <div class="user_logout">
+                        <a href="/logout">Logout</a>
+                    </div>
+                    <div class="user_logout">
+                        <a href="/edit">Profile</a>
+                    </div>
+                </div>
+
+
             </div>
-        </div>
-        </header>
+    
+    </header>
 
-        <div class="sections">
+    <div class="sections">
 
-            <!-- Section 1 :- -->
-            <section class="homesection1">
-                <div class="container">
+        <!-- Section 1 :- -->
+        <section class="homesection1">
+            <div class="container">
 
-                    <div class="homedata">
+                <div class="homedata">
 
-                        <div class="examdiv">
-                            <h1 class="exam">Dashboard</h1>
-                        </div>
-                        <div class="hometable">
-                            <div class="headerrow">
-                                <div class="hrow">
-                                    <div class="headtabcolumn">Exam list</div>
-                                    <div class="headtabcolumn middletab">Status</div>
-                                    <div class="headtabcolumn">Action</div>
-                                </div>
+                    <div class="examdiv">
+                        <h1 class="exam">Dashboard</h1>
+                    </div>
+                    <div class="hometable">
+                        <div class="headerrow">
+                            <div class="hrow">
+                                <div class="headtabcolumn">Exam list</div>
+                                <div class="headtabcolumn middletab">Status</div>
+                                <div class="headtabcolumn">Action</div>
                             </div>
+                        </div>
 
-                            <div class="datarow">
-                                <%for(let i=0;i<data.length;i++){%>
-                                    <div class="drow">
-                                        <div class="tabcolumn">
-                                            <%=data[i].exam_name%>
-                                        </div>
-                                        <%if(data[i].giving==true  && data[i].attempted==false){%>
-                                            <div class="tabcolumn greenattempt middletab">Unattempted</div>
-                                            <div class="tabcolumn">
-                                                <div class="startexam">
-                                                    <a class="startanchor" href="/exam-term?exam_id=<%=data[i].exam_id%>&exam_name=<%=data[i].exam_name%>">RESUME</a>
-                                                </div>
-                                            </div>
-                                        <%}%>
-                                        <%if(data[i].giving==false && data[i].attempted==false){%>
-                                            <div class="tabcolumn greenattempt middletab">Unattempted</div>
-                                            <div class="tabcolumn">
-                                                <div class="startexam">
-                                                    <a class="startanchor" href="/exam-term?exam_id=<%=data[i].exam_id%>&exam_name=<%=data[i].exam_name%>">START</a>
-                                                </div>
-                                            </div>
-                                        <%}%>
-                                        <%if(data[i].attempted==true){%>
-                                            <div class="tabcolumn redattempt middletab">Attempted</div>
-                                            <div class="tabcolumn">
-                                                <div class="attemptedexam">
-                                                    <a  class="startanchor">START</a>
-                                               </div>
-                                            </div>
-                                        <%}%>
+                        <div class="datarow">
+                            <%for(let i=0;i<data.length;i++){%>
+                                <div class="drow">
+                                    <div class="tabcolumn">
+                                        <%=data[i].exam_name%>
                                     </div>
-                                    <%}%>
-                            </div>
+                                    <%if(data[i].giving==true && data[i].attempted==false){%>
+                                        <div class="tabcolumn greenattempt middletab">Unattempted</div>
+                                        <div class="tabcolumn">
+                                            <div class="startexam">
+                                                <a class="startanchor"
+                                                    href="/exam-term?exam_id=<%=data[i].exam_id%>&exam_name=<%=data[i].exam_name%>">RESUME</a>
+                                            </div>
+                                        </div>
+                                        <%}%>
+                                            <%if(data[i].giving==false && data[i].attempted==false){%>
+                                                <div class="tabcolumn greenattempt middletab">Unattempted</div>
+                                                <div class="tabcolumn">
+                                                    <div class="startexam">
+                                                        <a class="startanchor"
+                                                            href="/exam-term?exam_id=<%=data[i].exam_id%>&exam_name=<%=data[i].exam_name%>">START</a>
+                                                    </div>
+                                                </div>
+                                                <%}%>
+                                                    <%if(data[i].attempted==true){%>
+                                                        <div class="tabcolumn redattempt middletab">Attempted</div>
+                                                        <div class="tabcolumn">
+                                                            <div class="attemptedexam">
+                                                                <a class="startanchor">START</a>
+                                                            </div>
+                                                        </div>
+                                                        <%}%>
+                                </div>
+                                <%}%>
                         </div>
-
-
-
                     </div>
 
-                </div>
-            </section>
 
-        </div>
+
+                </div>
+
+            </div>
+        </section>
+
+    </div>
 
     </div>
 </body>
