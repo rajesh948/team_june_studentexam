@@ -135,7 +135,8 @@ let error_count=0;
     error_obj.a_dob='Enter valid Date Of Birth!!!';
     error_count++;
      }
-   if (a1[0].accesscode != acess_code) {
+
+   if (a1[0].exam_access_code != acess_code) {
     error_obj.a_accesscode='Enter valid access code!!!';
     error_count++;
     }
