@@ -157,14 +157,17 @@ startexam = async (req, res) => {
     let category = [];
     let totalQue = [];
     let total;
+    let email = req.session.email;
     let [check_record] = await con.query(`SELECT id FROM result_master where exam_id = "${exam_id}" AND user_id = "${user_id}" ;`);
 
     let [total_que] = await con.query(`SELECT exam_total_question as total FROM exam_master where exam_id = "${exam_id}";`);
   total = total_que[0].total;
-    //  console.log("check record",check_record[0]);
+    
+  let [studentData] = await con.query(`SELECT student_id FROM student_master where email = "${email}" ;`);
+      let student_id =studentData[0].student_id;
 
     if (!check_record[0]) {
-      await con.query(`insert into Exam.result_master (exam_id,user_id,obtain_mark,total_mark,question_ids,question_answers,submited) values("${exam_id}","${user_id}","${0}","${total}","${0}",'${0}','${0}');`);
+      await con.query(`insert into result_master (exam_id,user_id,student_id,obtain_mark,total_mark,question_ids,question_answers,submited) values("${exam_id}","${user_id}","${student_id}","${0}","${total}","${0}",'${0}','${0}');`);
     }
 
     let [get_question] = await con.query(`SELECT question_id,category_id FROM exam_category where exam_id = "${exam_id}";`);
