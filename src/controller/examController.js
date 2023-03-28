@@ -156,13 +156,15 @@ startexam = async (req, res) => {
     let examname = req.session.exam_name;
     let category = [];
     let totalQue = [];
+    let total;
+    let [check_record] = await con.query(`SELECT id FROM result_master where exam_id = "${exam_id}" AND user_id = "${user_id}" ;`);
 
-    let [check_record] = await con.query(`SELECT id FROM Exam.result_master where exam_id = "${exam_id}" AND user_id = "${user_id}" ;`);
-
+    let [total_que] = await con.query(`SELECT exam_total_question as total FROM exam_master where exam_id = "${exam_id}";`);
+  total = total_que[0].total;
     //  console.log("check record",check_record[0]);
 
     if (!check_record[0]) {
-      await con.query(`insert into Exam.result_master (exam_id,user_id,obtain_mark,total_mark,question_ids,question_answers,submited) values("${exam_id}","${user_id}","${0}","${0}","${0}",'${0}','${0}');`);
+      await con.query(`insert into Exam.result_master (exam_id,user_id,obtain_mark,total_mark,question_ids,question_answers,submited) values("${exam_id}","${user_id}","${0}","${total}","${0}",'${0}','${0}');`);
     }
 
     let [get_question] = await con.query(`SELECT question_id,category_id FROM exam_category where exam_id = "${exam_id}";`);
@@ -277,7 +279,6 @@ saveUserResult = async (req, res) => {
   let question = [];
   let answer = [];
   let marks = 0;
-  let total;
   let exam_id = req.session.exam_id;
   let user_id = req.session.user_id;
 
@@ -293,10 +294,9 @@ saveUserResult = async (req, res) => {
     marks = get_result[0].count;
   }
 
-  let [total_que] = await con.query(`SELECT exam_total_question as total FROM exam_master where exam_id = "${req.session.exam_id}";`);
-  total = total_que[0].total;
 
-  await con.query(`UPDATE  result_master SET obtain_mark="${marks}",total_mark="${total}",question_ids="${question}",question_answers='${answer}' where user_id =${user_id} and exam_id=${exam_id} ;`);
+
+  await con.query(`UPDATE  result_master SET obtain_mark="${marks}",question_ids="${question}",question_answers='${answer}' where user_id =${user_id} and exam_id=${exam_id} ;`);
 
   res.send({ message: "inserted" });
 
