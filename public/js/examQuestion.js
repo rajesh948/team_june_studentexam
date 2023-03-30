@@ -151,7 +151,7 @@ async function displayQue(num, text) {
     document.getElementById(`${catego_id}`).style.backgroundColor = "#547dbb";
 
 
-    if (allquestion = []) {
+    if (allquestion.length == 0) {
         for (let i = 0; i < question_paper.length; i++) {
             allquestion = allquestion.concat(question_paper[i].allquestion);
         }
