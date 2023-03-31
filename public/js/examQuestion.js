@@ -1,20 +1,20 @@
-document.oncontextmenu = function() {
-    return false;
- }
+// document.oncontextmenu = function() {
+//     return false;
+//  }
 
- document.onkeydown=function(){
-    return false;
- }
+//  document.onkeydown=function(){
+//     return false;
+//  }
 
- document.onkeyup = function(){
-    return false;
- }
+//  document.onkeyup = function(){
+//     return false;
+//  }
 
- document.onkeydown = function (evt) {
-    if (evt.key === "Tab" && evt.ctrlKey === true) {
-      return false;
-    }
-  };
+//  document.onkeydown = function (evt) {
+//     if (evt.key === "Tab" && evt.ctrlKey === true) {
+//       return false;
+//     }
+//   };
  
 var que_no = 0;
 var index=0;
@@ -132,7 +132,15 @@ async function displayQue(num, text) {
     const data = await fetch("/getQuestion");
     const question_paper = await data.json();
 
-    const cate_data = await fetch(`/getCategoryId?que_no=${que_no + 1}`);
+    if (allquestion.length ==0) {
+        for (let i = 0; i < question_paper.length; i++) {
+            allquestion = allquestion.concat(question_paper[i].allquestion);
+        }
+
+    }
+
+
+    const cate_data = await fetch(`/getCategoryId?que_no=${allquestion[que_no].question_id}`);
     const get_categoryId = await cate_data.json();
 
     let catego_id = get_categoryId[0].category_id;
@@ -150,13 +158,8 @@ async function displayQue(num, text) {
 
     document.getElementById(`${catego_id}`).style.backgroundColor = "#547dbb";
 
-    if (allquestion.length == 0) {
-        for (let i = 0; i < question_paper.length; i++) {
-            allquestion = allquestion.concat(question_paper[i].allquestion);
-        }
-    }
 
-    
+
     if (que_no >= allquestion.length - 1) {
         document.getElementById("nextbtn").style.display = "none";
     } else {
@@ -211,12 +214,9 @@ function next() {
 
     if (getSelectedValue) {
 
-        user_que[que_no] = (que_no + 1);
+        user_que[que_no] = (allquestion[que_no].question_id);
         user_ans[que_no] = `"${getSelectedValue.value}"`;
-        saveQuestion[que_no] = {
-            question_id: que_no + 1,
-            user_answer: `${getSelectedValue.value}`
-        };
+     
 
         fetch("/saveUserResult", {
             method: "POST",
@@ -248,18 +248,15 @@ function next() {
 
 
 function prev() {
-
+  
     var getSelectedValue = document.querySelector('input[name="que1"]:checked');
 
     if (getSelectedValue) {
 
-        user_que[que_no] = (que_no + 1);
+        user_que[que_no] = (allquestion[que_no].question_id);
         user_ans[que_no] = `"${getSelectedValue.value}"`;
 
-        saveQuestion[que_no] = {
-            question_id: que_no + 1,
-            user_answer: `${getSelectedValue.value}`
-        };
+     
 
         fetch("/saveUserResult", {
             method: "POST",
@@ -292,7 +289,7 @@ function showQue(num) {
     saffron.push(parseInt(num));
     colors();
     document.getElementById(`btn${num}`).style.backgroundColor = "rgb(230, 171, 33)";
-    displayQue(num - 1, "abc");
+    displayQue(parseInt(num) -1, "abc");
 }
 
 
@@ -303,6 +300,7 @@ async function getcategoryQue(id) {
     saffron.push(parseInt(category.category_no));
     colors();
     document.getElementById(`btn${category.category_no}`).style.backgroundColor = "rgb(230, 171, 33)";
+    console.log('category.category_no - 1',category.category_no );
     displayQue(category.category_no - 1, "abc");
 }
 

@@ -261,6 +261,8 @@ getCategory = async (req, res) => {
     }
     category_no += get_question[i].category_count;
   }
+
+
   res.send({ category_no });
 
 }
