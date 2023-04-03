@@ -15,9 +15,9 @@
 //       return false;
 //     }
 //   };
- 
+
 var que_no = 0;
-var index=0;
+var index = 0;
 var saffron = [1];
 var green = [];
 var saveQuestion = [];
@@ -132,7 +132,7 @@ async function displayQue(num, text) {
     const data = await fetch("/getQuestion");
     const question_paper = await data.json();
 
-    if (allquestion.length ==0) {
+    if (allquestion.length == 0) {
         for (let i = 0; i < question_paper.length; i++) {
             allquestion = allquestion.concat(question_paper[i].allquestion);
         }
@@ -174,8 +174,17 @@ async function displayQue(num, text) {
     var Quequery = ` <div class="que_body" oncopy="return false">
                         <p class="question">
                         ${que_no + 1}) ${allquestion[que_no].question}
-                        </p>
-                     <div class="option">`;
+                        </p>`;
+
+    const getImage = await fetch(`/getImage?que_no=${allquestion[que_no].question_id}`);
+    const isImg = await getImage.json();
+
+    if (isImg[0].isImage) {
+        Quequery += `<img class="question_img" src="/upload/${isImg[0].isImage}"/>`;
+    }
+
+
+    Quequery += `<div class="option">`;
 
     for (let i = 0; i < user_que.length; i++) {
         if (user_que[i]) {
@@ -216,7 +225,7 @@ function next() {
 
         user_que[que_no] = (allquestion[que_no].question_id);
         user_ans[que_no] = `"${getSelectedValue.value}"`;
-     
+
 
         fetch("/saveUserResult", {
             method: "POST",
@@ -248,7 +257,7 @@ function next() {
 
 
 function prev() {
-  
+
     var getSelectedValue = document.querySelector('input[name="que1"]:checked');
 
     if (getSelectedValue) {
@@ -256,7 +265,7 @@ function prev() {
         user_que[que_no] = (allquestion[que_no].question_id);
         user_ans[que_no] = `"${getSelectedValue.value}"`;
 
-     
+
 
         fetch("/saveUserResult", {
             method: "POST",
@@ -289,7 +298,7 @@ function showQue(num) {
     saffron.push(parseInt(num));
     colors();
     document.getElementById(`btn${num}`).style.backgroundColor = "rgb(230, 171, 33)";
-    displayQue(parseInt(num) -1, "abc");
+    displayQue(parseInt(num) - 1, "abc");
 }
 
 
@@ -300,7 +309,7 @@ async function getcategoryQue(id) {
     saffron.push(parseInt(category.category_no));
     colors();
     document.getElementById(`btn${category.category_no}`).style.backgroundColor = "rgb(230, 171, 33)";
-    console.log('category.category_no - 1',category.category_no );
+    console.log('category.category_no - 1', category.category_no);
     displayQue(category.category_no - 1, "abc");
 }
 
