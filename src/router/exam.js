@@ -21,6 +21,8 @@ route.get('/result',examController.result);
 
 route.get('/getResult',examController.getResult);
 
+route.get('/getImage',examController.getImage);
+
 route.get('/getCategoryId',examController.getCategoryId);
 
 module.exports = route;

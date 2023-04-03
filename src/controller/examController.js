@@ -269,7 +269,6 @@ getCategory = async (req, res) => {
 //get category id api ........................................
 
 getCategoryId = async (req, res) => {
-  let exam_id = req.session.exam_id;
   let que_id = req.query.que_no;
   let [get_categoryId] = await con.query(`SELECT category_id FROM question_master where question_id =${que_id};`);
 
@@ -331,6 +330,15 @@ getResult = async (req, res) => {
 
 }
 
+//get images--------------------------------------------------------------------
+
+getImage = async (req,res) => {
+  let que_id = req.query.que_no;
+  let [data] = await con.query(`SELECT isImage FROM Exam5.question_master where question_id = ${que_id} ;`);
+  console.log("isImage ::::::: ",data);
+  res.send(data);
+}
+
 
 // Thank You Page ----------------------------------------------------------------
 
@@ -349,4 +357,4 @@ result = async (req, res) => {
   }
 }
 
-module.exports = { exam_term, exam_verification, term_validation_api, startexam, getQuestion, getCategory, saveUserResult, result, getResult, getCategoryId };
+module.exports = { exam_term, exam_verification, term_validation_api, startexam, getQuestion, getCategory,getImage, saveUserResult, result, getResult, getCategoryId };
