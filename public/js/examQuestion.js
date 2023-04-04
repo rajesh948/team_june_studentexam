@@ -178,9 +178,9 @@ async function displayQue(num, text) {
 
     const getImage = await fetch(`/getImage?que_no=${allquestion[que_no].question_id}`);
     const isImg = await getImage.json();
-
+    
     if (isImg[0].isImage) {
-        Quequery += `<img class="question_img" src="/upload/${isImg[0].isImage}"/>`;
+        Quequery += `<img class="question_img" src="https://mavericks.appdemoserver.com/upload/${isImg[0].isImage}"/>`;
     }
 
 
