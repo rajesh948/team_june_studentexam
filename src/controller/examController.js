@@ -334,8 +334,8 @@ getResult = async (req, res) => {
 
 getImage = async (req,res) => {
   let que_id = req.query.que_no;
-  let [data] = await con.query(`SELECT isImage FROM Exam5.question_master where question_id = ${que_id} ;`);
-  console.log("isImage ::::::: ",data);
+  let [data] = await con.query(`SELECT isImage FROM question_master where question_id = ${que_id} ;`);
+  // console.log("isImage ::::::: ",data);
   res.send(data);
 }
 

@@ -1,20 +1,20 @@
-// document.oncontextmenu = function() {
-//     return false;
-//  }
+document.oncontextmenu = function() {
+    return false;
+ }
 
-//  document.onkeydown=function(){
-//     return false;
-//  }
+ document.onkeydown=function(){
+    return false;
+ }
 
-//  document.onkeyup = function(){
-//     return false;
-//  }
+ document.onkeyup = function(){
+    return false;
+ }
 
-//  document.onkeydown = function (evt) {
-//     if (evt.key === "Tab" && evt.ctrlKey === true) {
-//       return false;
-//     }
-//   };
+ document.onkeydown = function (evt) {
+    if (evt.key === "Tab" && evt.ctrlKey === true) {
+      return false;
+    }
+  };
 
 var que_no = 0;
 var index = 0;
@@ -138,8 +138,8 @@ async function displayQue(num, text) {
         }
 
     }
-
-
+// console.log("question_bank",question_paper);
+// console.log("allquestion::::",allquestion);
     const cate_data = await fetch(`/getCategoryId?que_no=${allquestion[que_no].question_id}`);
     const get_categoryId = await cate_data.json();
 
