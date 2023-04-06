@@ -1,20 +1,20 @@
-// document.oncontextmenu = function() {
-//     return false;
-//  }
+document.oncontextmenu = function() {
+    return false;
+ }
 
-//  document.onkeydown=function(){
-//     return false;
-//  }
+ document.onkeydown=function(){
+    return false;
+ }
 
-//  document.onkeyup = function(){
-//     return false;
-//  }
+ document.onkeyup = function(){
+    return false;
+ }
 
-//  document.onkeydown = function (evt) {
-//     if (evt.key === "Tab" && evt.ctrlKey === true) {
-//       return false;
-//     }
-//   };
+ document.onkeydown = function (evt) {
+    if (evt.key === "Tab" && evt.ctrlKey === true) {
+      return false;
+    }
+  };
 
 var que_no = 0;
 var index = 0;
@@ -23,6 +23,7 @@ var green = [];
 var saveQuestion = [];
 var user_que = [];
 var user_ans = [];
+var abcd=[];
 var allquestion = [];
 var category_ids = [];
 var total_num = document.getElementById("timerCount").innerHTML;
@@ -33,16 +34,38 @@ getResult();
 async function getResult() {
 
     const data = await fetch("/getResult");
-    const question_paper = await data.json();
+    const resultdata = await data.json();
 
-    for (let i = 0; i < question_paper.user_que.length; i++) {
-        user_que[question_paper.user_que[i] - 1] = question_paper.user_que[i];
+    const data1 = await fetch("/getQuestion");
+    const question_paper = await data1.json();
 
-        user_ans[question_paper.user_que[i] - 1] = question_paper.user_ans[i];
+
+    if (allquestion.length == 0) {
+        for (let i = 0; i < question_paper.length; i++) {
+            allquestion = allquestion.concat(question_paper[i].allquestion);
+        }
+
     }
 
+// console.log("resultdata",resultdata);
+//     console.log("question_paper",question_paper);
+//     console.log("allQuestioin",allquestion);
+
+    for(let i=0;i<allquestion.length;i++){
+        for(let j=0;j<resultdata.user_que.length;j++){
+            console.log("allquestion[i].question_id",allquestion[i].question_id)
+            if(allquestion[i].question_id == resultdata.user_que[j]){
+                user_que[i] =resultdata.user_que[j];
+                abcd.push(i+1);
+                user_ans[i]=resultdata.user_ans[j];
+            }
+        }
+    }
+
+
+
     if (user_que.length) {
-        green = user_que;
+        green = abcd;
         colors();
         document.getElementById(`btn1`).style.backgroundColor = "rgb(230, 171, 33)";
     }
@@ -91,7 +114,7 @@ var rajeshInterval = setInterval(() => {
     if (minute < 5) {
         document.getElementById("timerCount").style.backgroundColor = "red";
     }
-}, 1000);
+}, 100000);
 
 
 function setCookie(cname, cvalue, exdays) {
@@ -144,6 +167,9 @@ async function displayQue(num, text) {
     const get_categoryId = await cate_data.json();
 
     let catego_id = get_categoryId[0].category_id;
+
+  
+    // console.log("user_que",user_que,"\nuser_ans",user_ans);
 
     // console.log("quo_no", que_no);
     // console.log("catego_id", catego_id);
