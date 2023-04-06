@@ -52,9 +52,11 @@ async function getResult() {
 //     console.log("allQuestioin",allquestion);
 
     for(let i=0;i<allquestion.length;i++){
+
         for(let j=0;j<resultdata.user_que.length;j++){
-            console.log("allquestion[i].question_id",allquestion[i].question_id)
+
             if(allquestion[i].question_id == resultdata.user_que[j]){
+                
                 user_que[i] =resultdata.user_que[j];
                 abcd.push(i+1);
                 user_ans[i]=resultdata.user_ans[j];
