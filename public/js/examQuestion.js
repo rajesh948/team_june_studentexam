@@ -116,7 +116,7 @@ var rajeshInterval = setInterval(() => {
     if (minute < 5) {
         document.getElementById("timerCount").style.backgroundColor = "red";
     }
-}, 100000);
+}, 1000);
 
 
 function setCookie(cname, cvalue, exdays) {
