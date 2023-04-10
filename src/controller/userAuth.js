@@ -1,9 +1,8 @@
-const con = require("../db");
+const con = require('../config/db');
 const bodyparser = require("body-parser");
 const express = require("express");
 const app = express();
 const bcrypt = require("bcrypt");
-
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
 
@@ -286,12 +285,16 @@ const updatepassword = async (req, res) => {
 
 // Edit profile------------------------------------------------------------------
 const edit = async (req, res) => {
+  if (req.session.user_id) {
   var user_email = req.session.email;
 
   var sql = `select fname,lname,gender,email,mobile,enrollment,qualification,city,college,birthdate from student_master where email="${user_email}"`;
   var [studdata] = await con.query(sql);
 
   res.render("edit-profile", { data: studdata[0] });
+  }else{
+    res.redirect("/login");
+  }
 };
 
 const updatedata = async (req, res) => {

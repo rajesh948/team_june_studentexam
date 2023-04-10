@@ -15,14 +15,15 @@ document.oncontextmenu = function() {
       return false;
     }
   };
- 
+
 var que_no = 0;
-var index=0;
+var index = 0;
 var saffron = [1];
 var green = [];
 var saveQuestion = [];
 var user_que = [];
 var user_ans = [];
+var savedQuestionNumber=[];
 var allquestion = [];
 var category_ids = [];
 var total_num = document.getElementById("timerCount").innerHTML;
@@ -33,16 +34,40 @@ getResult();
 async function getResult() {
 
     const data = await fetch("/getResult");
-    const question_paper = await data.json();
+    const resultdata = await data.json();
 
-    for (let i = 0; i < question_paper.user_que.length; i++) {
-        user_que[question_paper.user_que[i] - 1] = question_paper.user_que[i];
+    const data1 = await fetch("/getQuestion");
+    const question_paper = await data1.json();
 
-        user_ans[question_paper.user_que[i] - 1] = question_paper.user_ans[i];
+
+    if (allquestion.length == 0) {
+        for (let i = 0; i < question_paper.length; i++) {
+            allquestion = allquestion.concat(question_paper[i].allquestion);
+        }
+
     }
 
+// console.log("resultdata",resultdata);
+//     console.log("question_paper",question_paper);
+//     console.log("allQuestioin",allquestion);
+
+    for(let i=0;i<allquestion.length;i++){
+
+        for(let j=0;j<resultdata.user_que.length;j++){
+
+            if(allquestion[i].question_id == resultdata.user_que[j]){
+                
+                user_que[i] =resultdata.user_que[j];
+                savedQuestionNumber.push(i+1);
+                user_ans[i]=resultdata.user_ans[j];
+            }
+        }
+    }
+
+
+
     if (user_que.length) {
-        green = user_que;
+        green = savedQuestionNumber;
         colors();
         document.getElementById(`btn1`).style.backgroundColor = "rgb(230, 171, 33)";
     }
@@ -75,8 +100,8 @@ function gettimer() {
 var rajeshInterval = setInterval(() => {
 
     document.getElementById("timerCount").innerHTML = `Remaining Time: ${minute}:${second}`;
-    setCookie("minutes", minute.toString(), 1);
-    setCookie("seconds", second.toString(), 1);
+    setCookie("minutes", minute.toString());
+    setCookie("seconds", second.toString());
     if (second == 0) {
         minute--;
         second = 60;
@@ -94,11 +119,8 @@ var rajeshInterval = setInterval(() => {
 }, 1000);
 
 
-function setCookie(cname, cvalue, exdays) {
-    var d = new Date();
-    d.setTime(d.getTime() + (60 * 1000));
-    var expires = "expires=" + d.toUTCString();
-    document.cookie = cname + "=" + cvalue + "; " + expires;
+function setCookie(cname, cvalue) {
+    document.cookie = cname + "=" + cvalue + "; ";
 }
 
 
@@ -106,8 +128,9 @@ function getCookie(cname) {
     var name = cname + "=";
     var ca = document.cookie.split(';');
     for (var i = 0; i < ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) == ' ') c = c.substring(1);
+        var c = ca[i].trim();
+        console.log(c);
+      
         if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
     }
     return "";
@@ -132,10 +155,21 @@ async function displayQue(num, text) {
     const data = await fetch("/getQuestion");
     const question_paper = await data.json();
 
-    const cate_data = await fetch(`/getCategoryId?que_no=${que_no + 1}`);
+    if (allquestion.length == 0) {
+        for (let i = 0; i < question_paper.length; i++) {
+            allquestion = allquestion.concat(question_paper[i].allquestion);
+        }
+
+    }
+// console.log("question_bank",question_paper);
+// console.log("allquestion::::",allquestion);
+    const cate_data = await fetch(`/getCategoryId?que_no=${allquestion[que_no].question_id}`);
     const get_categoryId = await cate_data.json();
 
     let catego_id = get_categoryId[0].category_id;
+
+  
+    // console.log("user_que",user_que,"\nuser_ans",user_ans);
 
     // console.log("quo_no", que_no);
     // console.log("catego_id", catego_id);
@@ -151,11 +185,6 @@ async function displayQue(num, text) {
     document.getElementById(`${catego_id}`).style.backgroundColor = "#547dbb";
 
 
-    if (allquestion = []) {
-        for (let i = 0; i < question_paper.length; i++) {
-            allquestion = allquestion.concat(question_paper[i].allquestion);
-        }
-    }
 
     if (que_no >= allquestion.length - 1) {
         document.getElementById("nextbtn").style.display = "none";
@@ -171,8 +200,17 @@ async function displayQue(num, text) {
     var Quequery = ` <div class="que_body" oncopy="return false">
                         <p class="question">
                         ${que_no + 1}) ${allquestion[que_no].question}
-                        </p>
-                     <div class="option">`;
+                        </p>`;
+
+    const getImage = await fetch(`/getImage?que_no=${allquestion[que_no].question_id}`);
+    const isImg = await getImage.json();
+    
+    if (isImg[0].isImage) {
+        Quequery += `<img class="question_img" src="https://mavericks.appdemoserver.com/upload/${isImg[0].isImage}"/>`;
+    }
+
+
+    Quequery += `<div class="option">`;
 
     for (let i = 0; i < user_que.length; i++) {
         if (user_que[i]) {
@@ -211,12 +249,9 @@ function next() {
 
     if (getSelectedValue) {
 
-        user_que[que_no] = (que_no + 1);
+        user_que[que_no] = (allquestion[que_no].question_id);
         user_ans[que_no] = `"${getSelectedValue.value}"`;
-        saveQuestion[que_no] = {
-            question_id: que_no + 1,
-            user_answer: `${getSelectedValue.value}`
-        };
+
 
         fetch("/saveUserResult", {
             method: "POST",
@@ -253,13 +288,10 @@ function prev() {
 
     if (getSelectedValue) {
 
-        user_que[que_no] = (que_no + 1);
+        user_que[que_no] = (allquestion[que_no].question_id);
         user_ans[que_no] = `"${getSelectedValue.value}"`;
 
-        saveQuestion[que_no] = {
-            question_id: que_no + 1,
-            user_answer: `${getSelectedValue.value}`
-        };
+
 
         fetch("/saveUserResult", {
             method: "POST",
@@ -292,7 +324,7 @@ function showQue(num) {
     saffron.push(parseInt(num));
     colors();
     document.getElementById(`btn${num}`).style.backgroundColor = "rgb(230, 171, 33)";
-    displayQue(num - 1, "abc");
+    displayQue(parseInt(num) - 1, "abc");
 }
 
 
@@ -300,9 +332,11 @@ async function getcategoryQue(id) {
 
     const data = await fetch(`/getCategory?cat_id=${id}`);
     const category = await data.json();
+    console.log(category);
     saffron.push(parseInt(category.category_no));
     colors();
     document.getElementById(`btn${category.category_no}`).style.backgroundColor = "rgb(230, 171, 33)";
+    console.log('category.category_no - 1', category.category_no);
     displayQue(category.category_no - 1, "abc");
 }
 
