@@ -87,6 +87,8 @@ gettimer();
 function gettimer() {
     minute = getCookie("minutes");
     second = getCookie("seconds");
+    console.log("m",minute);
+    console.log("s",second);
     document.getElementById("timerCount").innerHTML = `Remaining Time: ${minute}:${second}`;
 
     if (!minute || !second) {
@@ -100,8 +102,8 @@ function gettimer() {
 var rajeshInterval = setInterval(() => {
 
     document.getElementById("timerCount").innerHTML = `Remaining Time: ${minute}:${second}`;
-    setCookie("minutes", minute.toString(), 1);
-    setCookie("seconds", second.toString(), 1);
+    setCookie("minutes", minute.toString());
+    setCookie("seconds", second.toString());
     if (second == 0) {
         minute--;
         second = 60;
@@ -116,23 +118,25 @@ var rajeshInterval = setInterval(() => {
     if (minute < 5) {
         document.getElementById("timerCount").style.backgroundColor = "red";
     }
-}, 100000);
+}, 1000);
 
 
-function setCookie(cname, cvalue, exdays) {
-    var d = new Date();
-    d.setTime(d.getTime() + (60 * 1000));
-    var expires = "expires=" + d.toUTCString();
-    document.cookie = cname + "=" + cvalue + "; " + expires;
+function setCookie(cname, cvalue) {
+
+    document.cookie = cname + "=" + cvalue + ";";
 }
 
 
 function getCookie(cname) {
     var name = cname + "=";
-    var ca = document.cookie.split(';');
-    for (var i = 0; i < ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) == ' ') c = c.substring(1);
+    var getcook = document.cookie.split(';');
+    console.log(getcook);
+    for (var i = 0; i < getcook.length; i++) {
+        var c = getcook[i].trim();
+
+    //     console.log("nme",name,"\tc",c,"\tindex",c.indexOf(name));
+    //    console.log("c.substring(name.length, c.length)",c.substring(name.length, c.length))
+
         if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
     }
     return "";
