@@ -16,7 +16,7 @@ app.use(express.json());
 //Registration Page -----------------------------------------------
 
 const registration = function (req, res) {
-  if (req.session.user_id) {
+  if (req.session.email) {
     res.redirect("/home");
   } else {
     res.render('registration.ejs', { error: "", register_data: "" });
@@ -137,7 +137,7 @@ const activation = async (req, res) => {
 
 const login = async (req, res) => {
 
-  if (req.session.user_id) {
+  if (req.session.email) {
     res.redirect("/home");
 
   } else {
@@ -162,10 +162,10 @@ const login_api = async (req, res) => {
   }
 
 
-  req.session.user_id = data[0].user_id;
+ 
 
   if (data[0].isActive == 0) {
-
+    req.session.user_id = data[0].user_id;
     let rendom_num = Math.floor(1000000 + Math.random() * 999999);
 
     req.session.otp = rendom_num;
@@ -192,7 +192,7 @@ const login_api = async (req, res) => {
 
     transporter.sendMail(message).then(() => {
 
-      res.render("activation-page", { act_message: "Activation page !", active_error:"" });
+      res.render("activation-page", { act_message: " Activation page !", active_error:"" });
     }).catch(error => {
       if (error) throw error;
       return res.status(500).json({ error });
@@ -204,7 +204,7 @@ const login_api = async (req, res) => {
     var check_pass = await bcrypt.compare(login_data.password, data[0].password);
 
     if (check_pass) {
-     
+      req.session.user_id = data[0].user_id;
       req.session.stud_id = studdata[0].student_id;
       req.session.email = login_data.email;
       res.redirect("/home");
@@ -220,7 +220,7 @@ const login_api = async (req, res) => {
 
 const home = async (req, res) => {
   var data = [];
-  if (req.session.user_id) {
+  if (req.session.email) {
 
     let user_id = req.session.user_id;
     let user_email = req.session.email;
@@ -291,7 +291,7 @@ const logout = async (req, res) => {
 // Forgot Password ------------------------------------------------
 
 const forgotpassword = (req, res) => {
-  if (req.session.user_id) {
+  if (req.session.email) {
     res.redirect('/home');
   }
   else {
@@ -370,7 +370,7 @@ const updatepassword = async (req, res) => {
 
 // Edit profile------------------------------------------------------------------
 const edit = async (req, res) => {
-  if (req.session.user_id) {
+  if (req.session.email) {
     var user_email = req.session.email;
 
     var sql = `select fname,lname,gender,email,mobile,enrollment,qualification,city,college,birthdate from student_master where email="${user_email}"`;
@@ -383,7 +383,7 @@ const edit = async (req, res) => {
 };
 
 const updatedata = async (req, res) => {
-  if (req.session.user_id) {
+  if (req.session.email) {
     var alldata = JSON.parse(req.query.newdata);
 
 
