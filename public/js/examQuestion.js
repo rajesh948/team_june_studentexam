@@ -97,7 +97,7 @@ function gettimer() {
 };
 
 
-var rajeshInterval = setInterval(() => {
+var timeInterval = setInterval(() => {
 
     document.getElementById("timerCount").innerHTML = `Remaining Time: ${minute}:${second}`;
     setCookie("minutes", minute.toString(), 1);
