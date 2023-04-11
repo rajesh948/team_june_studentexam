@@ -23,7 +23,7 @@ var green = [];
 var saveQuestion = [];
 var user_que = [];
 var user_ans = [];
-var abcd=[];
+var savedQuestionNumber=[];
 var allquestion = [];
 var category_ids = [];
 var total_num = document.getElementById("timerCount").innerHTML;
@@ -58,7 +58,7 @@ async function getResult() {
             if(allquestion[i].question_id == resultdata.user_que[j]){
                 
                 user_que[i] =resultdata.user_que[j];
-                abcd.push(i+1);
+                savedQuestionNumber.push(i+1);
                 user_ans[i]=resultdata.user_ans[j];
             }
         }
@@ -67,7 +67,7 @@ async function getResult() {
 
 
     if (user_que.length) {
-        green = abcd;
+        green = savedQuestionNumber;
         colors();
         document.getElementById(`btn1`).style.backgroundColor = "rgb(230, 171, 33)";
     }
@@ -122,21 +122,17 @@ var rajeshInterval = setInterval(() => {
 
 
 function setCookie(cname, cvalue) {
-
-    document.cookie = cname + "=" + cvalue + ";";
+    document.cookie = cname + "=" + cvalue + "; ";
 }
 
 
 function getCookie(cname) {
     var name = cname + "=";
-    var getcook = document.cookie.split(';');
-    console.log(getcook);
-    for (var i = 0; i < getcook.length; i++) {
-        var c = getcook[i].trim();
-
-    //     console.log("nme",name,"\tc",c,"\tindex",c.indexOf(name));
-    //    console.log("c.substring(name.length, c.length)",c.substring(name.length, c.length))
-
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i].trim();
+        console.log(c);
+      
         if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
     }
     return "";
@@ -167,8 +163,8 @@ async function displayQue(num, text) {
         }
 
     }
-
-
+// console.log("question_bank",question_paper);
+// console.log("allquestion::::",allquestion);
     const cate_data = await fetch(`/getCategoryId?que_no=${allquestion[que_no].question_id}`);
     const get_categoryId = await cate_data.json();
 
@@ -338,6 +334,7 @@ async function getcategoryQue(id) {
 
     const data = await fetch(`/getCategory?cat_id=${id}`);
     const category = await data.json();
+    console.log(category);
     saffron.push(parseInt(category.category_no));
     colors();
     document.getElementById(`btn${category.category_no}`).style.backgroundColor = "rgb(230, 171, 33)";
