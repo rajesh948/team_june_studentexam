@@ -1,11 +1,13 @@
 const con = require('../config/db');
 const bodyparser = require("body-parser");
+const nodemailer = require("nodemailer");
 const express = require("express");
+const emailExistence = require('email-existence');
 const app = express();
 const bcrypt = require("bcrypt");
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
-
+require("dotenv").config("../.env");
 const cookieParser = require("cookie-parser");
 const { log } = require('console');
 app.use(cookieParser());
@@ -13,13 +15,13 @@ app.use(express.json());
 
 //Registration Page -----------------------------------------------
 
-const registration =  function (req, res) {
-    if (req.session.user_id) {
-      res.redirect("/home");  
-    } else {
-      res.render('registration.ejs',{error:"",register_data:""});
-    }
+const registration = function (req, res) {
+  if (req.session.user_id) {
+    res.redirect("/home");
+  } else {
+    res.render('registration.ejs', { error: "", register_data: "" });
   }
+}
 
 // Verify Registration Details--------------------------------
 
@@ -38,7 +40,9 @@ const verify = async (req, res) => {
 //Insert Registration Details --------------------------------
 
 const register_api = async (req, res) => {
+  var register_data = req.body;
   var password = req.body.password;
+  let userEmail = req.body.email;
   const pass = await bcrypt.hash(password, 10);
   var confirmpass = await bcrypt.compare(req.body.confirmPassword, pass);
 
@@ -50,52 +54,102 @@ const register_api = async (req, res) => {
     email_arr.push(data[i].email);
   }
   var insertId2;
-  var insertId1;
-  if (confirmpass == true && !email_arr.includes(req.body.email)) {
-    var sql = ` insert into student_master (fname,lname,gender,email,mobile,enrollment,qualification,city,college,birthdate,pass) VALUES('${req.body.fname}','${req.body.lname}','${req.body.gender}','${req.body.email}','${req.body.number}','${req.body.enrollment}','${req.body.qualification}','${req.body.city}','${req.body.college}','${req.body.dob}','${pass}');`;
-    const [data] = await con.query(sql);
-    insertId1 = data.insertId;
+  emailExistence.check(req.body.email, async function (err, data) {
+    console.log('res: ' + data);
+    if (data) {
 
-    var user_sql = `insert into user_master (username,password,role,isActive) values ('${req.body.email}','${pass}','student','0');`;
+      if (confirmpass == true && !email_arr.includes(req.body.email)) {
+        var sql = ` insert into student_master (fname,lname,gender,email,mobile,enrollment,qualification,city,college,birthdate,pass) VALUES('${req.body.fname}','${req.body.lname}','${req.body.gender}','${req.body.email}','${req.body.number}','${req.body.enrollment}','${req.body.qualification}','${req.body.city}','${req.body.college}','${req.body.dob}','${pass}');`;
+        const [data] = await con.query(sql);
 
-    const [data1] = await con.query(user_sql);
-    insertId2 = data1.insertId;
 
-      res.render("activation-page", { user_id: insertId2, act_message: "Thank you for Registering!" });
+        var user_sql = `insert into user_master (username,password,role,isActive) values ('${req.body.email}','${pass}','student','0');`;
+
+        const [data1] = await con.query(user_sql);
+        insertId2 = data1.insertId;
+
+        req.session.user_id = insertId2;
+
+
+
+        let rendom_num = Math.floor(1000000 + Math.random() * 999999);
+
+        req.session.otp = rendom_num;
+
+        console.log(process.env.email);
+        let config = {
+          service: 'gmail',
+          auth: {
+            user: process.env.email,
+            pass: process.env.pass,
+          },
+        }
+
+        let transporter = nodemailer.createTransport(config);
+
+        let message = {
+          from: process.env.email,
+          to: userEmail,
+          subject: 'Activation Code',
+          html: `<h1>hello ${req.body.fname} ${req.body.lname} your Accout Activation Code !! </h1>
+               <p>Activation Code : <strong>${rendom_num}</strong></P>
+        `
+        }
+
+        transporter.sendMail(message).then(() => {
+
+          res.render("activation-page", { act_message: "Thank you for Registering!", active_error:"" });
+        }).catch(error => {
+          if (error) throw error;
+          return res.status(500).json({ error });
+        })
+
+        // res.render("activation-page", { user_id: insertId2, act_message: "Thank you for Registering!" });
+
+      } else {
+       
+        res.render("registration", { error: "Email-id already used!!", register_data });
+      }
     } else {
-      var register_data = req.body;
-      res.render("registration",{error:"Email-id already exists!!",register_data});
+      res.render("registration", { error: "Email-id is not exists!!", register_data });
     }
-  }
+  })
+}
 
 //Account activationPage --------------------------------
 
 const activation = async (req, res) => {
-  var user_id = req.query.user_id;
-
-  if (user_id) {
+  let activation_code = req.query.active_code || 1;
+  let otp = req.session.otp || 0;
+  let user_id = req.session.user_id;
+  if (activation_code == otp) {
     var sql = `update user_master set isActive = 1 where user_id =${user_id};`;
     var [data] = await con.query(sql);
+    req.session.user_id = 0;
+    res.redirect("/login");
+  }else{
+   return res.render("activation-page", { act_message: "Activation Page !", active_error:  "Activation Code is invalid !!!" });
   }
-  res.redirect("/login");
+
 };
 
 //Render Login Page --------------------------------
 
-const login = async (req,res) =>{
-  
-    if (req.session.user_id) {
-        res.redirect("/home");
+const login = async (req, res) => {
 
-    } else {
-        res.render("login.ejs", { error: "" ,forgotpassword:"",login_data:""});
-    }
+  if (req.session.user_id) {
+    res.redirect("/home");
+
+  } else {
+    res.render("login.ejs", { error: "", forgotpassword: "", login_data: "" });
+  }
 }
 
 //Verify Login Details------------------------------------------------
 
 const login_api = async (req, res) => {
   let login_data = req.body;
+  let userEmail = req.body.email;
   var studidsql = `select student_id from student_master where email = "${login_data.email}"`;
   var [studdata] = await con.query(studidsql);
 
@@ -104,25 +158,62 @@ const login_api = async (req, res) => {
     `select user_id,password,isActive from user_master where username = "${login_data.email}"`
   );
   if (!data[0]) {
-    return res.render("login.ejs", { error: "**Invalid Email Or Password !",forgotpassword:"",login_data });
+    return res.render("login.ejs", { error: "**Invalid Email  !", forgotpassword: "", login_data });
   }
+
+
+  req.session.user_id = data[0].user_id;
+
   if (data[0].isActive == 0) {
-    return res.render("activation-page", {
-      user_id: data[0].user_id,
-      act_message: "Your Account Is Not Active!",
-    });
+
+    let rendom_num = Math.floor(1000000 + Math.random() * 999999);
+
+    req.session.otp = rendom_num;
+
+    console.log(process.env.email);
+    let config = {
+      service: 'gmail',
+      auth: {
+        user: process.env.email,
+        pass: process.env.pass,
+      },
+    }
+
+    let transporter = nodemailer.createTransport(config);
+
+    let message = {
+      from: process.env.email,
+      to: userEmail,
+      subject: 'Activation Code',
+      html: `<h1>hello ${req.body.fname} ${req.body.lname} your Accout Activation Code !! </h1>
+           <p>Activation Code : <strong>${rendom_num}</strong></P>
+    `
+    }
+
+    transporter.sendMail(message).then(() => {
+
+      res.render("activation-page", { act_message: "Activation page !", active_error:"" });
+    }).catch(error => {
+      if (error) throw error;
+      return res.status(500).json({ error });
+    })
+
+
+  }else{
+
+    var check_pass = await bcrypt.compare(login_data.password, data[0].password);
+
+    if (check_pass) {
+     
+      req.session.stud_id = studdata[0].student_id;
+      req.session.email = login_data.email;
+      res.redirect("/home");
+    } else {
+      res.render("login.ejs", { error: "**Invalid  Password !", forgotpassword: "", login_data });
+    }
   }
 
-  var check_pass = await bcrypt.compare(login_data.password, data[0].password);
-
-  if (check_pass) {
-    req.session.user_id = data[0].user_id;
-    req.session.stud_id = studdata[0].student_id;
-    req.session.email = login_data.email;
-    res.redirect("/home");
-  } else {
-    res.render("login.ejs", { error: "**Invalid Email Or Password !" , forgotpassword:"",login_data});
-  }
+  
 };
 
 //Render Home Page------------------------------------------------
@@ -152,8 +243,7 @@ const home = async (req, res) => {
       flag = 0;
       for (let j = 0; j < attemptdata.length; j++) {
         if (examdata[i].exam_name == attemptdata[j].exam_name) {
-          if(attemptdata[j].submited==1)
-          {
+          if (attemptdata[j].submited == 1) {
             data.push({
               exam_id: examdata[i].exam_id,
               exam_name: examdata[i].exam_name,
@@ -161,8 +251,7 @@ const home = async (req, res) => {
               giving: false
             });
           }
-          if(attemptdata[j].submited==0)
-          {
+          if (attemptdata[j].submited == 0) {
             data.push({
               exam_id: examdata[i].exam_id,
               exam_name: examdata[i].exam_name,
@@ -202,79 +291,129 @@ const logout = async (req, res) => {
 // Forgot Password ------------------------------------------------
 
 const forgotpassword = (req, res) => {
-  if(req.session.user_id)
-  {
+  if (req.session.user_id) {
     res.redirect('/home');
-  } 
-  else{
-    res.render("forgotpassword");
+  }
+  else {
+    res.render("forgotpassword", { email_error: "" });
   }
 };
 
+
+
+const sendmail = async (req, res) => {
+  let userEmail = req.body.email;
+
+
+  emailExistence.check(userEmail, function (err, data) {
+    console.log('res: ' + data);
+    if (data) {
+
+      // let userName = "";
+      let rendom_num = Math.floor(1000000 + Math.random() * 999999);
+      req.session.otp = rendom_num;
+      console.log(process.env.email);
+      let config = {
+        service: 'gmail',
+        auth: {
+          user: process.env.email,
+          pass: process.env.pass,
+        },
+      }
+
+      let transporter = nodemailer.createTransport(config);
+
+      let message = {
+        from: process.env.email,
+        to: userEmail,
+        subject: 'forget password !!',
+        html: `<h1>hello student forget your pass word !! </h1>
+             <p>OTP : <strong>${rendom_num}</strong></P>
+      `
+      }
+
+      transporter.sendMail(message).then(() => {
+
+        res.render("changepassword", { otp_err: "", userEmail, password: "" });
+      }).catch(error => {
+        if (error) throw error;
+        return res.status(500).json({ error });
+      })
+    } else {
+      res.render("forgotpassword", { email_error: 'email id is not exist !!' })
+    }
+  });
+  // res.status(201).json("bill successfull ...");
+
+}
+
+
 const updatepassword = async (req, res) => {
-  var password = req.body.password;
+  let password = req.body.password;
+  let userEmail = req.body.email;
+  let otp = req.body.otp;
 
   const pass = await bcrypt.hash(password, 10);
 
-  var confirmpass = await bcrypt.compare(req.body.confirmPassword, pass);
 
 
-  if (confirmpass == true) {
+  if (otp == req.session.otp) {
     var sql = `update user_master,student_master set user_master.password = '${pass}',student_master.pass='${pass}' where student_master.email = '${req.body.email}' and user_master.username='${req.body.email}'`;
     var data = await con.query(sql);
 
-    res.render('login',{forgotpassword:"**Password reset successfully!!",error:"",login_data:""})
+    res.render('login', { forgotpassword: "**Password update successfully!!", error: "", login_data: "" })
 
+  } else {
+    res.render("changepassword", { otp_err: "OTP is not match!!", userEmail, password });
   }
 };
 
 // Edit profile------------------------------------------------------------------
 const edit = async (req, res) => {
   if (req.session.user_id) {
-  var user_email = req.session.email;
+    var user_email = req.session.email;
 
-  var sql = `select fname,lname,gender,email,mobile,enrollment,qualification,city,college,birthdate from student_master where email="${user_email}"`;
-  var [studdata] = await con.query(sql);
+    var sql = `select fname,lname,gender,email,mobile,enrollment,qualification,city,college,birthdate from student_master where email="${user_email}"`;
+    var [studdata] = await con.query(sql);
 
-  res.render("edit-profile", { data: studdata[0] });
-  }else{
+    res.render("edit-profile", { data: studdata[0] });
+  } else {
     res.redirect("/login");
   }
 };
 
 const updatedata = async (req, res) => {
-  if(req.session.user_id)
-  {
+  if (req.session.user_id) {
     var alldata = JSON.parse(req.query.newdata);
 
 
-  var session = req.session;
+    var session = req.session;
 
 
 
-  var user_id = session.user_id;
-  var stud_id = session.stud_id;
+    var user_id = session.user_id;
+    var stud_id = session.stud_id;
 
-  try {
-    var sql = `update student_master set fname='${alldata.fname}', lname='${alldata.lname}', gender='${alldata.gender}', email='${alldata.email}', mobile='${alldata.phone}', enrollment='${alldata.enroll}', qualification='${alldata.qualification}', city='${alldata.city}', college='${alldata.college}', birthdate='${alldata.dob}' where student_id=${stud_id}`;
-    var [result1] = await con.query(sql);
+    try {
+      var sql = `update student_master set fname='${alldata.fname}', lname='${alldata.lname}', gender='${alldata.gender}', email='${alldata.email}', mobile='${alldata.phone}', enrollment='${alldata.enroll}', qualification='${alldata.qualification}', city='${alldata.city}', college='${alldata.college}', birthdate='${alldata.dob}' where student_id=${stud_id}`;
+      var [result1] = await con.query(sql);
 
-    var sql1 = `update user_master set username='${alldata.email}' where user_id=${user_id}`;
-    var [result2] = await con.query(sql1);
+      var sql1 = `update user_master set username='${alldata.email}' where user_id=${user_id}`;
+      var [result2] = await con.query(sql1);
 
-    session.email = alldata.email;
+      session.email = alldata.email;
 
-    res.json("Update done..!");
-  } catch(e) {
-    console.log(e);
-    
-    res.json("Update didn't happen");
+      res.json("Update done..!");
+    } catch (e) {
+      console.log(e);
+
+      res.json("Update didn't happen");
+    }
   }
-  }
-  else{
+  else {
     res.redirect('/home')
   }
-  
+
 };
 
 module.exports = {
@@ -290,4 +429,5 @@ module.exports = {
   forgotpassword,
   edit,
   updatedata,
+  sendmail
 };

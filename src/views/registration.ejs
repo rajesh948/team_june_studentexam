@@ -56,16 +56,14 @@
 
                     <div class="col-12 col-lg-10  d-flex justify-content-between input-container mb-24">
                         <input type="text" class="form-control form-control-lg w-45 login-input"
-                            placeholder="Email address" id="email" name="email" onfocus="validateEmail()" value="<%=register_data.email%>">
+                            placeholder="Email address" id="email" name="email" oninput="validateEmail()" value="<%=register_data.email%>">
                         <input type="text" class="form-control form-control-lg w-45 login-input"
                             placeholder="Mobile no." id="number" name="number" value="<%=register_data.number%>">
                     </div>
 
-                    <div>
-                        <p id="error"><%=error%></p>
-                     </div>
+                
                     <div class="col-12 col-lg-10 d-flex justify-content-between input-container mb-24">
-                        <p class="w-45" id="email_err"></p>
+                        <p class="w-45" id="email_err" style="color:red;"><%=error%></p>
                         <p class="w-45" id="number_err"></p>
                     </div>
 
