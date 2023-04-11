@@ -30,4 +30,6 @@ route.get('/forgotpassword',userAuth.forgotpassword);
 
 route.post('/updatepassword',userAuth.updatepassword);
 
+route.post('/updatepasswordmail',userAuth.sendmail);
+
 module.exports = route;

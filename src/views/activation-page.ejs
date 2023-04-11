@@ -13,8 +13,20 @@
         <div class="line-height">
             <div class="text-primary text-center font-size d-flex justify-content-center align-items-center flex-column vh-100 ">
                 <h1><%=act_message%></h1>
-                <p>Please activate yourself by clicking below button!!</p>
-                <a class="btn btn-primary" href="/activation-api?user_id=<%=user_id%>">Activate</a>
+                <form action="/activation-api" method="get" class="row" >
+
+                    <div class="col-12 col-lg-8 input-container mb-24">
+                        <input type="text" class="form-control form-control-lg login-input" placeholder="Enter Activation code"  name="active_code">
+                    </div>
+                    <p style="color:red" ><%=active_error%></p>
+ 
+
+                    <div class="col-12 col-lg-8 submit-forgotPass-container mb-24">
+                        <input type="submit" id="submit" value="Activate" class="btn btn-primary">
+                      
+                    </div>
+                </form>
+               
             </div>
         </div>
     </div>

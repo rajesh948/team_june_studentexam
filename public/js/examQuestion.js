@@ -23,7 +23,7 @@ var green = [];
 var saveQuestion = [];
 var user_que = [];
 var user_ans = [];
-var abcd=[];
+var savedQuestionNumber=[];
 var allquestion = [];
 var category_ids = [];
 var total_num = document.getElementById("timerCount").innerHTML;
@@ -58,7 +58,7 @@ async function getResult() {
             if(allquestion[i].question_id == resultdata.user_que[j]){
                 
                 user_que[i] =resultdata.user_que[j];
-                abcd.push(i+1);
+                savedQuestionNumber.push(i+1);
                 user_ans[i]=resultdata.user_ans[j];
             }
         }
@@ -67,7 +67,7 @@ async function getResult() {
 
 
     if (user_que.length) {
-        green = abcd;
+        green = savedQuestionNumber;
         colors();
         document.getElementById(`btn1`).style.backgroundColor = "rgb(230, 171, 33)";
     }
@@ -87,6 +87,8 @@ gettimer();
 function gettimer() {
     minute = getCookie("minutes");
     second = getCookie("seconds");
+    console.log("m",minute);
+    console.log("s",second);
     document.getElementById("timerCount").innerHTML = `Remaining Time: ${minute}:${second}`;
 
     if (!minute || !second) {
@@ -100,8 +102,8 @@ function gettimer() {
 var timeInterval = setInterval(() => {
 
     document.getElementById("timerCount").innerHTML = `Remaining Time: ${minute}:${second}`;
-    setCookie("minutes", minute.toString(), 1);
-    setCookie("seconds", second.toString(), 1);
+    setCookie("minutes", minute.toString());
+    setCookie("seconds", second.toString());
     if (second == 0) {
         minute--;
         second = 60;
@@ -119,11 +121,8 @@ var timeInterval = setInterval(() => {
 }, 1000);
 
 
-function setCookie(cname, cvalue, exdays) {
-    var d = new Date();
-    d.setTime(d.getTime() + (60 * 1000));
-    var expires = "expires=" + d.toUTCString();
-    document.cookie = cname + "=" + cvalue + "; " + expires;
+function setCookie(cname, cvalue) {
+    document.cookie = cname + "=" + cvalue + "; ";
 }
 
 
@@ -131,8 +130,9 @@ function getCookie(cname) {
     var name = cname + "=";
     var ca = document.cookie.split(';');
     for (var i = 0; i < ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) == ' ') c = c.substring(1);
+        var c = ca[i].trim();
+        console.log(c);
+      
         if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
     }
     return "";
@@ -334,6 +334,7 @@ async function getcategoryQue(id) {
 
     const data = await fetch(`/getCategory?cat_id=${id}`);
     const category = await data.json();
+    console.log(category);
     saffron.push(parseInt(category.category_no));
     colors();
     document.getElementById(`btn${category.category_no}`).style.backgroundColor = "rgb(230, 171, 33)";

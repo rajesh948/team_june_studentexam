@@ -52,15 +52,17 @@ function validatelname(){
 // validate client side email
 function validateEmailuser(){
 
-    var email = document.getElementById("email").value;
-    var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    var email_err = document.getElementById("email_err");
+    let email = document.getElementById("email").value;
+    let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    let email_err = document.getElementById("email_err");
     if(email==""){
+
         email_err.style.color = "red";
         email_err.innerText = "**Email should not be empty!";
         error_count++;
     }
     else if (!email.match(mailformat)) {
+        console.log("not match");
         email_err.style.color = "red";
         email_err.innerText = "**Please enter valid email";
         error_count++;
@@ -296,9 +298,8 @@ function validateaccesscode(){
 function validateForm(){
 
     error_count = 0;
-
-    validatefname();
     validateEmailuser();
+    validatefname();
     validatelname();
     validatenumber();
     validatecollege();
@@ -309,8 +310,9 @@ function validateForm(){
     validatecity();
     validatepassword();
     validateconfirmpassword();
+    validateEmail();
 
-    // console.log(error_count);
+    console.log(error_count);
     if (error_count == 0) 
         {
             return true;
@@ -324,52 +326,50 @@ function validateForm(){
 
 // validate unique email
 
-function validateEmail(){
-    var email = document.getElementById("email");
-    var submit = document.getElementById("submit");
-    var email_err = document.getElementById("email_err");
+async function validateEmail(){
+    let email = document.getElementById("email");
+    let email_err = document.getElementById("email_err");
 
-    email.addEventListener("change",async function(){
+ 
         const ans = await fetch(`/verify`);
         const data = await ans.json();
-        console.log(email.value);
+     
 
         if(data.includes(email.value)){
-            email_err.innerText="Email id already exists!!";
-            email_err.style.color="red";
+            error_count++;
+            email_err.innerText="Email id already used!!";
+            email_err.style.color="red";   
         }
-        else{
-            email_err.innerText="";
-        }
+  
 
-
-    })
+    
 }
 
 
 // validate email at login page
 
-function validateforgotemail(){
+async function validateforgotemail(){
     var email = document.getElementById("email");
-    var submit = document.getElementById("submit");
+
+    
     var email_err = document.getElementById("email_err");
 
-    email.addEventListener("change",async function(){
         const ans = await fetch(`/verify`);
         const data = await ans.json();
-        console.log(email.value);
 
-        if(!data.includes(email.value)){
-            email_err.innerText="Email id doesn't exists!!";
-            email_err.style.color="red";
+
+        if(data.includes(email.value)){
+          
+            email_err.innerText="";
+            return true;
         }
         else{
-            email_err.innerText="";
-            submit.disabled = false;
+            email_err.innerText="Email id doesn't exists!!";
+            email_err.style.color="red";
+            console.log(email.value);
+            return false;
         }
-
-
-    })
+        
 }
 
 
