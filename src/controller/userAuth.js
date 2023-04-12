@@ -98,13 +98,13 @@ const register_api = async (req, res) => {
 
         transporter.sendMail(message).then(() => {
 
-          res.render("activation-page", { act_message: "Thank you for Registering!", active_error:"" });
+          res.render("activation-page", { act_message: "Activation Page!", active_error:"" });
         }).catch(error => {
           if (error) throw error;
           return res.status(500).json({ error });
         })
 
-        // res.render("activation-page", { user_id: insertId2, act_message: "Thank you for Registering!" });
+
 
       } else {
        
