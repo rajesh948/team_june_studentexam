@@ -327,7 +327,7 @@ const sendmail = async (req, res) => {
         from: process.env.email,
         to: userEmail,
         subject: 'forget password !!',
-        html: `<h1>hello student forget your pass word !! </h1>
+        html: `<h1>hello student forget your password using OTP !! </h1>
              <p>OTP : <strong>${rendom_num}</strong></P>
       `
       }
