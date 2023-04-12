@@ -150,7 +150,7 @@ const login = async (req, res) => {
 const login_api = async (req, res) => {
   let login_data = req.body;
   let userEmail = req.body.email;
-  var studidsql = `select student_id from student_master where email = "${login_data.email}"`;
+  var studidsql = `select student_id,fname,lname from student_master where email = "${login_data.email}"`;
   var [studdata] = await con.query(studidsql);
 
 
@@ -185,7 +185,7 @@ const login_api = async (req, res) => {
       from: process.env.email,
       to: userEmail,
       subject: 'Activation Code',
-      html: `<h1>hello ${req.body.fname} ${req.body.lname} your Accout Activation Code !! </h1>
+      html: `<h1>hello ${studdata[0].fname} ${studdata[0].lname} your Accout Activation Code !! </h1>
            <p>Activation Code : <strong>${rendom_num}</strong></P>
     `
     }
