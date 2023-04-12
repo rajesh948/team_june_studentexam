@@ -9,7 +9,7 @@ exam_term = async (req, res) => {
   req.session.exam_id = examid;
   req.session.exam_name = examname;
 
-  if (req.session.user_id) {
+  if (req.session.email) {
     res.redirect("/exam-verification");
   } else {
     res.redirect("/login");
