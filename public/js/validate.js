@@ -375,9 +375,13 @@ async function validateforgotemail(){
 
 function validateforgotpass(){
     error_count = 0;
+    let otp = document.getElementById('otp').value;
+    let otp_err = document.getElementById('otp_err');
+    if(otp == ""){
+        otp_err.innerHTML = "**Please enter otp"
+    }
     validatepassword();
     validateEmailuser();
-    validateconfirmpassword();
     if (error_count == 0) 
     {
         return true;
