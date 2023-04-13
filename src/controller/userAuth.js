@@ -45,7 +45,7 @@ const register_api = async (req, res) => {
   let userEmail = req.body.email;
   const pass = await bcrypt.hash(password, 10);
   var confirmpass = await bcrypt.compare(req.body.confirmPassword, pass);
-
+  let active_error = " ";
   const email_arr = [];
   var sql = `select email from student_master;`;
   var [data] = await con.query(sql);
@@ -98,7 +98,7 @@ const register_api = async (req, res) => {
 
         transporter.sendMail(message).then(() => {
 
-          res.render("activation-page", { act_message: "Activation Page!", active_error:"" });
+          return res.render("activation-page", { act_message: "Activation Page!", active_error });
         }).catch(error => {
           if (error) throw error;
           return res.status(500).json({ error });
@@ -107,7 +107,7 @@ const register_api = async (req, res) => {
 
 
       } else {
-       
+
         res.render("registration", { error: "Email-id already used!!", register_data });
       }
     } else {
@@ -127,8 +127,8 @@ const activation = async (req, res) => {
     var [data] = await con.query(sql);
     req.session.user_id = 0;
     res.redirect("/login");
-  }else{
-   return res.render("activation-page", { act_message: "Activation Page !", active_error:  "Activation Code is invalid !!!" });
+  } else {
+    return res.render("activation-page", { act_message: "Activation Page !", active_error: "Activation Code is invalid !!!" });
   }
 
 };
@@ -148,6 +148,7 @@ const login = async (req, res) => {
 //Verify Login Details------------------------------------------------
 
 const login_api = async (req, res) => {
+  let active_error = "";
   let login_data = req.body;
   let userEmail = req.body.email;
   var studidsql = `select student_id,fname,lname from student_master where email = "${login_data.email}"`;
@@ -162,7 +163,7 @@ const login_api = async (req, res) => {
   }
 
 
- 
+
 
   if (data[0].isActive == 0) {
     req.session.user_id = data[0].user_id;
@@ -192,28 +193,28 @@ const login_api = async (req, res) => {
 
     transporter.sendMail(message).then(() => {
 
-      res.render("activation-page", { act_message: " Activation page !", active_error:"" });
+      return res.render("activation-page", { act_message: " Activation page !", active_error });
     }).catch(error => {
       if (error) throw error;
       return res.status(500).json({ error });
     })
 
 
-  }else{
+  } else {
 
     var check_pass = await bcrypt.compare(login_data.password, data[0].password);
 
     if (check_pass) {
       req.session.user_id = data[0].user_id;
       req.session.stud_id = studdata[0].student_id;
-      req.session.email = login_data.email;
-      res.redirect("/home");
+      req.session.email = userEmail;
+      return res.redirect("/home");
     } else {
-      res.render("login.ejs", { error: "**Invalid  Password !", forgotpassword: "", login_data });
+      return res.render("login.ejs", { error: "**Invalid  Password !", forgotpassword: "", login_data });
     }
   }
 
-  
+
 };
 
 //Render Home Page------------------------------------------------
@@ -291,11 +292,12 @@ const logout = async (req, res) => {
 // Forgot Password ------------------------------------------------
 
 const forgotpassword = (req, res) => {
+  let email_error = "";
   if (req.session.email) {
-    res.redirect('/home');
+    return res.redirect('/home');
   }
   else {
-    res.render("forgotpassword", { email_error: "" });
+    return res.render("forgotpassword", { email_error });
   }
 };
 
